@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {}
+    "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {
+    "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
+        "projectUniqueName": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
         "projectName": "SimoshStore",
-        "projectPath": "C:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
+        "projectPath": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
         "packagesPath": "C:\\Users\\MCANS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\MCANS\\Desktop\\SimoshStore\\obj\\",
+        "outputPath": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\MCANS\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,16 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
