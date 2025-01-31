@@ -10,9 +10,6 @@ public static class DataServiceRegistration
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
-
-
-
         return services;
     }
 }

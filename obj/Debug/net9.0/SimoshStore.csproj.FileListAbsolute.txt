@@ -2361,3 +2361,5 @@ c:\Users\MCANS\Desktop\SimoshStore\bin\Debug\net9.0\runtimes\win\lib\net6.0\Syst
 c:\Users\MCANS\Desktop\SimoshStore\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 c:\Users\MCANS\Desktop\SimoshStore\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 c:\Users\MCANS\Desktop\SimoshStore\obj\Debug\net9.0\SimoshSt.D3D89FBA.Up2Date
+c:\Users\MCANS\Desktop\SimoshStore\bin\Debug\net9.0\AutoMapper.dll
+c:\Users\MCANS\Desktop\SimoshStore\bin\Debug\net9.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
