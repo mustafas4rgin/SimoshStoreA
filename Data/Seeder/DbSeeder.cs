@@ -27,8 +27,8 @@ public static class DbSeeder
     {
         return new List<Role>
         {
-            new Role { Name = "Admin" },
-            new Role { Name = "User" }
+            new Role { Id = 2,Name = "Admin" },
+            new Role { Id = 1,Name = "User" }
         };
     }
 
@@ -54,6 +54,7 @@ public static class DbSeeder
                 FirstName = "Admin",
                 LastName = "User",
                 Phone = "1234567890",
+                RoleId = 2,
                 UserRoles = new List<UserRole>
                 {
                     new UserRole { Role = adminRole }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {}
+    "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj": {}
   },
   "projects": {
-    "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj": {
+    "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
+        "projectUniqueName": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
         "projectName": "SimoshStore",
-        "projectPath": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\SimoshStore.csproj",
-        "packagesPath": "C:\\Users\\MCANS\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\MCANS\\Desktop\\SimoshStore\\obj\\",
+        "projectPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
+        "packagesPath": "/Users/s4rgin/.nuget/packages/",
+        "outputPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\MCANS\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/s4rgin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.1, )"
@@ -59,6 +63,18 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[9.0.1, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.4.0, )"
             }
           },
           "imports": [
@@ -80,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

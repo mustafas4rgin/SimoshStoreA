@@ -7,6 +7,7 @@ public class User
     public string LastName { get; set; } = default!;
     public string Phone { get; set; } = default!;
     public string Email { get; set; } = default!;
+    public int RoleId { get; set; } = 1;
     public byte[] PasswordHash { get; set; } = default!;
     public byte[] PasswordSalt { get; set; } = default!;
 

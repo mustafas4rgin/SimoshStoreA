@@ -1,4 +1,4 @@
-﻿namespace SimoshStore;
+﻿using SimoshStore;
 
 public static class BusinessServiceRegistration
 {
@@ -6,7 +6,8 @@ public static class BusinessServiceRegistration
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
-        //TODO: Service katmanı register işlemleri yapılacak
+        services.AddScoped<IAuthService, AuthService>(); // Burada IAuthService ile AuthService kaydediliyor
+        services.AddScoped<IAuthRepository, AuthRepository>(); // AuthRepository kaydedildiğinden emin olun
         return services;
     }
 }
