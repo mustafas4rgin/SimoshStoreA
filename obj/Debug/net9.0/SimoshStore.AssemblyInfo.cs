@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimoshStore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5889aac91d1b98fd69e134ca74b426db4164b65f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10ce135d4e9ffc60006f55bdcddb5f46038d0cf1")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimoshStore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimoshStore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
