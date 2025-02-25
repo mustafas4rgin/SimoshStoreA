@@ -7,7 +7,7 @@ namespace App.Data.Entities;
 
 public class ProductEntity : EntityBase, IHasEnabled
 {
-    public int SellerId { get; set; }
+    public int SellerId { get; set; } = 2;
     public int CategoryId { get; set; }
     public int? DiscountId { get; set; }
     public string Name { get; set; } = null!;
@@ -69,13 +69,13 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                 new List<ProductEntity>{
                     new() {
                         Id = 1,
-                        Name = "Mixed Fruit Juice",
+                        Name = "Les Benjamins",
                         CategoryId = 9,
                         SellerId = 2,
                         Price = _rnd.Next(10, 540),
                         Description = "Mixed Fruit Juice",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                         DiscountId = 2
                     },
                     new() {
@@ -86,7 +86,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Mango",
                         StockAmount = 50,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                         DiscountId = 2
                     },
                     new() {
@@ -97,7 +97,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Hamburger",
                         StockAmount = 20,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                         DiscountId = 2
                     },
                     new() {
@@ -108,7 +108,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Meat",
                         StockAmount = 50,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 5,
@@ -118,7 +118,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Banana",
                         StockAmount = 75,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 6,
@@ -128,7 +128,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Fig",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 7,
@@ -138,7 +138,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Apple",
                         StockAmount = 80,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 8,
@@ -148,7 +148,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Grapes",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 9,
@@ -158,7 +158,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Watermelon",
                         StockAmount = 20,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new () {
                         Id = 10,
@@ -168,7 +168,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Raisins",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 11,
@@ -178,7 +178,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Orange Juice",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 12,
@@ -188,7 +188,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Mixed Fruits",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 13,
@@ -198,7 +198,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Spinach",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 14,
@@ -208,7 +208,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Bell Pepper",
                         StockAmount = 100,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     },
                     new() {
                         Id = 15,
@@ -218,7 +218,7 @@ internal class ProductEntitySeed : IEntityTypeSeed<ProductEntity>
                         Price = _rnd.Next(10, 540),
                         Description = "Fried Chicken",
                         StockAmount = 20,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt =new DateTime(2025, 2, 23),
                     }
                 }
             );

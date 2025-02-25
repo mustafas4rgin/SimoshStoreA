@@ -27,9 +27,9 @@ internal class RoleEntitySeed : IEntityTypeSeed<RoleEntity>
     public void SeedData(EntityTypeBuilder<RoleEntity> builder)
     {
         builder.HasData(
-            new RoleEntity() { Id = 1, Name = "admin", CreatedAt = DateTime.UtcNow },
-            new RoleEntity() { Id = 2, Name = "seller", CreatedAt = DateTime.UtcNow },
-            new RoleEntity() { Id = 3, Name = "buyer", CreatedAt = DateTime.UtcNow }
+            new RoleEntity() { Id = 1, Name = "admin", CreatedAt =new DateTime(2025, 2, 23), },
+            new RoleEntity() { Id = 2, Name = "seller", CreatedAt =new DateTime(2025, 2, 23), },
+            new RoleEntity() { Id = 3, Name = "buyer", CreatedAt =new DateTime(2025, 2, 23), }
         );
     }
 }

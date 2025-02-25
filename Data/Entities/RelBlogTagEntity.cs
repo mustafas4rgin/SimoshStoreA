@@ -33,5 +33,20 @@ internal class RelBlogTagEntityConfiguration : IEntityTypeConfiguration<RelBlogT
             .WithMany()
             .HasForeignKey(d => d.TagId)
             .OnDelete(DeleteBehavior.NoAction);
+
+    }
+     internal class RelBlogTagEntitySeed : IEntityTypeSeed<RelBlogTagEntity>
+    {
+        public void SeedData(EntityTypeBuilder<RelBlogTagEntity> builder)
+        {
+            builder.HasData(
+                new RelBlogTagEntity { Id = 1, BlogId = 1, TagId = 1, CreatedAt = new DateTime(2025, 2, 23) },
+                new RelBlogTagEntity { Id = 2, BlogId = 1, TagId = 2, CreatedAt = new DateTime(2025, 2, 23) },
+                new RelBlogTagEntity { Id = 3, BlogId = 2, TagId = 3, CreatedAt = new DateTime(2025, 2, 23) },
+                new RelBlogTagEntity { Id = 4, BlogId = 2, TagId = 4, CreatedAt = new DateTime(2025, 2, 23) },
+                new RelBlogTagEntity { Id = 5, BlogId = 3, TagId = 5, CreatedAt = new DateTime(2025, 2, 23) },
+                new RelBlogTagEntity { Id = 6, BlogId = 3, TagId = 6, CreatedAt = new DateTime(2025, 2, 23) }
+            );
+        }
     }
 }

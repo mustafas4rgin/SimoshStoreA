@@ -1,0 +1,35 @@
+﻿<form method="post" asp-action="CreateProduct" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="CategoryId">Category ID</label>
+        <input type="number" id="CategoryId" name="CategoryId" class="form-control" placeholder="kategori" required />
+    </div>
+
+    <div class="form-group">
+        <label for="DiscountId">Discount ID</label>
+        <input type="number" id="DiscountId" name="DiscountId" class="form-control" placeholder="indirim" />
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" id="Name" name="Name" class="form-control" placeholder="isim" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" step="0.01" id="Price" name="Price" class="form-control" placeholder="FİYAT" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea id="Description" name="Description" class="form-control" rows="4" required placeholder="açıklama"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="StockAmount">Stock Amount</label>
+        <input type="number" id="StockAmount" name="StockAmount" class="form-control" placeholder="stok" required />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Create Product</button>
+</form>

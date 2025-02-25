@@ -5,8 +5,8 @@ namespace SimoshStore;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<RoleEntity> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<ProductEntity> Products { get; set; }
     public DbSet<ProductImageEntity> ProductImages { get; set; }
@@ -43,7 +43,9 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new BlogTagEntityConfiguration());
         modelBuilder.ApplyConfiguration(new RelBlogTagEntityConfiguration());
         modelBuilder.ApplyConfiguration(new RelBlogCategoryEntityConfiguration());
+        
     }
+    
 
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }

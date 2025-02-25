@@ -18,4 +18,16 @@ public static class HashingHelper
 
         return computedHash.SequenceEqual(passwordHash);
     }
+    public static byte[] PasswordHash(string password)
+        {
+            CreatePasswordHash(password, out var passwordHash, out _); // Salt'ı kullanmıyoruz, sadece hash döndürmek istiyoruz.
+            return passwordHash;
+        }
+
+        // Sadece şifre salt'ını döndürür
+        public static byte[] PasswordSalt(string password)
+        {
+            CreatePasswordHash(password, out _, out var passwordSalt); // Hash'i kullanmıyoruz, sadece salt döndürmek istiyoruz.
+            return passwordSalt;
+        }
 }

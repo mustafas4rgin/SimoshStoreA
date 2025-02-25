@@ -287,9 +287,13 @@
 										<div class="col-md-12 col-sm-12">
 											<div class="dz-shop-card style-2">
 												<div class="dz-media">
-													<img src="images/shop/product/1.png" alt="image">
+													<img src="~/images/product-1.jpg" alt="assadads" />
 												</div>
 												<div class="dz-content">
+													<h2 class="title mb-0">
+                            <a href="@Url.Action("ProductDetails", "Shop", new { id = item.Id })">@item.Name</a>
+
+                        </h2>
 													<div class="dz-header">
 														<div>
 															<h2 class="title mb-0"><a href="shop-with-category.html">@item.Name</a></h2>

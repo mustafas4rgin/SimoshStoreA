@@ -30,6 +30,7 @@
 </head>
 <body>
     @Html.Partial("~/Views/Partials/header.cshtml")
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -65,5 +66,6 @@
 <script src="~/js/dz.ajax.js"></script><!-- AJAX -->
 <script src="~/js/custom.js"></script><!-- CUSTOM JS -->
     @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>

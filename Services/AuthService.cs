@@ -4,99 +4,146 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using App.Data.Entities;
 
 namespace SimoshStore
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataRepository _dataRepository;
+        private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailService _emailService;
         private readonly IAuthRepository _authRepository;
-
-        public AuthService(IConfiguration configuration, IAuthRepository authRepository)
+        public AuthService(IDataRepository dataRepository, AppDbContext context, IHttpContextAccessor httpContextAccessor, IEmailService emailService, IAuthRepository authRepository)
         {
-            _configuration = configuration;
+            _dataRepository = dataRepository;
+            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _emailService = emailService;
             _authRepository = authRepository;
         }
-
-        // Kullanıcıyı doğrulama
-        public User ValidatedUser(LoginViewModel loginRequest)
+        public async Task<IServiceResult> LoginAsync(LoginDto login)
         {
-            var user = _authRepository.ValidateUser(loginRequest.Email, loginRequest.Password);
-            if (user == null)
-            {
-                // Kullanıcı bulunamadığında hata mesajı dönebilirsiniz
-                throw new UnauthorizedAccessException("Geçersiz kullanıcı adı veya şifre");
-            }
-            return user;
-        }
+            var user = _authRepository.ValidateUser(login.Email, login.Password);
 
-        // JWT Token üretme
-        public string GenerateToken(User user)
-        {
-            var secretKey = _configuration["Jwt:Key"];
-            var audience = _configuration["Jwt:Audience"];
-            var issuer = _configuration["Jwt:Issuer"];
 
-            // Anahtarın boyutunu 256 bit (32 byte) yapalım
-            if (secretKey.Length < 32)
-            {
-                // Anahtar uzunluğunu 256 bit yapıyoruz (32 byte)
-                secretKey = secretKey.PadRight(32, 'X'); // 32 byte (256 bit) uzunluğunda olacak
-            }
+            if (user is null)
+                return new ServiceResult(false, "Kullanıcı bulunamadı.");
 
             var role = _authRepository.GetRoles().Where(r => r.Id == user.RoleId).FirstOrDefault();
 
             var claims = new List<Claim>
             {
-                new Claim("name", user.Email), // "name" claim, URL olmadan
-                new Claim("nameidentifier", user.Id.ToString()), // "nameidentifier" claim
-                new Claim("role", role.Name) // "role" claim, URL olmadan
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.MobilePhone, user.Phone),
+                new Claim(ClaimTypes.Role, role.Name)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var token = new JwtSecurityToken(
-                issuer: issuer,
-                audience: audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15), // Token süresi
-                signingCredentials: credentials
-            );
+            var principal = new ClaimsPrincipal(identity);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var properties = new AuthenticationProperties
+            {
+                IsPersistent = login.RememberMe,
+            };
+
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
+
+            return new ServiceResult(true, "Giriş başarılı");
         }
-
-        // JWT Token doğrulama
-        public ClaimsPrincipal ValidateToken(string token)
+        public async Task<IServiceResult> RegisterAsync(RegisterDto register)
         {
-            var secretKey = _configuration["Jwt:Key"];
-            var audience = _configuration["Jwt:Audience"];
-            var issuer = _configuration["Jwt:Issuer"];
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(secretKey);
-
-            try
+            // Kullanıcı var mı kontrolü
+            var existingUser = _authRepository.GetUsers().FirstOrDefault(u => u.Email == register.Email);
+            if (existingUser != null)
             {
-                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                }, out var validatedToken);
+                return new ServiceResult(false, "Bu e-posta adresiyle zaten bir kullanıcı bulunuyor.");
+            }
 
-                return principal;
-            }
-            catch (Exception ex)
+            HashingHelper.CreatePasswordHash(register.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            // Yeni kullanıcı oluştur
+            var user = new UserEntity
             {
-                // Hata durumunda daha ayrıntılı bir hata mesajı dönebilirsiniz
-                Console.WriteLine($"Token doğrulama hatası: {ex.Message}");
-                return null;
-            }
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                Email = register.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Phone = register.Phone,
+                RoleId = 3, // Varsayalım ki kullanıcı rolü 'buyer'
+                Enabled = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            // Kullanıcıyı veritabanına ekle
+            await _dataRepository.AddAsync(user);
+
+            return new ServiceResult(true, "Kayıt başarılı.");
         }
+
+        public async Task<IServiceResult> LogOutAsync()
+        {
+            // Kullanıcıyı çıkış yapmaya yönlendirmek için SignOutAsync metodunu kullanıyoruz
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return new ServiceResult(true, "Başarıyla çıkış yapıldı.");
+        }
+        public async Task<IServiceResult> ForgotPasswordAsync(string email)
+        {
+            var user = _authRepository.GetUsers().FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return new ServiceResult(false, "Bu e-posta adresiyle kayıtlı bir kullanıcı bulunamadı.");
+            }
+
+            // Şifre sıfırlama token'ı oluştur
+            var resetToken = Guid.NewGuid().ToString(); // Token oluşturuluyor (bu token şifre sıfırlama bağlantısında kullanılacak)
+
+            // Token'ı kullanıcıya kaydet veya geçici olarak veritabanına ekle
+            // Örnek olarak, token'ı kullanıcıya kaydediyoruz (bunu veri tabanına veya bir geçici yere kaydedebilirsiniz)
+            user.PasswordResetToken = resetToken;
+            user.PasswordResetTokenExpires = DateTime.UtcNow.AddHours(1); // Token 1 saat geçerli olsun
+            await _dataRepository.UpdateAsync(user);
+
+            // Şifre sıfırlama bağlantısını içeren e-posta gönder
+            var resetLink = $"http://localhost:5095/Auth/ResetPassword?token={resetToken}";
+
+            // Burada kendi e-posta servisinizi kullanarak e-posta gönderebilirsiniz
+            await _emailService.SendEmailAsync(user.Email, "Şifre Sıfırlama", $"Şifrenizi sıfırlamak için şu bağlantıyı tıklayın: {resetLink}");
+
+            return new ServiceResult(true, "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.");
+        }
+        // ResetPassword işlemi
+        public async Task<IServiceResult> ResetPasswordAsync(string token, string newPassword)
+        {
+            var user = _authRepository.GetUsers().FirstOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpires > DateTime.UtcNow);
+
+            if (user == null)
+            {
+                return new ServiceResult(false, "Geçersiz veya süresi dolmuş şifre sıfırlama bağlantısı.");
+            }
+
+            HashingHelper.CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.PasswordResetToken = string.Empty;
+            user.PasswordResetTokenExpires = DateTime.UtcNow;
+
+            await _dataRepository.UpdateAsync(user);
+
+            return new ServiceResult(true, "Şifreniz başarıyla sıfırlandı.");
+        }
+
     }
 }

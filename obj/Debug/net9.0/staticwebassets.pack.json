@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/Debug/net9.0/scopedcss/projectbundle/SimoshStore.bundle.scp.css",
-      "PackagePath": "staticwebassets/SimoshStore.z8xbpvulof.bundle.scp.css"
+      "PackagePath": "staticwebassets/SimoshStore.75z5so4c7e.bundle.scp.css"
     },
     {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/css/custom.css",
@@ -7549,14 +7549,6 @@
       "PackagePath": "staticwebassets/images/about/Plant-1.png"
     },
     {
-      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/about/pic1.jpg",
-      "PackagePath": "staticwebassets/images/about/pic1.jpg"
-    },
-    {
-      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/about/pic3.jpg",
-      "PackagePath": "staticwebassets/images/about/pic3.jpg"
-    },
-    {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/about/pic4.jpg",
       "PackagePath": "staticwebassets/images/about/pic4.jpg"
     },
@@ -7809,6 +7801,42 @@
       "PackagePath": "staticwebassets/images/blog/thumb/pic5.jpg"
     },
     {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-1.jpg",
+      "PackagePath": "staticwebassets/images/category/category-1.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-2.jpg",
+      "PackagePath": "staticwebassets/images/category/category-2.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-3.jpg",
+      "PackagePath": "staticwebassets/images/category/category-3.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-4.jpg",
+      "PackagePath": "staticwebassets/images/category/category-4.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-5.jpg",
+      "PackagePath": "staticwebassets/images/category/category-5.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-6.jpg",
+      "PackagePath": "staticwebassets/images/category/category-6.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-7.jpg",
+      "PackagePath": "staticwebassets/images/category/category-7.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-8.jpg",
+      "PackagePath": "staticwebassets/images/category/category-8.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/category/category-9.jpg",
+      "PackagePath": "staticwebassets/images/category/category-9.jpg"
+    },
+    {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/circle-plus.svg",
       "PackagePath": "staticwebassets/images/circle-plus.svg"
     },
@@ -8021,8 +8049,8 @@
       "PackagePath": "staticwebassets/images/logo-white.svg"
     },
     {
-      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/logo.png",
-      "PackagePath": "staticwebassets/images/logo.png"
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/logo.jpg",
+      "PackagePath": "staticwebassets/images/logo.jpg"
     },
     {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/logo.svg",
@@ -8557,6 +8585,66 @@
       "PackagePath": "staticwebassets/images/posts/pic4.png"
     },
     {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-1.jpg",
+      "PackagePath": "staticwebassets/images/product/product-1.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-10.jpg",
+      "PackagePath": "staticwebassets/images/product/product-10.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-11.jpg",
+      "PackagePath": "staticwebassets/images/product/product-11.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-12.jpg",
+      "PackagePath": "staticwebassets/images/product/product-12.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-13.jpg",
+      "PackagePath": "staticwebassets/images/product/product-13.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-14.jpg",
+      "PackagePath": "staticwebassets/images/product/product-14.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-15.jpg",
+      "PackagePath": "staticwebassets/images/product/product-15.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-2.png",
+      "PackagePath": "staticwebassets/images/product/product-2.png"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-3.jpg",
+      "PackagePath": "staticwebassets/images/product/product-3.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-4.png",
+      "PackagePath": "staticwebassets/images/product/product-4.png"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-5.png",
+      "PackagePath": "staticwebassets/images/product/product-5.png"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-6.jpg",
+      "PackagePath": "staticwebassets/images/product/product-6.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-7.jpeg",
+      "PackagePath": "staticwebassets/images/product/product-7.jpeg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-8.jpg",
+      "PackagePath": "staticwebassets/images/product/product-8.jpg"
+    },
+    {
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/product/product-9.jpg",
+      "PackagePath": "staticwebassets/images/product/product-9.jpg"
+    },
+    {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/products/plant-1.png",
       "PackagePath": "staticwebassets/images/products/plant-1.png"
     },
@@ -9073,8 +9161,8 @@
       "PackagePath": "staticwebassets/images/testimonial/testimonial3.jpg"
     },
     {
-      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/testimonial/testimonial4.jpg",
-      "PackagePath": "staticwebassets/images/testimonial/testimonial4.jpg"
+      "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/testimonial/testimonial4.JPG",
+      "PackagePath": "staticwebassets/images/testimonial/testimonial4.JPG"
     },
     {
       "Id": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/images/testimonial/testimonial5.jpg",

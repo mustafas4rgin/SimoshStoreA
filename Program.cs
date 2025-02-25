@@ -6,25 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddBusinessService();
-builder.Services.AddJwtService(builder.Configuration);
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("User", policy => policy.RequireRole("User"));
-});
+builder.Services.Configure<SmtpConfiguration>(builder.Configuration.GetSection("Smtp"));
+
 
 var app = builder.Build();
 
-// Authentication middleware
-app.UseAuthentication();  // Kimlik doğrulama işlemi
+app.UseAuthentication();
 
-// Routing middleware (önce gelir)
 app.UseRouting();
 
-// Authorization middleware (yetkilendirme işlemi)
-app.UseAuthorization();   // Yetkilendirme işlemi
+app.UseAuthorization();
 
-// MapControllerRoute, controller ve action eşlemesi
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -32,12 +24,11 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    
+
     if (app.Environment.IsDevelopment())
     {
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-        DbSeeder.SeedData(context);  // Veritabanı seed işlemi
     }
 }
 

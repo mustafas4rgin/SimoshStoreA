@@ -10,6 +10,7 @@ public class CategoryEntity : EntityBase
     public string Name { get; set; } = null!;
     public string Color { get; set; } = null!;
     public string IconCssClass { get; set; } = null!;
+    public string imageUrl { get; set; } = null!;
 }
 
 internal class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEntity>
@@ -32,15 +33,15 @@ internal class CategoryEntitySeed : IEntityTypeSeed<CategoryEntity>
     {
         builder.HasData(
             new List<CategoryEntity>{
-                new() { Id = 1, Name = "Fresh Meat", Color = "Blue", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 2, Name = "Vegetables", Color = "Red", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 3, Name = "Fresh Fruits", Color = "Green", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 4, Name = "Dried Fruits & Nuts", Color = "Brown", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 5, Name = "Ocean Foods", Color = "Purple", IconCssClass = string.Empty, CreatedAt = DateTime.Now },
-                new() { Id = 6, Name = "Butter & Eggs", Color = "Yellow", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 7, Name = "Fastfood", Color = "Pink", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 8, Name = "Oatmeal", Color = "Grey", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow },
-                new() { Id = 9, Name = "Juices", Color = "Orange", IconCssClass = string.Empty, CreatedAt = DateTime.UtcNow }
+                new() { Id = 1, Name = "Fresh Meat", Color = "Blue", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-1.jpg" },
+                new() { Id = 2, Name = "Vegetables", Color = "Red", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23) , imageUrl="/images/category/category-2.jpg"},
+                new() { Id = 3, Name = "Fresh Fruits", Color = "Green", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23) , imageUrl="/images/category/category-3.jpg"},
+                new() { Id = 4, Name = "Dried Fruits & Nuts", Color = "Brown", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-4.jpg" },
+                new() { Id = 5, Name = "Ocean Foods", Color = "Purple", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-5.jpg" },
+                new() { Id = 6, Name = "Butter & Eggs", Color = "Yellow", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23),imageUrl="/images/category/category-6.jpg" },
+                new() { Id = 7, Name = "Fastfood", Color = "Pink", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-7.jpg" },
+                new() { Id = 8, Name = "Oatmeal", Color = "Grey", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-8.jpg" },
+                new() { Id = 9, Name = "Juices", Color = "Orange", IconCssClass = string.Empty, CreatedAt = new DateTime(2025, 2, 23), imageUrl="/images/category/category-9.jpg" }
             }
         );
     }

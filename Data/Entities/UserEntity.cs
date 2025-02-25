@@ -10,10 +10,15 @@ public class UserEntity : EntityBase, IHasEnabled
     public string Email { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
-    public string Password { get; set; } = null!;
-    public int RoleId { get; set; }
+    public string Phone { get; set; } = default!;
+    public int RoleId { get; set; } = 3;
     public bool Enabled { get; set; } = true;
+    public string Address{ get; set; } = string.Empty;
     public bool HasSellerRequest { get; set; } = false;
+    public byte[] PasswordHash { get; set; } = null!;
+    public byte[] PasswordSalt { get; set; } = null!;
+    public string PasswordResetToken { get; set; } = null!;
+    public DateTime PasswordResetTokenExpires { get; set; }
 
     // Navigation properties
     public RoleEntity Role { get; set; } = null!;
@@ -28,7 +33,6 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         builder.HasIndex(e => e.Email).IsUnique();
         builder.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
         builder.Property(e => e.LastName).IsRequired().HasMaxLength(50);
-        builder.Property(e => e.Password).IsRequired();
         builder.Property(e => e.RoleId).IsRequired();
         builder.Property(e => e.Enabled).IsRequired().HasDefaultValue(true);
         builder.Property(e => e.CreatedAt).IsRequired();
@@ -46,10 +50,11 @@ internal class UserEntitySeed : IEntityTypeSeed<UserEntity>
 {
     public void SeedData(EntityTypeBuilder<UserEntity> builder)
     {
+        HashingHelper.CreatePasswordHash("1234",out var passwordHash, out var passwordSalt);
         builder.HasData(
-            new UserEntity() { Id = 1, FirstName = "admin", LastName = "admin", Email = "admin@siliconmade.com", Enabled = true, RoleId = 1, Password = "1234", CreatedAt = DateTime.UtcNow },
-            new UserEntity() { Id = 2, FirstName = "seller", LastName = "seller", Email = "seller@siliconmade.com", Enabled = true, RoleId = 2, Password = "1234", CreatedAt = DateTime.UtcNow },
-            new UserEntity() { Id = 3, FirstName = "buyer", LastName = "buyer", Email = "buyer@siliconmade.com", Enabled = true, RoleId = 3, Password = "1234", CreatedAt = DateTime.UtcNow }
+            new UserEntity() { Id = 1,PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue, Address ="Antalya, Muratpaşa" ,FirstName = "admin", LastName = "admin", Email = "mustafas4rgin@gmail.com", Enabled = true, RoleId = 1,  Phone ="05341233212",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
+            new UserEntity() { Id = 2, PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue,Address ="İstanbul, Kadıköy", FirstName = "seller", LastName = "seller", Email = "seller@siliconmade.com", Enabled = true, RoleId = 2, Phone="05555555555",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
+            new UserEntity() { Id = 3, PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue,Address ="Muğla, marmaris", FirstName = "buyer", LastName = "buyer", Email = "buyer@siliconmade.com", Enabled = true, RoleId = 3,  Phone = "05333333333",PasswordHash = passwordHash, PasswordSalt = passwordSalt,CreatedAt = new DateTime(2025, 2, 23) }
         );
     }
 }

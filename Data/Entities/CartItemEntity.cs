@@ -8,7 +8,7 @@ public class CartItemEntity : EntityBase
 {
     public int UserId { get; set; }
     public int ProductId { get; set; }
-    public byte Quantity { get; set; }
+    public int Quantity { get; set; }
 
     // Navigation properties
     public UserEntity User { get; set; } = null!;

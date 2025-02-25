@@ -32,9 +32,9 @@ namespace App.Data.Entities
             builder.HasData(
                 new List<DiscountEntity>
                 {
-                    new() { Id = 1, DiscountRate = 10, StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddMonths(6), Enabled = true, CreatedAt = DateTime.UtcNow },
-                    new() { Id = 2, DiscountRate = 20, StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddMonths(6), Enabled = true, CreatedAt = DateTime.UtcNow },
-                    new() { Id = 3, DiscountRate = 30, StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddMonths(6), Enabled = true, CreatedAt = DateTime.UtcNow }
+                    new() { Id = 1, DiscountRate = 10, StartDate = new DateTime(2025, 2, 23), EndDate =new DateTime(2025, 2, 23).AddMonths(6), Enabled = true, CreatedAt = new DateTime(2025, 2, 23) },
+                    new() { Id = 2, DiscountRate = 20, StartDate = new DateTime(2025, 2, 23), EndDate =new DateTime(2025, 2, 23).AddMonths(6), Enabled = true, CreatedAt = new DateTime(2025, 2, 23)},
+                    new() { Id = 3, DiscountRate = 30, StartDate = new DateTime(2025, 2, 23), EndDate =new DateTime(2025, 2, 23).AddMonths(6), Enabled = true, CreatedAt = new DateTime(2025, 2, 23) }
                 }
             );
         }

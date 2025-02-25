@@ -1,4 +1,5 @@
-﻿using SimoshStore;
+﻿using App.Data.Entities;
+using SimoshStore;
 using System.Linq;
 
 namespace SimoshStore
@@ -11,29 +12,26 @@ namespace SimoshStore
         {
             _appDbContext = appDbContext;
         }
-        // Kullanıcı doğrulama
-        public User? ValidateUser(string email, string password)
+        public UserEntity ValidateUser(string email, string password)
         {
             var user = _appDbContext.Users.SingleOrDefault(u => u.Email == email);
             if (user == null)
             {
-                return null; // Kullanıcı bulunamadı
+                return null; 
             }
 
             if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                return null; // Şifre yanlış
+                return null; 
             }
 
-            return user; // Kullanıcı doğrulandı
+            return user; 
         }
-
-        // Tüm kullanıcıları getir
-        public List<User> GetUsers()
+        public List<UserEntity> GetUsers()
         {
             return _appDbContext.Users.ToList();
         }
-        public List<Role> GetRoles()
+        public List<RoleEntity> GetRoles()
         {
             return _appDbContext.Roles.ToList();
         }

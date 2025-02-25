@@ -1,13 +1,38 @@
-﻿using SimoshStore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using SimoshStore;
 
 public static class BusinessServiceRegistration
 {
     public static IServiceCollection AddBusinessService(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<IAuthService, AuthService>(); // Burada IAuthService ile AuthService kaydediliyor
-        services.AddScoped<IAuthRepository, AuthRepository>(); // AuthRepository kaydedildiğinden emin olun
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.Cookie.Name ="auth-cookie";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            options.SlidingExpiration = true;
+            options.LoginPath ="/Login";
+            options.LogoutPath ="/Logout";
+            options.AccessDeniedPath = "/AccessDenied";
+        });
+
+        services.AddHttpContextAccessor();
+
+        
+        services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<IAuthRepository, AuthRepository>(); 
+        services.AddTransient<IEmailService, SmtpEmailService>();
+        services.AddTransient<IDataRepository, DataRepository>();
+        services.AddTransient<ICategoryService, CategoryService>();
+        services.AddTransient<IBlogService, BlogService>();
+        services.AddTransient<IBlogCategoryService, BlogCategoryService>();
+        services.AddTransient<ITagService, TagService>();
+        services.AddTransient<IProfileService, ProfileService>();
+        services.AddTransient<IOrderService, OrderService>();
+        services.AddTransient<IUserService, UserService>();
         return services;
     }
 }
