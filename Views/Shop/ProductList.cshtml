@@ -59,24 +59,23 @@
 
 								<form method="post" action="@Url.Action("ProductList", "Shop")">
     <div class="widget widget_categories">
-        <h2 class="widget-title">Product Category</h2>
-        <ul>
-            @foreach (var category in Model.categories)
-            {
-                var productCount = Model.productEntities.Where(x => x.CategoryId == category.Id).Count();
-                <li class="cat-item cat-item-@category.Id">
-                    <div class="custom-control custom-checkbox d-flex">
-                        <input type="checkbox" class="form-check-input square"
-                               id="category_@category.Id" 
-                               name="selectedCategoryIds" value="@category.Id"
-                               @((Model.SelectedCategoryIds != null && Model.SelectedCategoryIds.Contains(category.Id)) ? "checked" : "") />
-                        <label class="form-check-label text-start flex-1" for="category_@category.Id">@category.Name</label>
-                        <span class="badge badge-pill badge-secondary">@productCount</span>
-                    </div>
-                </li>
-            }
-        </ul>
-    </div>
+    <h2 class="widget-title">Product Category</h2>
+    <ul>
+        @foreach (var category in Model.categories)
+        {            
+            <li class="cat-item cat-item-@category.Id">
+                <div class="custom-control custom-checkbox d-flex">
+                    <input type="checkbox" class="form-check-input square"
+                           id="category_@category.Id" 
+                           name="selectedCategoryIds" value="@category.Id"
+                           @((Model.SelectedCategoryIds != null && Model.SelectedCategoryIds.Contains(category.Id)) ? "checked" : "") />
+                    <label class="form-check-label text-start flex-1" for="category_@category.Id">@category.Name</label>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
 
     <!-- Featured Products (Optional Section) -->
     <div class="widget recent-posts-entry">
@@ -152,82 +151,7 @@
 								</svg>
 								Filter
 							</a>
-							<div class="shop-tab">
-								<ul class="nav" role="tablist" id="dz-shop-tab">
-									<li class="nav-item" role="presentation">
-										<a href="#tab-list-list" class="nav-link active" id="tab-list-list-btn"
-											data-bs-toggle="pill" data-bs-target="#tab-list-list" role="tab"
-											aria-controls="tab-list-list" aria-selected="true">
-											<svg width="20" height="19" viewBox="0 0 20 19" fill="none"
-												xmlns="http://www.w3.org/2000/svg">
-												<rect y="0.4375" width="5" height="4" rx="0.5" fill="#949494" />
-												<rect x="7" y="0.4375" width="13" height="4" rx="0.5" fill="#949494" />
-												<rect y="7.4375" width="5" height="4" rx="0.5" fill="#949494" />
-												<rect x="7" y="7.4375" width="13" height="4" rx="0.5" fill="#949494" />
-												<rect y="14.4375" width="5" height="4" rx="0.5" fill="#949494" />
-												<rect x="7" y="14.4375" width="13" height="4" rx="0.5" fill="#949494" />
-											</svg>
-										</a>
-									</li>
-									<li class="nav-item" role="presentation">
-										<a href="#tab-list-column" class="nav-link" id="tab-list-column-btn"
-											data-bs-toggle="pill" data-bs-target="#tab-list-column" role="tab"
-											aria-controls="tab-list-column" aria-selected="false">
-											<svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-												xmlns="http://www.w3.org/2000/svg">
-												<rect width="8" height="8" rx="1" fill="#949494" />
-												<rect x="10" width="8" height="8" rx="1" fill="#949494" />
-												<rect x="10" y="10" width="8" height="8" rx="1" fill="#949494" />
-												<rect y="10" width="8" height="8" rx="1" fill="#949494" />
-											</svg>
-										</a>
-									</li>
-									<li class="nav-item" role="presentation">
-										<a href="#tab-list-grid" class="nav-link" id="tab-list-grid-btn"
-											data-bs-toggle="pill" data-bs-target="#tab-list-grid" role="tab"
-											aria-controls="tab-list-grid" aria-selected="false">
-											<svg width="20" height="21" viewBox="0 0 20 21" fill="none"
-												xmlns="http://www.w3.org/2000/svg">
-												<g clip-path="url(#clip0_279_2520)">
-													<path
-														d="M4.16667 0.5H0.833333C0.373333 0.5 0 0.873333 0 1.33333V4.66667C0 5.12667 0.373333 5.5 0.833333 5.5H4.16667C4.62667 5.5 5 5.12667 5 4.66667V1.33333C5 0.873333 4.62667 0.5 4.16667 0.5Z"
-														fill="#949494" />
-													<path
-														d="M4.16667 8H0.833333C0.373333 8 0 8.37333 0 8.83333V12.1667C0 12.6267 0.373333 13 0.833333 13H4.16667C4.62667 13 5 12.6267 5 12.1667V8.83333C5 8.37333 4.62667 8 4.16667 8Z"
-														fill="#949494" />
-													<path
-														d="M4.16667 15.5H0.833333C0.373333 15.5 0 15.8733 0 16.3333V19.6667C0 20.1267 0.373333 20.5 0.833333 20.5H4.16667C4.62667 20.5 5 20.1267 5 19.6667V16.3333C5 15.8733 4.62667 15.5 4.16667 15.5Z"
-														fill="#949494" />
-													<path
-														d="M11.6667 0.5H8.33333C7.87333 0.5 7.5 0.873333 7.5 1.33333V4.66667C7.5 5.12667 7.87333 5.5 8.33333 5.5H11.6667C12.1267 5.5 12.5 5.12667 12.5 4.66667V1.33333C12.5 0.873333 12.1267 0.5 11.6667 0.5Z"
-														fill="#949494" />
-													<path
-														d="M11.6667 8H8.33333C7.87333 8 7.5 8.37333 7.5 8.83333V12.1667C7.5 12.6267 7.87333 13 8.33333 13H11.6667C12.1267 13 12.5 12.6267 12.5 12.1667V8.83333C12.5 8.37333 12.1267 8 11.6667 8Z"
-														fill="#949494" />
-													<path
-														d="M11.6667 15.5H8.33333C7.87333 15.5 7.5 15.8733 7.5 16.3333V19.6667C7.5 20.1267 7.87333 20.5 8.33333 20.5H11.6667C12.1267 20.5 12.5 20.1267 12.5 19.6667V16.3333C12.5 15.8733 12.1267 15.5 11.6667 15.5Z"
-														fill="#949494" />
-													<path
-														d="M19.1667 0.5H15.8333C15.3733 0.5 15 0.873333 15 1.33333V4.66667C15 5.12667 15.3733 5.5 15.8333 5.5H19.1667C19.6267 5.5 20 5.12667 20 4.66667V1.33333C20 0.873333 19.6267 0.5 19.1667 0.5Z"
-														fill="#949494" />
-													<path
-														d="M19.1667 8H15.8333C15.3733 8 15 8.37333 15 8.83333V12.1667C15 12.6267 15.3733 13 15.8333 13H19.1667C19.6267 13 20 12.6267 20 12.1667V8.83333C20 8.37333 19.6267 8 19.1667 8Z"
-														fill="#949494" />
-													<path
-														d="M19.1667 15.5H15.8333C15.3733 15.5 15 15.8733 15 16.3333V19.6667C15 20.1267 15.3733 20.5 15.8333 20.5H19.1667C19.6267 20.5 20 20.1267 20 19.6667V16.3333C20 15.8733 19.6267 15.5 19.1667 15.5Z"
-														fill="#949494" />
-												</g>
-												<defs>
-													<clipPath id="clip0_279_2520">
-														<rect width="20" height="20" fill="white"
-															transform="translate(0 0.5)" />
-													</clipPath>
-												</defs>
-											</svg>
-										</a>
-									</li>
-								</ul>
-							</div>
+							
 						</div>
 					</div>
 					<div class="row">
@@ -235,7 +159,7 @@
 						<div class="col-12 tab-content shop-" id="pills-tabContent">
     <div class="tab-pane fade show active" id="tab-list-list" role="tabpanel" aria-labelledby="tab-list-list-btn">
         <div class="row">
-            @foreach (var item in Model.productEntities) // Model.productEntities, sayfaya özel ürünleri içerecek
+            @foreach (var item in Model.productEntities) 
             {
                 var category = Model.categories.FirstOrDefault(x => x.Id == item.CategoryId);
                 var img = Model.images.FirstOrDefault(x => x.ProductId == item.Id);
@@ -250,24 +174,18 @@
                             </h2>
                             <div class="dz-header">
                                 <div>
-                                    <h2 class="title mb-0"><a href="shop-with-category.html">@item.Name</a></h2>
                                     <ul class="dz-tags">
-                                        <li><a href="shop-with-category.html">@category.Name</a></li>
+                                        <li><a href="@Url.Action("ProductList", "Shop", new { selectedCategoryIds = new List<int> { category.Id } })">@category.Name</a></li>
                                     </ul>
                                 </div>
                                 <div class="d-flex">
-                                    <a href="@Url.Action("AddToCart", "Cart", new { productId = item.Id, Quantity = 1 })"
-                                        id="addToCartBtn" class="btn btn-secondary btn-md btn-icon">
-                                        <i class="icon feather icon-shopping-cart d-md-none d-block"></i>
-                                        <span class="d-md-block d-none">Add to cart</span>
-                                    </a>
-                                    <div class="bookmark-btn style-1">
-                                        <input class="form-check-input" type="checkbox" id="favoriteCheck1">
-                                        <label class="form-check-label" for="favoriteCheck1">
-                                            <i class="flaticon flaticon-heart-3"></i>
-                                        </label>
-                                    </div>
-                                </div>
+                        <a href="@Url.Action("AddToCart", "Cart", new { productId = item.Id, Quantity = 1 })"
+                           class="btn btn-secondary btn-md btn-icon"
+                           data-product-id="@item.Id">
+                            <i class="icon feather icon-shopping-cart d-md-none d-block"></i>
+                            <span class="d-md-block d-none">Add to cart</span>
+                        </a>
+                    </div>
                             </div>
                             <div class="dz-body">
                                 <div class="dz-rating-box">
@@ -336,7 +254,6 @@
     </div>
 </div>
 
-<!-- Sayfalama Kısımları -->
 <div class="row page mt-0">
     <div class="col-md-6">
         <p class="page-text">Showing @((Model.CurrentPage - 1) * 4 + 1)–@((Model.CurrentPage - 1) * 4 + Model.productEntities.Count) Of @Model.TotalProductCount Results</p>
@@ -364,32 +281,7 @@
 	</section>
 
 	<!-- Newsletter Start-->
-	<section class="content-inner-3  overflow-hidden position-relative border-top">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 col-md-12">
-					<div class="section-head style-2 d-block wow fadeInUp" data-wow-delay="0.2s">
-						<h2 class="title mb-4">Subscribe Newsletter & Get Plant News</h2>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-12 m-b30 wow fadeInUp" data-wow-delay="0.4s">
-					<form class="dzSubscribe style-2" action="script/mailchamp.php" method="post">
-						<div class="dzSubscribeMsg"></div>
-						<div class="form-group">
-							<div class="input-group mb-0">
-								<input name="dzEmail" required="required" type="email" class="form-control h-70"
-									placeholder="Your Email Address">
-								<div class="sub-btn">
-									<button name="submit" value="Submit" type="submit"
-										class="btn btn-secondary">Subscribe Now</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
+	@Html.Partial("~/Views/Partials/NewsLetter.cshtml")
 	<!-- Newsletter End -->
 </div>
 
@@ -402,37 +294,49 @@
             var minVal = parseInt(priceMin.val()) || 0;
             var maxVal = parseInt(priceMax.val()) || 1000;
             
-            // Slider'ı başlat
             $("#slider-tooltips").slider({
                 range: true,
                 min: 0,
                 max: 1000,
                 values: [minVal, maxVal],
                 slide: function(event, ui) {
-                    // Slider değerlerini input elemanlarına yansıt
                     priceMin.val(ui.values[0]);
                     priceMax.val(ui.values[1]);
 
-                    // Değerleri ekranda göster
                     $("#slider-margin-value-min").text("$" + ui.values[0]);
                     $("#slider-margin-value-max").text("$" + ui.values[1]);
                 }
             });
 
-            // İlk başta slider'ın değerlerini ekranda göster
             $("#slider-margin-value-min").text("$" + minVal);
             $("#slider-margin-value-max").text("$" + maxVal);
         });
     </script>
 	<script>
-    document.getElementById('addToCartBtn').addEventListener('click', function(event) {
-        // Burada giriş yapmış olup olmadığını kontrol ediyorsunuz.
-        var isUserLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // ASP.NET Core'da oturum kontrolü
 
-        if (!isUserLoggedIn) {
-            event.preventDefault(); // Butonun normal işlevini engelle
-            alert("Giriş yapmalısınız!"); // Giriş yapılmadığında uyarı mesajı
-        }
-    });
+</script>
+<script>
+    <script>
+    @foreach (var item in Model.productEntities)
+    {
+        <text>
+        // Dinamik buttonId'yi oluşturuyoruz
+        var buttonId = "addToCartBtn" + @item.Id; 
+
+        // Data attribute kullanarak her bir öğeye erişiyoruz
+        document.querySelectorAll('[data-product-id="' + @item.Id + '"]').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                var isUserLoggedIn = '@User.Identity.IsAuthenticated'.ToLower(); 
+
+                if (isUserLoggedIn === "false") {
+                    event.preventDefault(); 
+                    alert("Giriş yapmalısınız!"); 
+                }
+            });
+        });
+        </text>
+    }
+</script>
+
 </script>
 }

@@ -20,7 +20,6 @@ namespace MyApp.Namespace
         {
             return View();
         }
-        //TODO: diğer auth işlemleri yapılacak.
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync(LoginViewModel model, string? ReturnUrl)
         {
@@ -89,7 +88,6 @@ namespace MyApp.Namespace
             return View();
         }
 
-        // Şifremi Unuttum - E-posta gönderme işlemi
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
@@ -109,10 +107,9 @@ namespace MyApp.Namespace
         [HttpGet]
         public IActionResult ResetPassword(string token)
         {
-            // Token'ı doğrulama işlemi yapılabilir
             if (string.IsNullOrEmpty(token))
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("NotFound","Error");
             }
 
             return View(new ResetPasswordViewModel { Token = token });
@@ -139,8 +136,6 @@ namespace MyApp.Namespace
             }
             return View(model);
         }
-
-        // Şifremi Unuttum işlemi sonrası kullanıcıyı bilgilendirme
         [HttpGet]
         public IActionResult ForgotPasswordConfirmation()
         {

@@ -27,7 +27,7 @@
 												<a class="mfp-link lg-item" href="@img.Url" data-src="@img.Url">
 													<i class="feather icon-maximize dz-maximize top-right"></i>
 												</a>
-												<img src="@img.Url" alt="image">
+												<img src="https://picsum.photos/1500/1500" alt="image">
 											</div>
 										</div>
                                         }
@@ -55,12 +55,12 @@
                                         @if(Model.product.DiscountId!=null)
                                         {
 											int discount = Model.product.DiscountId.Value*10;
-                                            <span class="badge mb-2">SALE @discount Off</span>
+                                            <span class="badge mb-2">SALE %@discount Off</span>
                                         }
-										<h2 class="title mb-1"><a href="shop-list.html">@Model.product.Name</a></h2>
+										<h2 class="title mb-1">@Model.product.Name</h2>
 										<div class="review-num">
 											<ul class="dz-rating me-2">
-												@for(int i = 0; i<5;i++)
+												@for(int i = 1; i<=5;i++)
 												{
 													@if(@Model.Star>=i)
 													{
@@ -124,13 +124,6 @@
 										<li><strong>Category:</strong></li>
 										<li><a href="shop-standard.html">@Model.category.Name</a></li>																							
 									</ul>
-									<ul>
-										<li><strong>Tags:</strong></li>
-										<li><a href="shop-standard.html">Plants,</a></li>												
-										<li><a href="shop-standard.html">Garden Care,</a></li>												
-										<li><a href="shop-standard.html">Aqua Greens, </a></li>												
-										<li><a href="shop-standard.html">House Plants,</a></li>												
-									</ul>
 									<ul class="social-icon">
 										<li><strong>Share:</strong></li>
 										<li>
@@ -139,12 +132,12 @@
 											</a>
 										</li>
 										<li>
-											<a href="https://www.linkedin.com/showcase/3686700/admin/" target="_blank">
+											<a href="https://www.linkedin.com/in/mustafa-sargın-1a6312220/" target="_blank">
 												<i class="fa-brands fa-linkedin-in"></i>
 											</a>
 										</li>
 										<li>
-											<a href="https://www.instagram.com/dexignzone/" target="_blank">
+											<a href="https://www.instagram.com/s4rgin/" target="_blank">
 												<i class="fa-brands fa-instagram"></i>
 											</a>
 										</li>
@@ -198,33 +191,32 @@
 			<div class="container">
 				<div class="section-head style-5 d-md-flex align-items-center justify-content-between">
 					<div class="left-content">
-						<h2 class="title mb-0">Benzer Ürünler</h2>
+						<h2 class="title mb-0">Similar Products</h2>
 					</div>
-					<a href="@Url.Action("GetProducts", "Product")" class="text-secondary font-14 d-flex align-items-center gap-1">See all products
+					<a href="@Url.Action("ProductList", "Shop")" class="text-secondary font-14 d-flex align-items-center gap-1">See all products
 						<i class="icon feather icon-chevron-right font-18"></i>
 					</a>			
 				</div>
 				<div class="row">
-					@foreach(var product in Model.productEntities)
+					@foreach(var product in Model.productEntities.Take(4))
 					{
 						var img = Model.allImages.Where(i=>i.ProductId==product.Id).FirstOrDefault();
 						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 m-b30">
 						<div class="shop-card style-1 m-b30">
 							<div class="dz-media">
-								<img src="@img.Url" alt="Açıklama" width="600" height="600" />
+								<img src="https://picsum.photos/600/600" alt="Açıklama" width="600" height="600" />
 							</div>
 							<div class="shop-meta">
-								<div class="btn btn-primary meta-icon dz-wishicon">
-									<i class="icon feather icon-heart dz-heart"></i>
-									<i class="icon feather icon-heart-on dz-heart-fill"></i>
-								</div>
-								<div class="btn btn-primary meta-icon dz-carticon">
+								<a href="@Url.Action("AddToCart","Cart",new{productId = product.Id,Quantity = 1})">
+									<div class="btn btn-primary meta-icon dz-carticon">
 									<i class="flaticon flaticon-shopping-cart-1 dz-cart"></i>
 									<i class="flaticon flaticon-shopping-cart-1-on dz-cart-fill"></i>
 								</div>
+								</a>
+								
 							</div>
 							<div class="dz-content">
-								<h3 class="title"><a href="shop-list.html">@product.Name</a></h3>
+								<h3 class="title">@product.Name</h3>
 								@if(product.DiscountId!=null)
 								{
 									int discount = product.DiscountId.Value*10;
@@ -243,31 +235,6 @@
 						</div>
 					</div>
 					}
-					<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 m-b30">
-						<div class="shop-card style-1 m-b30">
-							<div class="dz-media">
-								<img src="images/shop/product/4.png" alt="image">
-							</div>
-							<div class="shop-meta">
-								<a href="javascript:void(0);" class="btn btn-primary btn-md w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-									<i class="fa-solid fa-eye"></i>
-									<span class="d-lg-block d-none">Quick View</span>
-								</a>
-								<div class="btn btn-primary meta-icon dz-refresh">
-									<i class="flaticon flaticon-refresh dz-refresh"></i>
-									<i class="flaticon flaticon-refresh-on dz-refresh-fill"></i>
-								</div>
-								<div class="btn btn-primary meta-icon dz-wishicon">
-									<i class="icon feather icon-heart dz-heart"></i>
-									<i class="icon feather icon-heart-on dz-heart-fill"></i>
-								</div>
-								<div class="btn btn-primary meta-icon dz-carticon">
-									<i class="flaticon flaticon-shopping-cart-1 dz-cart"></i>
-									<i class="flaticon flaticon-shopping-cart-1-on dz-cart-fill"></i>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</section>
@@ -385,7 +352,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="dz-product-media dz-media rounded"><img src="images/shop/product-details/product-style-1/product-details-1.png" alt="/"></div>
+										<div class="dz-product-media dz-media rounded"><img src="https://picsum.photos/1500/1500" alt="/"></div>
 									</div>
 								</div>
 							</div>
@@ -515,7 +482,7 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 								<div class="clear" id="comment-list">
 									<div class="post-comments comments-area style-1 clearfix">
 										<h4 class="comments-title mb-2">Comments (@Model.comments.Count)</h4>
-										<p class="dz-title-text">Ürünler ilgili yapılan yorumlar</p>
+										<p class="dz-title-text">Product Comments</p>
 										<div id="comment">
 											<ol class="comment-list">
 												@foreach(var comment in Model.comments)
@@ -523,14 +490,11 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 													<li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
 												<div class="comment-body" id="div-comment-4">
 													<div class="comment-author vcard">
-														<img src="images/profile2.jpg" alt="/" class="avatar">
-														<cite class="fn">@comment.UserId</cite>
+														<img src="https://picsum.photos/250/250" alt="/" class="avatar">
+														<cite class="fn">@comment.User.FirstName @comment.User.LastName</cite>
 													</div>
 													<div class="comment-content dz-page-text">
 														<p>@comment.Text</p>
-													</div>
-													<div class="reply">
-														<a class="comment-reply-link" href="javascript:void(0);"> Reply</a>
 													</div>
 												</div>
 											</li>
@@ -539,35 +503,58 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 									<div class="default-form comment-respond style-1" id="respond">
 										<h4 class="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
 										<p class="dz-title-text">Highest rated comments.</p>
-										<div class="comment-form-rating d-flex">
-											<label class="pull-left m-r10 m-b20  text-secondary">Your Rating</label>
-											<div class="rating-widget">
-												<!-- Rating Stars Box -->
-												<div  class="rating-stars">
-													<ul id="stars">
-														@for(int i = 1; i<=5; i++)
-														{
-															<li class="star" title="STAR" data-value="@i">
-																<i class="fas fa-star fa-fw"></i>
-															</li>
-														}
-														
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="clearfix">
-											<form method="post" id="comments_form" class="comment-form" action="@Url.Action("AddComment", "Comment")" novalidate>
-											   <p class="comment-form-author"><input id="name" placeholder="Author" name="author" type="text" value=""></p>
-											   <p class="comment-form-email"><input id="email" required="required" placeholder="Email" name="email" type="email" value=""></p>
-											   <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="commentText" cols="45" rows="3" required="required"></textarea></p>
-											   <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
-												  <button id="submit" type="submit" class="submit btn btn-secondary btnhover3 filled">
-												  Submit Now
-												  </button>
-											   </p>
-											</form>
-										</div>
+										 
+@if(User.Identity.IsAuthenticated)
+{
+    <div class="comment-form-rating d-flex">
+        <label class="pull-left m-r10 m-b20 text-secondary">Your Rating</label>
+        <div class="rating-widget">
+            <div class="rating-stars">
+                <ul id="stars">
+                    @for(int i = 1; i<=5; i++)
+                    {
+                        <li class="star" title="STAR" data-value="@i">
+                            <i class="fas fa-star fa-fw"></i>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <form method="post" id="comments_form" class="comment-form" action="@Url.Action("AddComment", "Comment")" novalidate>
+            <!-- productId'yi gizli alanda gönderiyoruz -->
+            <input type="hidden" name="productId" value="@Model.product.Id" />
+
+            <!-- Kullanıcının adı otomatik olarak yazılıyor -->
+            <p class="comment-form-author">
+                <input id="name" placeholder="Author" name="author" type="text" value="@User.Identity.Name" readonly>
+            </p>
+            
+            <!-- Kullanıcının e-posta adresi otomatik olarak yazılıyor -->
+            <p class="comment-form-email">
+                <input id="email" required="required" placeholder="Email" name="email" type="email" value="@User.Identity.Name" readonly>
+            </p>
+            
+            <!-- Yorum kısmı -->
+            <p class="comment-form-comment">
+                <textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="commentText" cols="45" rows="3" required="required"></textarea>
+            </p>
+            
+            <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
+                <button id="submit" type="submit" class="submit btn btn-secondary btnhover3 filled">
+                    Submit Now
+                </button>
+            </p>
+        </form>
+    </div>
+}
+else
+{
+    <p>Please log in to leave a comment.</p>
+}
+
+
 									  </div>
 								   </div>
 								</div>
@@ -597,25 +584,18 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 								<div class="swiper-slide">
 								<div class="shop-card ">
 									<div class="dz-media">
-										<img width="600" height="600" src="@img.Url" alt="image">
+										<img width="600" height="600" src="https://picsum.photos/600/600" alt="image">
 										<div class="shop-meta">
-											
-											<div class="btn btn-primary meta-icon dz-wishicon">
-												<i class="icon feather icon-heart dz-heart"></i>
-												<i class="icon feather icon-heart-on dz-heart-fill"></i>
-											</div>
-											<a href="javascript:void(0);" class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="flaticon flaticon-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none"><i class="flaticon flaticon-eye"></i></span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-carticon">
-												<i class="flaticon flaticon-basket"></i>
-												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-											</div>
+											<a href="@Url.Action("AddToCart","Cart",new{productId = product.Id,Quantity = 1})">
+									<div class="btn btn-primary meta-icon dz-carticon">
+									<i class="flaticon flaticon-shopping-cart-1 dz-cart"></i>
+									<i class="flaticon flaticon-shopping-cart-1-on dz-cart-fill"></i>
+								</div>
+								</a>
 										</div>
 									</div>
 									<div class="dz-content">
-										<h3 class="title"><a href="shop-list.html">@product.Name</a></h3>
+										<h3 class="title"><a href="@Url.Action("ProductDetails","Shop",new {id = product.Id})">@product.Name</a></h3>
 										@if(product.DiscountId!=null)
 										{
 											int discount = product.DiscountId.Value*10;
@@ -642,30 +622,7 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 		</section>
 
 		<!-- Newsletter Start-->
-			<section class="content-inner-3  overflow-hidden position-relative border-top">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-lg-6 col-md-12">
-							<div class="section-head style-2 d-block wow fadeInUp" data-wow-delay="0.2s">
-								<h2 class="title mb-4">Subscribe Newsletter & Get Plant News</h2>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-12 m-b30 wow fadeInUp" data-wow-delay="0.4s">
-							<form class="dzSubscribe style-2" action="script/mailchamp.php" method="post">
-								<div class="dzSubscribeMsg"></div>
-								<div class="form-group">
-									<div class="input-group mb-0">
-										<input name="dzEmail" required="required" type="email" class="form-control h-70" placeholder="Your Email Address">
-										<div class="sub-btn">
-											<button name="submit" value="Submit" type="submit" class="btn btn-secondary">Subscribe Now</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</section>
+			@Html.Partial("~/Views/Partials/NewsLetter.cshtml")
 		<!-- Newsletter End -->
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

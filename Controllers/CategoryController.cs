@@ -1,14 +1,18 @@
 using App.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimoshStore;
 
 namespace MyApp.Namespace
 {
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
-        // GET: CategoryController
+        // GET: CategoryControlle
+        
         private readonly ICategoryService _categoryService;
         private readonly IDataRepository _Repository;
+        
         public CategoryController(ICategoryService categoryService, IDataRepository Repository)
         {
             _categoryService = categoryService;

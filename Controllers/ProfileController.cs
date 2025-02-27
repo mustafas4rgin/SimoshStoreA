@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Threading.Tasks;
 using App.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,28 +20,39 @@ namespace MyApp.Namespace
             _OrderService = orderService;
             _UserService = userService;
         }
-        public async Task<IActionResult> OrderConfirmation(int id)
-        {
-            var order = await _OrderService.GetOrderByIdAsync(id);
-            return View(order);
-
-
-        }
-        [HttpGet]
-        public IActionResult UpdateProfile()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> UpdateProfile(UserDTO userDTO)
+        public async Task<IActionResult> Review()
         {
             int userId = _UserService.GetUserId();
-            var result = await _UserService.UpdateUserAsync(userDTO, userId);
-            if (!result.Success)
+            var comments = await _ProfileService.GetCommentByIdAsync(userId);
+            foreach(var comment in comments)
             {
-                ViewData["Error"] = result.Message;
+                comment.User = await _ProfileService.GetUserByIdAsync(comment.UserId);
+            }
+            return View(comments);
+        }
+        public async Task<IActionResult> UpdateProfileAsync()
+        {
+            int UserId = _UserService.GetUserId();
+            var user =await _UserService.GetUserByIdAsync(UserId);
+            return View(
+                new UpdateProfileViewModel{
+                    user = user,
+                    
+                }
+            );
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Error"] = "Please fill in all fields";
                 return View();
             }
+            int userId = _UserService.GetUserId();
+            var user = await _ProfileService.GetUserByIdAsync(userId);
+            
+            var result = await _UserService.UpdateUserAsync(model,userId);
             return RedirectToAction("MyProfile");
         }
         public async Task<IActionResult> MyProfileAsync()
@@ -54,13 +66,14 @@ namespace MyApp.Namespace
             int userId = int.Parse(userIdClaim);
             var user = await _ProfileService.GetUserByIdAsync(userId);
             var comments = await _ProfileService.GetComments();
+            var userComments = comments.Where(c => c.UserId == userId);
             var orders = await _OrderService.GetOrdersByUserIdAsync(userId);
             var ordersItems = await _OrderService.GetAllOrderItems();
             return View(new ProfileViewModel
             {
                  orderItems = ordersItems.ToList(),
                 user = user,
-                productComments = comments.ToList(),
+                productComments = userComments.ToList(),
                 orders = orders.ToList()
             });
         }
@@ -80,6 +93,11 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> EditAddress(EditAddressViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Error"] = "Please fill in all fields";
+                return View(model);
+            }
             var userId = _UserService.GetUserId();
             var user = await _ProfileService.GetUserByIdAsync(userId);
             var result = await _UserService.UpdateUserAddress(model);

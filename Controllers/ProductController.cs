@@ -8,7 +8,7 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -28,7 +28,7 @@ namespace MyApp.Namespace
                 ViewBag.Error = result.Message;
                 return View();
             }
-            return View(products);
+            return View("ProductList", products);
         }
         [HttpGet("GetProduct")]
         public async Task<IActionResult> GetProductById(int id)
@@ -43,7 +43,6 @@ namespace MyApp.Namespace
             return View(product);
         }
         [HttpGet("CreateProduct")]
-        [Authorize(Roles = "Admin, Seller")]
         public IActionResult CreateProduct()
         {
             return View();
@@ -60,7 +59,6 @@ namespace MyApp.Namespace
             return RedirectToAction("GetProducts");
         }
         [HttpGet]
-        [Authorize(Roles = "Admin, Seller")]
         public async Task<IActionResult> UpdateProduct(int id)
         {
             var product = await _Repository.GetByIdAsync<ProductEntity>(id);

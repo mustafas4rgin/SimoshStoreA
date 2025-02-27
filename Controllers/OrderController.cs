@@ -28,10 +28,8 @@ namespace MyApp.Namespace
         }
         public async Task<IActionResult> OrderDetails(int? orderId)
         {
-            // Check if orderId is null or invalid (e.g., non-positive number)
             if (!orderId.HasValue || orderId.Value <= 0)
             {
-                // Redirect to NotFound page or handle it as per your business logic
                 return RedirectToAction("NotFound", "Error");
             }
 
@@ -39,7 +37,6 @@ namespace MyApp.Namespace
 
             if (order == null)
             {
-                // If the order is not found, set an error message and redirect
                 ViewBag.Error = "Order not found";
                 return RedirectToAction("NotFound", "Error");
             }
@@ -48,13 +45,12 @@ namespace MyApp.Namespace
             var products = await _productService.ListAllProducts();
             ProductEntity product = null;
 
-            // Assuming only one product should be associated with the order items
             foreach (var orderItem in orderItems)
             {
                 product = products.FirstOrDefault(p => p.Id == orderItem.ProductId);
                 if (product != null)
                 {
-                    break; // If we find the product, no need to keep iterating
+                    break; 
                 }
             }
 
@@ -68,21 +64,19 @@ namespace MyApp.Namespace
 
         public async Task<IActionResult> ListOrders(int page = 1)
         {
-            int pageSize = 10; // Maximum number of orders per page
+            int pageSize = 10; 
             int userId = _userService.GetUserId();
             var user = await _userService.GetUserAsync(userId);
             if (!user.Success)
             {
                 ViewBag.Error = user.Message;
-                RedirectToAction("NotFound", "Error");
+                return RedirectToAction("NotFound", "Error");
             }
-            
 
-            // Get all orders for the user
+
             var orders = await _orderService.GetOrdersByUserIdAsync(userId);
             var orderItems = await _orderService.GetAllOrderItems();
 
-            // Implement pagination: skip previous pages and take the current page's orders
             var pagedOrders = orders.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var model = new OrderListViewModel
@@ -95,6 +89,30 @@ namespace MyApp.Namespace
 
             return View(model);
         }
+        public async Task<IActionResult> OrderConfirmation(int id)
+        {
+            var order = await _orderService.GetOrderByIdAsync(id);
+            return View(order);
+
+        }
+        public async Task<IActionResult> CreateOrder(int userId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId); 
+            if (user == null)
+            {
+                return NotFound(); 
+            }
+
+            var order = await _orderService.CreateOrderAsync(new OrderDTO
+            {
+                UserId = userId,
+                Address = user.Address,
+                OrderCode = $"#{GenerateHelper.GenerateNumber()}"
+            });
+            
+            return RedirectToAction("OrderConfirmation", "Order", new { id = order.Id }); 
+        }
+
 
 
     }

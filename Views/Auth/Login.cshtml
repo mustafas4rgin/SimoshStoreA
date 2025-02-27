@@ -10,6 +10,12 @@
         @ViewData["AuthErrorMessage"]
     </div>
 }
+@if (ViewData["AuthError"]!=null)
+{
+    <div class="alert alert-danger mt-3">
+        @ViewData["AuthError"]
+    </div>
+}
 
 
 <h2>Login</h2>

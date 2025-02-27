@@ -17,8 +17,8 @@ public class UserEntity : EntityBase, IHasEnabled
     public bool HasSellerRequest { get; set; } = false;
     public byte[] PasswordHash { get; set; } = null!;
     public byte[] PasswordSalt { get; set; } = null!;
-    public string PasswordResetToken { get; set; } = null!;
-    public DateTime PasswordResetTokenExpires { get; set; }
+    public string ResetToken { get; set; } = null!;
+    public DateTime ResetTokenExpires { get; set; }
 
     // Navigation properties
     public RoleEntity Role { get; set; } = null!;
@@ -52,9 +52,9 @@ internal class UserEntitySeed : IEntityTypeSeed<UserEntity>
     {
         HashingHelper.CreatePasswordHash("1234",out var passwordHash, out var passwordSalt);
         builder.HasData(
-            new UserEntity() { Id = 1,PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue, Address ="Antalya, Muratpaşa" ,FirstName = "admin", LastName = "admin", Email = "mustafas4rgin@gmail.com", Enabled = true, RoleId = 1,  Phone ="05341233212",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
-            new UserEntity() { Id = 2, PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue,Address ="İstanbul, Kadıköy", FirstName = "seller", LastName = "seller", Email = "seller@siliconmade.com", Enabled = true, RoleId = 2, Phone="05555555555",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
-            new UserEntity() { Id = 3, PasswordResetToken =string.Empty,PasswordResetTokenExpires=DateTime.MinValue,Address ="Muğla, marmaris", FirstName = "buyer", LastName = "buyer", Email = "buyer@siliconmade.com", Enabled = true, RoleId = 3,  Phone = "05333333333",PasswordHash = passwordHash, PasswordSalt = passwordSalt,CreatedAt = new DateTime(2025, 2, 23) }
+            new UserEntity() { Id = 1,ResetToken =string.Empty,ResetTokenExpires=DateTime.MinValue, Address ="Antalya, Muratpaşa" ,FirstName = "admin", LastName = "admin", Email = "mustafas4rgin@gmail.com", Enabled = true, RoleId = 1,  Phone ="05341233212",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
+            new UserEntity() { Id = 2, ResetToken =string.Empty,ResetTokenExpires=DateTime.MinValue,Address ="İstanbul, Kadıköy", FirstName = "seller", LastName = "seller", Email = "seller@siliconmade.com", Enabled = true, RoleId = 2, Phone="05555555555",PasswordHash = passwordHash, PasswordSalt = passwordSalt, CreatedAt = new DateTime(2025, 2, 23) },
+            new UserEntity() { Id = 3, ResetToken =string.Empty,ResetTokenExpires=DateTime.MinValue,Address ="Muğla, marmaris", FirstName = "buyer", LastName = "buyer", Email = "buyer@siliconmade.com", Enabled = true, RoleId = 3,  Phone = "05333333333",PasswordHash = passwordHash, PasswordSalt = passwordSalt,CreatedAt = new DateTime(2025, 2, 23) }
         );
     }
 }

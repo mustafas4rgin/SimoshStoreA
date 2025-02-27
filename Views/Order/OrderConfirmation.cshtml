@@ -34,7 +34,7 @@
 								<p class="mb-2">You will receive an order confirmation email with details of your order.</p>
 								<p class="mb-0">Order ID: @Model.OrderCode</p>
 								<div class="mt-4 d-sm-flex gap-3 justify-content-center">
-									<a href="account-order-details.html" class="btn my-1 btn-secondary">View Order </a>
+									<a href="@Url.Action("OrderDetails","Order",new{orderId = Model.Id})" class="btn my-1 btn-secondary">View Order </a>
 									<a href="@Url.Action("Index","Home")" class="btn btn-outline-secondary my-1 btnhover20">Back To Home </a>
 								</div>
 							</div>

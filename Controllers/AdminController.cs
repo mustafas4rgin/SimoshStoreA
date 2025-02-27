@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SimoshStore.Controllers
 {
-    [Authorize(Roles = "Admin")] // Bu controller'a yalnızca Admin rolüyle erişilebilir.
+    [Authorize(Roles = "admin")] // Bu controller'a yalnızca Admin rolüyle erişilebilir.
     public class AdminController : Controller
     {
         private readonly IDataRepository _repository;
@@ -48,7 +48,7 @@ namespace SimoshStore.Controllers
                 ViewBag.Error = result.Message;
                 return View();
             }
-            return View(products);
+            return View("ProductList",products);
         }
         public async Task<IActionResult> CategoryList()
         {
@@ -57,9 +57,19 @@ namespace SimoshStore.Controllers
             if(!result.Success)
             {
                 ViewBag.Error = result.Message;
-                return View();
+                return View("CategoryList",categories);
             }
             return View(categories);
+        }
+        public async Task<IActionResult> ListBlogCategories()
+        {
+            var blogCategories =await _repository.GetAll<BlogCategoryEntity>().ToListAsync();
+            return View(blogCategories);
+        }
+        public async Task<IActionResult> ListBlogs()
+        {
+            var blogs = await _repository.GetAll<BlogEntity>().ToListAsync();
+            return View(blogs);
         }
     }
 }

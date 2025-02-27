@@ -7,29 +7,61 @@ namespace MyApp.Namespace
 {
     public class CommentController : Controller
     {
+        private readonly IUserService _userService;
         private readonly IDataRepository _Repository;
-        public CommentController(IDataRepository repository)
+        public CommentController(IUserService userService, IDataRepository repository)
         {
+            _userService = userService;
             _Repository = repository;
         }
         [HttpPost]
-        public async Task<IActionResult> AddComment(int productId, int userId, string email, string commentText, int rating)
+    public async Task<IActionResult> AddBlogComment(BlogCommentDTO commentDTO)
+    {
+        ;
+            int userId = _userService.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("BlogPost", "Blog", new { id = commentDTO.BlogId, error = "User not found" });
+            }   
+            var user = await _userService.GetUserByIdAsync(userId);
+            var blogComment = new BlogCommentEntity
+            {
+                BlogId = commentDTO.BlogId,
+                Name = user.FirstName + " " + user.LastName,
+                Email = commentDTO.Email,
+                Comment = commentDTO.Comment
+            };
+            await _Repository.AddAsync(blogComment);
+            return RedirectToAction("BlogPost", "Blog", new { id = commentDTO.BlogId });
+    }
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int productId, string email, string commentText, int rating)
         {
-            var user = _Repository.GetAll<UserEntity>().Where(x => x.Email == email).FirstOrDefault();
+            int userId = _userService.GetUserId();
+
+            if (userId == null)
+            {
+                return RedirectToAction("ProductDetails", "Shop", new { id = productId, error = "User not found" });
+            }
+
+            
             if (ModelState.IsValid)
             {
                 var comment = new ProductCommentEntity
                 {
-                    ProductId = 1,
-                    UserId = 1,
+                    ProductId = productId,
+                    UserId = userId,  
                     StarCount = rating,
                     Text = commentText
                 };
+
                 await _Repository.AddAsync(comment);
 
-                return RedirectToAction("ProductDetails", "Shop", new { id = 1 });
+                return RedirectToAction("ProductDetails", "Shop", new { id = productId });
             }
-            return RedirectToAction("ProductDetails", "Shop", new { id = 1 });
+
+            return RedirectToAction("ProductDetails", "Shop", new { id = productId });
         }
+
     }
 }

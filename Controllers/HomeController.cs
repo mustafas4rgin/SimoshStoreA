@@ -20,15 +20,23 @@ public class HomeController : Controller
     private readonly IProductService _productService;
     private readonly ICategoryService _categoryService;
     private readonly IBlogService _blogService;
+    private readonly IEmailService _emailService;
+    private readonly IUserService _userService;
+    private readonly IOrderService _orderService;
+    private readonly IProfileService _profileService;
 
-    public HomeController(ILogger<HomeController> logger,IBlogService blogService, IDataRepository Repository, IHttpContextAccessor HttpContextAccessor, IProductService productService, ICategoryService categoryService)
+    public HomeController(IUserService userService,IOrderService orderService,IProfileService profileService, IEmailService emailService, ILogger<HomeController> logger,IBlogService blogService, IDataRepository Repository, IHttpContextAccessor HttpContextAccessor, IProductService productService, ICategoryService categoryService)
     {
+        _emailService = emailService;
         _logger = logger;
         _Repository = Repository;
         _HttpContextAccessor = HttpContextAccessor;
         _productService = productService;
         _categoryService = categoryService;
         _blogService = blogService;
+        _userService = userService;
+        _orderService = orderService;
+        _profileService = profileService;
     }
     public async Task<IActionResult> Index()
     {
@@ -53,6 +61,7 @@ public class HomeController : Controller
         var categoryResult = await _categoryService.GetAllCategoriesAsync();
         var Images = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
         var popularProducts = await _productService.PopularProducts();
+        var blogs = await _blogService.GetAllBlogsAsync();
 
         if (!productResult.Success || !categoryResult.Success)
         {
@@ -65,9 +74,14 @@ public class HomeController : Controller
             ViewBag.ErrorMessage = errorMessage.Trim();
             return NotFound();
         }
+        foreach (var product in Products)
+        {
+            product.Discount = discounts.FirstOrDefault(x => x.Id == product.DiscountId);
+        }
         return View(
             new IndexViewModel
             {
+                blogEntities = blogs.ToList(),
                 popularProducts = popularProducts,
                 products = Products,
                 categories = Categories,
@@ -82,6 +96,23 @@ public class HomeController : Controller
         );
     }
     public async Task<IActionResult> AboutUs()
+    {
+        var comments =await _profileService.GetComments();
+        foreach(var comment in comments)
+        {
+            comment.User = await _userService.GetUserByIdAsync(comment.UserId);
+        }
+        return View(comments);
+    }
+    public async Task<IActionResult> NewsLetter(NewsLetterViewModel model)
+    {
+        // await _emailService.SaveSubscriber(model.Email);
+        await _emailService.SendEmailAsync("mustafas4rgin@gmail.com","NewsLetter",$"{model.Email} adresine sahip kişi haber bültenimize abone oldu.");
+        await _emailService.SendEmailAsync(model.Email,"NewsLetter",$"Haber bültenimize abone olduğunuz için teşekkür ederiz. İndirim kodunuz: #{GenerateHelper.GenerateNumber()}");
+        ViewData["Success"] = "Abone oldunuz.";
+        return RedirectToAction("Index");
+    }
+    public async Task<IActionResult> AboutMe()
     {
         var users = await _Repository.GetAll<UserEntity>().ToListAsync();
         var orders = await _Repository.GetAll<OrderEntity>().ToListAsync();
@@ -108,4 +139,35 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    public IActionResult ContactUs()
+    {
+        return View(new ContactDTO());
+    }
+    [HttpPost]
+    public async Task<IActionResult> ContactUs(ContactDTO dto)
+    {
+        if (ModelState.IsValid)
+        {
+                await _emailService.SendEmailAsync(
+                to: "simoshstoreco@gmail.com",
+                subject: "New Contact Us Message",
+                body: $"Name: {dto.Name}\nEmail: {dto.Email}\nMessage: {dto.Message}"
+            );
+            var result = await _userService.ContactUsAsync(dto);
+            if (result.Success)
+            {
+                ViewBag.Message = "Your message has been sent successfully.";
+            }
+            else
+            {
+                ViewBag.Message = "An error occurred while sending your message.";
+            }
+        }
+        else
+        {
+            ViewBag.Message = "Please fill in all fields correctly.";
+        }
+
+        return RedirectToAction("Index","Home");
+    }   
 }

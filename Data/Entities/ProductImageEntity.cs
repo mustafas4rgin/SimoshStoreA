@@ -39,21 +39,21 @@ internal class ProductImageEntitySeed : IEntityTypeSeed<ProductImageEntity>
         builder.HasData(
             new List<ProductImageEntity>
             {
-                new() { Id = 1, ProductId = 1, Url = "/images/product/product-1.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 2, ProductId = 2, Url = "/images/product/product-2.png", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 3, ProductId = 3, Url = "/images/product/product-3.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 4, ProductId = 4, Url = "/images/product/product-4.png", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 5, ProductId = 5, Url = "/images/product/product-5.png", CreatedAt =new DateTime(2025, 2, 23),},
-                new() { Id = 6, ProductId = 6, Url = "/images/product/product-6.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 7, ProductId = 7, Url = "/images/product/product-7.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 8, ProductId = 8, Url = "/images/product/product-8.jpg", CreatedAt =new DateTime(2025, 2, 23),},
-                new() { Id = 9, ProductId = 9, Url = "/images/product/product-9.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 10, ProductId = 10, Url = "/images/product/product-10.jpg", CreatedAt =new DateTime(2025, 2, 23),},
-                new() { Id = 11, ProductId = 11, Url = "/images/product/product-11.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 12, ProductId = 12, Url = "/images/product/product-12.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 13, ProductId = 13, Url = "/images/product/product-13.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 14, ProductId = 14, Url = "/images/product/product-14.jpg", CreatedAt =new DateTime(2025, 2, 23), },
-                new() { Id = 15, ProductId = 15, Url = "/images/product/product-15.jpg", CreatedAt =new DateTime(2025, 2, 23),}
+                new() { Id = 1, ProductId = 1, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 2, ProductId = 2, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 3, ProductId = 3, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 4, ProductId = 4, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 5, ProductId = 5, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23),},
+                new() { Id = 6, ProductId = 6, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 7, ProductId = 7, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 8, ProductId = 8, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23),},
+                new() { Id = 9, ProductId = 9, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 10, ProductId = 10, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23),},
+                new() { Id = 11, ProductId = 11, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 12, ProductId = 12, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 13, ProductId = 13, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 14, ProductId = 14, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23), },
+                new() { Id = 15, ProductId = 15, Url = "https://picsum.photos/1500/1500", CreatedAt =new DateTime(2025, 2, 23),}
             }
         );
     }

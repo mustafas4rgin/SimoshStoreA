@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using App.Data.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
@@ -12,6 +13,13 @@ public class BlogService : IBlogService
     public BlogService(IDataRepository repository)
     {
         _Repository = repository;
+    }
+    public async Task<IEnumerable<BlogEntity>> GetRecentBlogs()
+    {
+        return await _Repository.GetAll<BlogEntity>()
+            .OrderByDescending(b => b.CreatedAt)
+            .Take(3)
+            .ToListAsync();
     }
     public async Task<IEnumerable<BlogCommentEntity>> GetComments(int blogId)
     {
@@ -46,16 +54,25 @@ public class BlogService : IBlogService
             .ToListAsync();
     }
 
-    public async Task<BlogEntity> CreateBlogAsync(BlogEntity blog)
+    public async Task<BlogEntity> CreateBlogAsync(BlogDTO blog)
     {
-        await _Repository.AddAsync(blog);
-        return blog;
+        var newBlog = MappingHelper.MappingBlogEntity(blog);
+        await _Repository.AddAsync(newBlog);
+        return newBlog;
     }
 
-    public async Task<BlogEntity> UpdateBlogAsync(BlogEntity blog)
+    public async Task<BlogEntity> UpdateBlogAsync(BlogDTO blog, int id)
     {
-        await _Repository.UpdateAsync(blog);
-        return blog;
+        var updatedBlog = _Repository.GetAll<BlogEntity>().FirstOrDefault(b => b.Id == id);
+        if (updatedBlog == null)
+        {
+            return null;
+        }
+        updatedBlog.Title = blog.Title;
+        updatedBlog.Content = blog.Content;
+        updatedBlog.ImageUrl = blog.ImageUrl;
+        await _Repository.UpdateAsync(updatedBlog);
+        return updatedBlog;
     }
 
     public async Task DeleteBlogAsync(int blogId)
@@ -97,5 +114,5 @@ public class BlogService : IBlogService
             };
             await _Repository.AddAsync(relBlogCategory);
         }
-}
+    }
 }

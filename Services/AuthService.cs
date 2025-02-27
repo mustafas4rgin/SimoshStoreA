@@ -19,13 +19,15 @@ namespace SimoshStore
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailService _emailService;
         private readonly IAuthRepository _authRepository;
-        public AuthService(IDataRepository dataRepository, AppDbContext context, IHttpContextAccessor httpContextAccessor, IEmailService emailService, IAuthRepository authRepository)
+        private readonly ITokenService _tokenService;
+        public AuthService(ITokenService tokenService, IDataRepository dataRepository, AppDbContext context, IHttpContextAccessor httpContextAccessor, IEmailService emailService, IAuthRepository authRepository)
         {
             _dataRepository = dataRepository;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _emailService = emailService;
             _authRepository = authRepository;
+            _tokenService = tokenService;
         }
         public async Task<IServiceResult> LoginAsync(LoginDto login)
         {
@@ -62,7 +64,7 @@ namespace SimoshStore
         }
         public async Task<IServiceResult> RegisterAsync(RegisterDto register)
         {
-            // Kullanıcı var mı kontrolü
+            
             var existingUser = _authRepository.GetUsers().FirstOrDefault(u => u.Email == register.Email);
             if (existingUser != null)
             {
@@ -71,7 +73,6 @@ namespace SimoshStore
 
             HashingHelper.CreatePasswordHash(register.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            // Yeni kullanıcı oluştur
             var user = new UserEntity
             {
                 FirstName = register.FirstName,
@@ -80,20 +81,20 @@ namespace SimoshStore
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Phone = register.Phone,
-                RoleId = 3, // Varsayalım ki kullanıcı rolü 'buyer'
+                RoleId = 3,
                 Enabled = true,
-                CreatedAt = DateTime.UtcNow
-            };
+                CreatedAt = DateTime.UtcNow,
+                ResetToken = string.Empty,
+                ResetTokenExpires = DateTime.UtcNow,
 
-            // Kullanıcıyı veritabanına ekle
-            await _dataRepository.AddAsync(user);
+
+            };            await _dataRepository.AddAsync(user);
 
             return new ServiceResult(true, "Kayıt başarılı.");
         }
 
         public async Task<IServiceResult> LogOutAsync()
         {
-            // Kullanıcıyı çıkış yapmaya yönlendirmek için SignOutAsync metodunu kullanıyoruz
             await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return new ServiceResult(true, "Başarıyla çıkış yapıldı.");
@@ -107,27 +108,26 @@ namespace SimoshStore
                 return new ServiceResult(false, "Bu e-posta adresiyle kayıtlı bir kullanıcı bulunamadı.");
             }
 
-            // Şifre sıfırlama token'ı oluştur
-            var resetToken = Guid.NewGuid().ToString(); // Token oluşturuluyor (bu token şifre sıfırlama bağlantısında kullanılacak)
+           
+            var resetToken = _tokenService.GenerateToken(); 
 
-            // Token'ı kullanıcıya kaydet veya geçici olarak veritabanına ekle
-            // Örnek olarak, token'ı kullanıcıya kaydediyoruz (bunu veri tabanına veya bir geçici yere kaydedebilirsiniz)
-            user.PasswordResetToken = resetToken;
-            user.PasswordResetTokenExpires = DateTime.UtcNow.AddHours(1); // Token 1 saat geçerli olsun
+            
+            user.ResetToken = resetToken;
+            user.ResetTokenExpires = DateTime.UtcNow.AddHours(1); 
             await _dataRepository.UpdateAsync(user);
 
-            // Şifre sıfırlama bağlantısını içeren e-posta gönder
+            
             var resetLink = $"http://localhost:5095/Auth/ResetPassword?token={resetToken}";
 
-            // Burada kendi e-posta servisinizi kullanarak e-posta gönderebilirsiniz
+            
             await _emailService.SendEmailAsync(user.Email, "Şifre Sıfırlama", $"Şifrenizi sıfırlamak için şu bağlantıyı tıklayın: {resetLink}");
 
             return new ServiceResult(true, "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.");
         }
-        // ResetPassword işlemi
+        
         public async Task<IServiceResult> ResetPasswordAsync(string token, string newPassword)
         {
-            var user = _authRepository.GetUsers().FirstOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpires > DateTime.UtcNow);
+            var user = _authRepository.GetUsers().FirstOrDefault(u => u.ResetToken == token && u.ResetTokenExpires > DateTime.UtcNow);
 
             if (user == null)
             {
@@ -137,8 +137,8 @@ namespace SimoshStore
             HashingHelper.CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.PasswordResetToken = string.Empty;
-            user.PasswordResetTokenExpires = DateTime.UtcNow;
+            user.ResetToken = string.Empty;
+            user.ResetTokenExpires = DateTime.UtcNow;
 
             await _dataRepository.UpdateAsync(user);
 

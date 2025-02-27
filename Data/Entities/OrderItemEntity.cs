@@ -8,7 +8,7 @@ public class OrderItemEntity : EntityBase
 {
     public int OrderId { get; set; }
     public int ProductId { get; set; }
-    public byte Quantity { get; set; }
+    public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
 
     // Navigation properties

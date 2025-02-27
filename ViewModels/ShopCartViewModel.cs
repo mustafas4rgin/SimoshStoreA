@@ -1,6 +1,6 @@
 ﻿namespace SimoshStore;
 
-public class GenerateHelper
+public class ShopCartViewModel
 {
 
 }

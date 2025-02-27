@@ -33,6 +33,7 @@ public static class BusinessServiceRegistration
         services.AddTransient<IProfileService, ProfileService>();
         services.AddTransient<IOrderService, OrderService>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<ITokenService, TokenService>();
         return services;
     }
 }

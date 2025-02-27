@@ -4,11 +4,20 @@ namespace SimoshStore;
 
 public class MappingHelper
 {
+    public static OrderEntity MappingOrderEntity(OrderDTO dto)
+    {
+        return new OrderEntity
+        {
+            Address = dto.Address,
+            OrderCode = dto.OrderCode,
+            UserId = dto.UserId
+        };
+    }
     public static BlogCategoryEntity MappingBlogCategoryEntity(BlogCategoryEntityDTO dto)
     {
         return new BlogCategoryEntity
         {
-             Name = dto.Name,
+            Name = dto.Name,
         };
     }
     public static BlogEntity MappingBlogEntity(BlogDTO dto)
@@ -18,7 +27,16 @@ public class MappingHelper
             Title = dto.Title,
             Content = dto.Content,
             ImageUrl = dto.ImageUrl,
-            UserId = dto.UserId,
+            UserId = dto.userId,
+        };
+    }
+    public static ContactFormEntity MappingContactForm(ContactDTO dto)
+    {
+        return new ContactFormEntity
+        {
+            Name = dto.Name,
+            Email = dto.Email,
+            Message = dto.Message
         };
     }
     public static CategoryEntity MappingCategory(CategoryDTO dto)

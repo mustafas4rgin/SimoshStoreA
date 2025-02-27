@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using App.Data.Entities;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimoshStore;
 
@@ -12,6 +13,21 @@ public class UserService : IUserService
     {
         _httpContextAccessor = httpContextAccessor;
         _Repository = Repository;
+    }
+    public async Task<IServiceResult> ContactUsAsync(ContactDTO dto)
+    {
+        var form =MappingHelper.MappingContactForm(dto);
+        await _Repository.AddAsync(form);
+        return new ServiceResult(true, "message sent successfully");
+    }
+    public async Task<UserEntity> GetUserByTokenAsync(string token)
+    {
+        var user = await _Repository.GetAll<UserEntity>().FirstOrDefaultAsync(u => u.ResetToken == token);
+        if (user == null)
+        {
+            return new UserEntity();
+        }
+        return user;
     }
     public async Task<IServiceResult> UpdateUserAddress(EditAddressViewModel model)
     {
@@ -37,6 +53,15 @@ public class UserService : IUserService
         }
 
         return int.TryParse(userId, out var id) ? id : 0;
+    }
+    public async Task<UserEntity> GetUserByIdAsync(int id)
+    {
+        var user = await _Repository.GetByIdAsync<UserEntity>(id);
+        if(user == null)
+        {
+            return new UserEntity();
+        }
+        return user;
     }
     public async Task<IServiceResult> GetUserAsync(int id)
     {
@@ -66,18 +91,17 @@ public class UserService : IUserService
         }
         return new ServiceResult(true, "users found");
     }
-    public async Task<IServiceResult> UpdateUserAsync(UserDTO userDTO, int id)
+    public async Task<IServiceResult> UpdateUserAsync(UpdateProfileViewModel model, int id)
     {
         var user = await _Repository.GetByIdAsync<UserEntity>(id);
         if (user is null)
         {
             return new ServiceResult(false, "user not found");
         }
-        user.FirstName = userDTO.FirstName;
-        user.LastName = userDTO.LastName;
-        user.Email = userDTO.Email;
-        user.Phone = userDTO.Phone;
-
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.Email = model.Email;
+        user.Phone = model.Phone;
         await _Repository.UpdateAsync(user);
         return new ServiceResult(true, "user updated successfully");
     }

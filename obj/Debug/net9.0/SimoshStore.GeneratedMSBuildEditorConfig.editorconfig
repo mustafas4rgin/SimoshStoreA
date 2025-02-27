@@ -32,14 +32,6 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRtaW5EYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/CategoryList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2F0ZWdvcnlMaXN0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/ProductList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdExpc3QuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Auth/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +64,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmxvZy9CbG9nUG9zdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Blog/CreateBlog.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmxvZy9DcmVhdGVCbG9nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Blog/RecentBlogs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmxvZy9SZWNlbnRCbG9ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Cart/CheckOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9DaGVja091dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Cart/ShopCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9TaG9wQ2FydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Error/NotFound.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXJyb3IvTm90Rm91bmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -80,12 +88,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXJyb3IvVW5kZXJDb25zdHJ1Y3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/AboutMe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dE1lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/AboutUs.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dFVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/ContactUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Db250YWN0VXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/OurTeam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9PdXJUZWFtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Home/Privacy.cshtml]
@@ -94,6 +114,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Order/ListOrders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvTGlzdE9yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Order/OrderConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvT3JkZXJDb25maXJtYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Order/OrderDetails.cshtml]
@@ -106,6 +130,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Partials/header.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydGlhbHMvaGVhZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Partials/NewsLetter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydGlhbHMvTmV3c0xldHRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Product/CreateProduct.cshtml]
@@ -128,12 +156,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9FZGl0QWRkcmVzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Profile/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9FZGl0UHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Profile/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9NeVByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Profile/OrderConfirmation.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9PcmRlckNvbmZpcm1hdGlvbi5jc2h0bWw=
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Profile/Review.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9SZXZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Profile/Success.cshtml]
@@ -144,6 +176,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9VcGRhdGVQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/CategoryList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NhdGVnb3J5TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Components/Account/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQWNjb3VudC9EZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -152,8 +188,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2FydC9kZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Components/CartCount/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2FydENvdW50L2RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Components/FeatureBox/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRmVhdHVyZUJveC9kZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Components/Search/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VhcmNoL2RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/ListBlogCategories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0xpc3RCbG9nQ2F0ZWdvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/ProductList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL1Byb2R1Y3RMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/_ValidationScriptsPartial.cshtml]

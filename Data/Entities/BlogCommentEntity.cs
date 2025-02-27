@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Routing.Tree;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SimoshStore;
 
@@ -10,7 +11,7 @@ public class BlogCommentEntity : EntityBase
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Comment { get; set; } = null!;
-    public bool IsApproved { get; set; }
+    public bool IsApproved { get; set; } = true;
 
     // Navigation properties
     public BlogEntity Blog { get; set; } = null!;

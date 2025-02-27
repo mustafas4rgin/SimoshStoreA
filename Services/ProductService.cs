@@ -105,7 +105,6 @@ public class ProductService : IProductService
     }
     public async Task<List<ProductEntity>> PopularProducts()
     {
-        // Yorum sayısına ve ortalama puana göre popüler ürünleri sıralama
         var popularProducts = _Repository.GetAll<ProductEntity>()
                                                  .Select(p => new
                                                  {
@@ -113,8 +112,8 @@ public class ProductService : IProductService
                                                      CommentCount = _Repository.GetAll<ProductCommentEntity>().Count(c => c.ProductId == p.Id),
                                                      AverageRating = _Repository.GetAll<ProductCommentEntity>().Where(c => c.ProductId == p.Id).Average(c => (double?)c.StarCount) ?? 0
                                                  })
-                                                 .OrderByDescending(p => p.CommentCount + p.AverageRating * 100) // Yorum sayısı ve puan kombinasyonu
-                                                 .Take(8) // En popüler ilk 10 ürünü alıyoruz
+                                                 .OrderByDescending(p => p.CommentCount + p.AverageRating * 100)
+                                                 .Take(8)
                                                  .ToList();
 
         var products = popularProducts.Select(p => p.Product).ToList();

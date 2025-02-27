@@ -24,8 +24,8 @@
                     <section class="col-xl-9 account-wrapper">
 						<div class="account-card">
 							<div class="m-b30">
-								<p>Hello <strong class="text-black">@Model.user.FirstName @Model.user.LastName</strong> (not <strong class="text-black">@Model.user.FirstName/strong>? <a href="login.html" class="text-underline">Log out</a>)</p>
-								<p>From your account dashboard you can view your <a href="account-orders.html" class="text-underline">recent orders</a>, manage your <a href="account-address.html" class="text-underline">shipping and billing addresses</a>, and <a href="account-profile.html" class="text-underline">edit your password and account details</a>.</p>
+								<p>Hello <strong class="text-black">@Model.user.FirstName @Model.user.LastName</strong> (not <strong class="text-black">@Model.user.FirstName <a href="@Url.Action("LogOut","Auth")" class="text-underline">Log out</a>)</p>
+								<p>From your account dashboard you can view your <a href="@Url.Action("ListOrders","Order")" class="text-underline">recent orders</a>, manage your <a href="account-address.html" class="text-underline">shipping and billing addresses</a>, and <a href="account-profile.html" class="text-underline">edit your password and account details</a>.</p>
 							</div>
 							<div class="row g-4">
 								<div class="col-md-4">

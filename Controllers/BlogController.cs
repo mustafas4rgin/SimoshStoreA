@@ -14,7 +14,8 @@ namespace MyApp.Namespace
         IBlogCategoryService _blogCategoryService;
         ICategoryService _categoryService;
         IProductService _productService;
-        public BlogController(ITagService tagService, ICategoryService categoryService, IProductService productService, IDataRepository dataRepository, IBlogService blogService, IBlogCategoryService blogCategoryService)
+        IUserService _userService;
+        public BlogController(IUserService userService, ITagService tagService, ICategoryService categoryService, IProductService productService, IDataRepository dataRepository, IBlogService blogService, IBlogCategoryService blogCategoryService)
         {
             _Repository = dataRepository;
             _blogCategoryService = blogCategoryService;
@@ -22,11 +23,16 @@ namespace MyApp.Namespace
             _productService = productService;
             _categoryService = categoryService;
             _tagService = tagService;
+            _userService = userService;
         }
         public async Task<IActionResult> BlogPost(int id)
         {
             var randomBlog = await _blogService.GetRandomBlog();
             var blogEntity = await _blogService.GetBlogByIdAsync(id);
+            if (blogEntity is null)
+            {
+                return RedirectToAction("UnderConstruction", "Error");
+            }
             var blogEntities = await _blogService.GetAllBlogsAsync();
             var blogComments = await _blogService.GetComments(id);
             var relBlogTags = await _Repository.GetAll<RelBlogTagEntity>().ToListAsync();
@@ -67,8 +73,30 @@ namespace MyApp.Namespace
         }
         public async Task<IActionResult> BlogListWithTag(BlogTagEntity blogTagEntity)
         {
-            return View();
+            return RedirectToAction("UnderConstruction", "Error");
         }
-
+        public async Task<IActionResult> RecentBlogs()
+        {
+            var blogEntities = await _blogService.GetRecentBlogs();
+            return View(blogEntities);
+        }
+        public async Task<IActionResult> CreateBlog()
+        {
+            int userId = _userService.GetUserId();
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user is null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return View(new BlogDTO{
+                userId = userId
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
+        {
+            var blog = await _blogService.CreateBlogAsync(blogDTO);
+            return RedirectToAction("BlogList");
+        }
     }
 }

@@ -10,8 +10,10 @@ namespace MyApp.Namespace
     {
         private readonly IDataRepository _Repository;
         private readonly IProductService _productService;
-        public ShopController(IDataRepository Repository, IProductService productService)
+        private readonly IUserService _userService;
+        public ShopController(IUserService userService,IDataRepository Repository, IProductService productService)
         {
+            _userService = userService;
             _Repository = Repository;
             _productService = productService;
         }
@@ -40,7 +42,6 @@ namespace MyApp.Namespace
                 query = query.Where(p => p.Name.Contains(dzSearch)); // Büyük/küçük harf duyarsız olmayacak
             }
 
-
             var products = await query.Skip(skip).Take(pageSize).ToListAsync();
             int totalProducts = await query.CountAsync();
             int totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
@@ -55,14 +56,15 @@ namespace MyApp.Namespace
                 CurrentPage = page,
                 TotalProductCount = totalProducts,
                 TotalPages = totalPages,
-                SelectedCategoryIds = selectedCategoryIds ?? new List<int>(), // Seçili kategoriler
-                PriceMin = priceMin ?? 0,  // Min price
-                PriceMax = priceMax ?? 1000, // Max price
-                DzSearch = dzSearch // Arama kelimesi
+                SelectedCategoryIds = selectedCategoryIds ?? new List<int>(), 
+                PriceMin = priceMin ?? 0,  
+                PriceMax = priceMax ?? 1000,
+                DzSearch = dzSearch 
             };
 
             return View(viewModel);
         }
+
 
 
 
@@ -80,14 +82,15 @@ namespace MyApp.Namespace
             var Products = await _Repository.GetAll<ProductEntity>().ToListAsync();
             var Category = await _Repository.GetByIdAsync<CategoryEntity>(id.Value);
             var Product = await _Repository.GetByIdAsync<ProductEntity>(id.Value);
-            var Images = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id).ToListAsync();
-            var Comments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id).ToListAsync();
+            var Images = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
+            var Comments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
             var OrderedByCategoryProducts = Products;
             var AllImages = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
             await _productService.OrderProductsByCategory(OrderedByCategoryProducts);
             int stars = 0;
             foreach (var comment in Comments)
             {
+                comment.User = await _userService.GetUserByIdAsync(comment.UserId);
                 stars += comment.StarCount;
             }
             if (Comments.Count != 0)

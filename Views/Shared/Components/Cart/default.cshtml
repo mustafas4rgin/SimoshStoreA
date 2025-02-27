@@ -9,14 +9,14 @@
 			<div class="product-description">
 				<div class="dz-tabs">
 					<ul class="nav nav-tabs center" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
+						<li class="nav-item" role="presentation">@{int cartCount = 0;}
+							@foreach(var item in Model.cartItems)
+							{
+								cartCount += item.Quantity;
+								
+							}
 							<button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
-								<span class="badge badge-light">@Model.cartItems.Count</span>
-							</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="wishlist" data-bs-toggle="tab" data-bs-target="#wishlist-pane" type="button" role="tab" aria-controls="wishlist-pane" aria-selected="false">Wishlist
-								<span class="badge badge-light">2</span>
+								<span class="badge badge-light">@cartCount</span>
 							</button>
 						</li>
 					</ul>
@@ -24,8 +24,8 @@
 						<div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
 							<div class="shop-sidebar-cart">
 								<ul class="sidebar-cart-list">
-									@{decimal fullPrice = 0;int freeShipPercantage = 0;}
-									@if(User.IsInRole("Buyer") || User.IsInRole("Admin") || User.IsInRole("Seller"))
+									@{decimal fullPrice = 0;int freeShipPercantage = 0;decimal newPrice = 0;decimal subTotal = 0;}
+									@if(User.IsInRole("buyer") || User.IsInRole("admin") || User.IsInRole("seller"))
 									{
 										@if(@Model.cartItems.Count != 0)
 									{
@@ -50,14 +50,18 @@
                     @if (product.DiscountId != null)
                     {
                         var discountRate = Model.discounts.FirstOrDefault(o => o.Id == product.DiscountId);
-                        var newPrice = product.Price - (product.Price * discountRate.DiscountRate / 100);
-                        fullPrice += newPrice;
-                        <h6 class="dz-price mb-0">@newPrice <del>@product.Price</del></h6>
+                        newPrice = product.Price - (product.Price * discountRate.DiscountRate / 100);
+                        fullPrice += newPrice*item.Quantity;
+						newPrice = newPrice*item.Quantity;
+						decimal oldPrice = product.Price*item.Quantity;
+						subTotal += fullPrice;
+                        <h6 class="dz-price mb-0">@fullPrice <del>@oldPrice</del></h6>
                     }
                     else
                     {
-                        fullPrice += product.Price;
-                        <h6 class="dz-price mb-0">@product.Price</h6>
+						decimal oldPrice = product.Price*item.Quantity;
+						subTotal += oldPrice;
+                        <h6 class="dz-price mb-0">@oldPrice</h6>
                     }
                 </div>
             </div>
@@ -78,14 +82,10 @@
 								</ul>
 								<div class="cart-total">
 									@{
-										@if(freeShipPercantage>=100){
-											int newPercentage = freeShipPercantage;
-										}
-										int intfullPrice = (int)fullPrice;
-										freeShipPercantage = intfullPrice / 10;
+										freeShipPercantage = (int)subTotal / 10;
 									}
 									<h5 class="mb-0">Subtotal:</h5>
-									<h5 class="mb-0">@fullPrice</h5>
+									<h5 class="mb-0">@subTotal</h5>
 								</div>
 								<div class="mt-auto">
 									<div class="shipping-time">													
@@ -93,78 +93,29 @@
 											<i class="flaticon flaticon-ship"></i>
 										</div>
 										<div class="shipping-content">
+											
 											<div class="progress">
 												<div class="progress-bar progress-animated border-0" style="width: @freeShipPercantage%;" role="progressbar">
 													<span class="sr-only">@freeShipPercantage% Complete</span>
 												</div>
 											</div>
-												<h6 class="title pe-4">Congratulations , you've got free shipping!</h6>
+												@if(freeShipPercantage>=100)
+												{
+													<h6 class="title pe-4">Congratulations , you've got free shipping!</h6>
+												}
+												else{
+													<h6 class="title pe-4">You're %@freeShipPercantage close to free shipping!</h6>
+												}
+												 
 											
 											
 											
 										</div>
 									</div>
-									<a href="shop-checkout.html" class="btn btn-outline-secondary btn-block m-b20">Checkout</a>	
-									<a href="shop-cart.html" class="btn btn-secondary btn-block">View Cart</a>	
+									<a href="@Url.Action("CheckOut","Cart")" class="btn btn-outline-secondary btn-block m-b20">Checkout</a>	
+									<a href="@Url.Action("ShopCart","Cart")" class="btn btn-secondary btn-block">View Cart</a>	
 								</div>	
 							</div>	
-						</div>
-						<div class="tab-pane fade" id="wishlist-pane" role="tabpanel" aria-labelledby="wishlist" tabindex="0">
-							<div class="shop-sidebar-cart">
-								<ul class="sidebar-cart-list">
-									<li>
-										<div class="cart-widget">
-											<div class="dz-media me-3">
-												<img src="images/shop/shop-cart/pic1.jpg" alt="">
-											</div>
-											<div class="cart-content">
-												<h6 class="title"><a href="product-thumbnail.html">Large Majesty Palm (m)</a></h6>
-												<div class="d-flex align-items-center">
-													<h6 class="dz-price  mb-0">$59</h6>
-												</div>
-											</div>
-											<a href="javascript:void(0);" class="dz-close">
-												<i class="ti-close"></i>
-											</a>
-										</div>
-									</li>
-									<li>
-										<div class="cart-widget">
-											<div class="dz-media me-3">
-												<img src="images/shop/shop-cart/pic2.jpg" alt="">
-											</div>
-											<div class="cart-content">
-												<h6 class="title"><a href="product-thumbnail.html">Endless Stems Gardens (m)</a></h6>
-												<div class="d-flex align-items-center">
-													<h6 class="dz-price  mb-0">$79</h6>
-												</div>
-											</div>
-											<a href="javascript:void(0);" class="dz-close">
-												<i class="ti-close"></i> 
-											</a>
-										</div>
-									</li>
-									<li>
-										<div class="cart-widget">
-											<div class="dz-media me-3">
-												<img src="images/shop/shop-cart/pic3.jpg" alt="">
-											</div>
-											<div class="cart-content">
-												<h6 class="title"><a href="product-thumbnail.html">Feather Reed Grass (m)</a></h6>
-												<div class="d-flex align-items-center">
-													<h6 class="dz-price  mb-0">$49</h6>
-												</div>
-											</div>
-											<a href="javascript:void(0);" class="dz-close">
-												<i class="ti-close"></i>
-											</a>
-										</div>
-									</li>	
-								</ul>
-								<div class="mt-auto">
-									<a href="shop-wishlist.html" class="btn btn-secondary btn-block">Check Your Favourite</a>
-								</div>	
-							</div>
 						</div>
 					</div>
 				</div>

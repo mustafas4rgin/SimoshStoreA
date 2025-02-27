@@ -110,7 +110,7 @@ internal class BlogEntitySeed : IEntityTypeSeed<BlogEntity>
                     Title = "Cost anaylsis of organic food",
                     Content = "Organic food has become increasingly popular in recent years, with many people choosing to buy organic produce over conventionally grown food. While organic food is often more expensive than non-organic options, there are several factors that contribute to the higher cost. Organic farming practices are more labor-intensive and require more time and effort than conventional farming methods. Additionally, organic farmers often pay higher prices for organic seeds, fertilizers, and pest control methods. The certification process for organic food is also costly, as farmers must meet strict standards to be certified organic. While the cost of organic food can be a barrier for some consumers, many people believe the health and environmental benefits are worth the extra expense.",
                     ImageUrl = "/theme/img/blog/blog-1.jpg",
-                    UserId = 1,
+                    UserId = 2,
                     CreatedAt = new DateTime(2025, 2, 23)
                 }
             }

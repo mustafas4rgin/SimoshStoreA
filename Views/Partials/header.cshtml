@@ -42,443 +42,37 @@
 										class="fas fa-chevron-down tabindex"></i></a>
 							</li>
 							<li class="has-mega-menu sub-menu-down">
-								<a href="javascript:void(0);"><span>Shop</span><i
+								<a href="@Url.Action("ProductList","Shop")"><span>Shop</span><i
 										class="fas fa-chevron-down tabindex"></i></a>
-								<div class="mega-menu shop-menu">
-									<ul>
-										<li class="side-left">
-											<ul>
-												<li><span class="menu-title">Shop Structure</span>
-													<ul>
-														<li><a href="shop-standard.html">Shop Standard</a></li>
-														<li><a href="@Url.Action("ProductList", "Shop")">Shop List</a></li>
-														<li><a href="shop-with-category.html">Shop With Category</a></li>
-														<li><a href="shop-filters-top-bar.html">Shop Filters Top Bar</a>
-														</li>
-														<li><a href="shop-sidebar.html">Shop Sidebar</a></li>
-														<li><a href="shop-style-1.html">Shop Style 1</a></li>
-														<li><a href="shop-style-2.html">Shop Style 2</a></li>
-													</ul>
-												</li>
-												<li><span class="menu-title">Product Structure</span>
-													<ul>
-														<li><a href="product-default.html">Default</a></li>
-														<li><a href="product-thumbnail.html">Thumbnail</a></li>
-														<li><a href="product-grid-media.html">Grid Media</a></li>
-														<li><a href="product-carousel.html">Carousel</a></li>
-														<li><a href="product-full-width.html">Full Width</a></li>
-													</ul>
-												</li>
-												<li><span class="menu-title">Shop Pages</span>
-													<ul>
-														<li><a href="shop-wishlist.html">Wishlist</a></li>
-														<li><a href="shop-cart.html">Cart</a></li>
-														<li><a href="shop-checkout.html">Checkout</a></li>
-														<li><a href="shop-compare.html">Compare</a></li>
-														<li><a href="shop-order-tracking.html">Order Tracking</a></li>
-														@if(isBuyer || isAdmin || isSeller)
-														{
-														<li><a href="@Url.Action("MyProfile", "Profile")">Profile</a></li>
-														}
-														else
-														{
-															<li><a href="/login">Login</a></li>
-														}
-														
-														<li><a href="registration.html">Registration</a></li>
-														<li><a href="forget-password.html">Forget Password <div
-																	class="badge badge-sm rounded badge-animated">New</div>
-																</a></li>
-													</ul>
-												</li>
-												<li class="month-deal">
-													<div class="clearfix me-3">
-														<h3>Deal of the month</h3>
-														<p class="mb-0">Yes! Send me exclusive offers, personalised, and
-															unique gift ideas, tips for shopping on PlantZone <a
-																href="shop-standard.html" class="dz-link-2">View All
-																Products</a></p>
-													</div>
-													<div class="sale-countdown">
-														<div class="countdown text-center">
-															<div class="date">
-																<span class="time days text-primary"></span>
-																<span class="work-time">Days</span>
-															</div>
-															<div class="date">
-																<span class="time hours text-primary"></span>
-																<span class="work-time">Hours</span>
-															</div>
-															<div class="date">
-																<span class="time mins text-primary"></span>
-																<span class="work-time">Minutess</span>
-															</div>
-															<div class="date">
-																<span class="time secs text-primary"></span>
-																<span class="work-time">Second</span>
-															</div>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</li>
-										<li class="side-right">
-											<div class="adv-media">
-												<img src="images/adv-1.png" alt="/">
-											</div>
-										</li>
-									</ul>
-								</div>
 							</li>
 							<li class="has-mega-menu sub-menu-down auto-width">
 								<a href="@Url.Action("BlogList","Blog")"><span>Blog</span><i
 										class="fas fa-chevron-down tabindex"></i></a>
-								<div class="mega-menu">
-									<ul>
-										<li>
-											<span class="menu-title">Blog Dark Style</span>
-											<ul>
-												<li><a href="blog-dark-2-column.html">Blog 2 Column</a></li>
-												<li><a href="blog-dark-2-column-sidebar.html">Blog 2 Column Sidebar</a></li>
-												<li><a href="blog-3-column.html">Blog 3 Column</a></li>
-												<li><a href="blog-dark-half-image.html">Blog Half Image</a></li>
-											</ul>
-											<span class="menu-title">Blog Light Style</span>
-											<ul>
-												<li><a href="blog-light-2-column.html">Blog 2 Column</a></li>
-												<li><a href="blog-light-2-column-sidebar.html">Blog 2 Column Sidebar</a>
-												</li>
-												<li><a href="blog-light-half-image.html">Blog Half Image</a></li>
-												<li><a href="blog-exclusive.html">Blog Exclusive</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Blog List Sidebar</span>
-											<ul>
-												<li><a href="blog-list-no-sidebar.html">No Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-list-left-sidebar.html">left Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-list-right-sidebar.html">Right Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-list-both-sidebar.html">Both Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-											</ul>
-											<span class="menu-title">Blog Grid Sidebar</span>
-											<ul>
-												<li><a href="blog-grid-no-sidebar.html">No Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-grid-left-sidebar.html">left Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-grid-right-sidebar.html">Right Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-grid-both-sidebar.html">Both Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="blog-grid-wide-sidebar.html">Wide Sidebar <div
-															class="badge badge-sm rounded ">New</div></a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Blog Sidebar</span>
-											<ul>
-												<li><a href="blog-left-sidebar.html">Blog left Sidebar</a></li>
-												<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-												<li><a href="blog-both-sidebar.html">Blog Both Sidebar</a></li>
-												<li><a href="blog-wide-sidebar.html">Blog Wide Sidebar</a></li>
-											</ul>
-											<span class="menu-title">Blog Page</span>
-											<ul>
-												<li><a href="blog-archive.html">Blog Archive</a></li>
-												<li><a href="blog-author.html">Author</a></li>
-												<li><a href="blog-category.html">Blog Category</a></li>
-												<li><a href="blog-tag.html">Blog Tag</a></li>
-											</ul>
-										</li>
-
-										<li class="post-menu">
-											<span class="menu-title">Recent Posts</span>
-											<div class="widget widget_post pt-2">
-												<ul>
-													<li>
-														<div class="dz-media">
-															<img src="images/shop/product/small/1.png" alt="">
-														</div>
-														<div class="dz-content">
-															<h6 class="name"><a href="post-standard.html">A Journey Through
-																	Plant</a></h6>
-															<span class="time">Jun 23, 2024</span>
-														</div>
-													</li>
-													<li>
-														<div class="dz-media">
-															<img src="images/shop/product/small/2.png" alt="">
-														</div>
-														<div class="dz-content">
-															<h6 class="name"><a href="post-standard.html">Into Plant Care
-																	Cultivation</a></h6>
-															<span class="time">Feb 16, 2024</span>
-														</div>
-													</li>
-													<li>
-														<div class="dz-media">
-															<img src="images/shop/product/small/3.png" alt="">
-														</div>
-														<div class="dz-content">
-															<h6 class="name"><a href="post-standard.html">
-																	The Wonders of Plants</a></h6>
-															<span class="time">Mar 15, 2024</span>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</li>
-									</ul>
-								</div>
+								
 							</li>
-							<li class="has-mega-menu sub-menu-down"><a href="javascript:void(0);"><span>Post Layout</span><i
-										class="fas fa-chevron-down tabindex"></i></a>
-								<div class="mega-menu">
-									<div class="row justify-content-md-between">
-										<div class="col-md-4 col-sm-4 col-6">
-											<a href="javascript:void(0);" class="menu-title">Post Types</a>
-											<ul>
-												<li><a href="post-text.html">Text Post <div class="badge badge-sm rounded ">
-															New</div></a></li>
-												<li><a href="post-image.html">Image Post <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="post-video.html">Video Post</a></li>
-												<li><a href="post-link.html">Link Post</a></li>
-												<li><a href="post-audio.html">Audio Post</a></li>
-												<li><a href="post-quote.html">Post Quote</a></li>
-												<li><a href="post-tutorial.html">Tutorial Post <div
-															class="badge badge-sm rounded ">New</div></a></li>
-												<li><a href="post-cateloge.html">Cateloge Post <div
-															class="badge badge-sm rounded ">New</div></a></li>
-											</ul>
-										</div>
-										<div class="col-md-4 col-sm-4 col-6">
-											<a href="javascript:void(0);" class="menu-title">Multiple Media</a>
-											<ul>
-												<li><a href="post-banner.html">Banner</a></li>
-												<li><a href="post-slide-show.html">Slider</a></li>
-												<li><a href="post-gallery.html">Gallery</a></li>
-												<li><a href="post-status.html">Status Slider <div
-															class="badge badge-sm rounded ">New</div></a></li>
-											</ul>
-											<a href="javascript:void(0);" class="menu-title">Post Layout Type</a>
-											<ul>
-												<li><a href="post-standard.html">Standard Post</a></li>
-												<li><a href="post-corner.html">Corner Post</a></li>
-												<li><a href="post-side.html">Side Post <div class="badge badge-sm rounded ">
-															New</div></a></li>
-											</ul>
-										</div>
-
-										<div class="col-md-4 col-sm-4 col-6">
-											<a href="javascript:void(0);" class="menu-title">Side Bar</a>
-											<ul>
-												<li><a href="post-left-sidebar.html">Left Sidebar</a></li>
-												<li><a href="post-right-sidebar.html">Right Sidebar</a></li>
-												<li><a href="post-both-sidebar.html">Both Sidebar</a></li>
-												<li><a href="post-no-sidebar.html">No Sidebar</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</li>
+								
 							<li class="has-mega-menu sub-menu-down">
-								<a href="javascript:void(0);"><span>Portfolio</span><i
+								<a href="@Url.Action("RecentBlogs","Blog")"><span>Recent Posts</span><i
 										class="fas fa-chevron-down tabindex"></i></a>
-								<div class="mega-menu portfolio-menu">
-									<ul>
-										<li class="side-left">
-											<ul class="portfolio-nav-link">
-												<li>
-													<a href="portfolio-tiles.html">
-														<img src="images/portfolio/icons/portfolio-tiles.svg" alt="/">
-														<span>Portfolio Tiles</span>
-													</a>
-												</li>
-												<li>
-													<a href="collage-style-1.html">
-														<img src="images/portfolio/icons/collage-style-1.svg" alt="/">
-														<span>Collage Style 1</span>
-													</a>
-												</li>
-												<li>
-													<a href="collage-style-2.html">
-														<img src="images/portfolio/icons/collage-style-2.svg" alt="/">
-														<span>Collage Style 2</span>
-													</a>
-												</li>
-												<li>
-													<a href="masonry-grid.html">
-														<img src="images/portfolio/icons/masonry-grid.svg" alt="/">
-														<span>Masonry Grid</span>
-													</a>
-												</li>
-												<li>
-													<a href="cobble-style-1.html">
-														<img src="images/portfolio/icons/cobble-style-1.svg" alt="/">
-														<span>Cobble Style 1</span>
-													</a>
-												</li>
-												<li>
-													<a href="cobble-style-2.html">
-														<img src="images/portfolio/icons/cobble-style-2.svg" alt="/">
-														<span>Cobble Style 2</span>
-													</a>
-												</li>
-												<li>
-													<a href="portfolio-thumbs-slider.html">
-														<img src="images/portfolio/icons/portfolio-thumbs-slider.svg"
-															alt="/">
-														<span>Portfolio Thumbs Slider</span>
-													</a>
-												</li>
-												<li>
-													<a href="portfolio-film-strip.html">
-														<img src="images/portfolio/icons/portfolio-film-strip.svg" alt="/">
-														<span>Portfolio Film Strip</span>
-													</a>
-												</li>
-												<li>
-													<a href="carousel-showcase.html">
-														<img src="images/portfolio/icons/carousel-showcase.svg" alt="/">
-														<span>Carousel Showcase</span>
-													</a>
-												</li>
-												<li>
-													<a href="portfolio-split-slider.html">
-														<img src="images/portfolio/icons/portfolio-split-slider.svg"
-															alt="/">
-														<span>Portfolio Split Slider</span>
-													</a>
-												</li>
-											</ul>
-										</li>
-										<li class="side-right line-left">
-											<span class="menu-title">Portfolio Details</span>
-											<ul>
-												<li><a href="portfolio-details-1.html">Portfolio Details 1</a></li>
-												<li><a href="portfolio-details-2.html">Portfolio Details 2</a></li>
-												<li><a href="portfolio-details-3.html">Portfolio Details 3</a></li>
-												<li><a href="portfolio-details-4.html">Portfolio Details 4</a></li>
-												<li><a href="portfolio-details-5.html">Portfolio Details 5</a></li>
-											</ul>
-										</li>
-									</ul>
-								</div>
+								
 							</li>
-							<li class="has-mega-menu sub-menu-down wide-width">
-								<a href="@Url.Action("AboutUs","Home")"><span>About Us</span><i
-										class="fas fa-chevron-down tabindex"></i></a>
-								<div class="mega-menu">
-									<ul>
-										<li>
-											<span class="menu-title">Pages</span>
-											<ul>
-												<li><a href="about-us.html">About Us</a></li>
-												<li><a href="about-me.html">About Me</a></li>
-												<li><a href="pricing-table.html">Pricing Table</a></li>
-												<li><a href="our-gift-vouchers.html">Our Gift Vouchers</a></li>
-												<li><a href="what-we-do.html">What We Do</a></li>
-												<li><a href="faqs-1.html">Faqs 1</a></li>
-												<li><a href="faqs-2.html">Faqs 2</a></li>
-												<li><a href="our-team.html">Our Team</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Contact Us</span>
-											<ul>
-												<li><a href="contact-us-1.html">Contact Us 1</a></li>
-
-
-											</ul>
-											<span class="menu-title">Web Pages</span>
-											<ul>
-												<li><a href="error-1.html">Error 404 1</a></li>
-												<li><a href="error-2.html">Error 404 2</a></li>
-												<li><a href="coming-soon.html">Coming Soon</a></li>
-												<li><a href="under-construction.html">Under Construction</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Banner Style</span>
-											<ul>
-												<li><a href="banner-with-bg-color.html">Banner with BG Color</a></li>
-												<li><a href="banner-with-image.html">Banner with Image</a></li>
-												<li><a href="banner-with-video.html">Banner with Video</a></li>
-												<li><a href="banner-with-kanbern.html">Banner with Kanbern</a></li>
-												<li><a href="banner-small.html">Banner Small</a></li>
-												<li><a href="banner-medium.html">Banner Medium</a></li>
-												<li><a href="banner-large.html">Banner Large</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Header Style</span>
-											<ul>
-												<li><a href="header-style-1.html">Header Style 1</a></li>
-												<li><a href="header-style-2.html">Header Style 2</a></li>
-												<li><a href="header-style-3.html">Header Style 3</a></li>
-												<li><a href="header-style-4.html">Header Style 4</a></li>
-												<li><a href="header-style-5.html">Header Style 5</a></li>
-												<li><a href="header-style-6.html">Header Style 6</a></li>
-												<li><a href="header-style-7.html">Header Style 7</a></li>
-												<li class="w3menulink"><a href="w3menu.html">Menu Styles</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Footer Style</span>
-											<ul>
-												<li><a href="footer-style-1.html">Footer Style 1</a></li>
-												<li><a href="footer-style-2.html">Footer Style 2</a></li>
-												<li><a href="footer-style-3.html">Footer Style 3</a></li>
-												<li><a href="footer-style-4.html">Footer Style 4</a></li>
-												<li><a href="footer-style-5.html">Footer Style 5</a></li>
-												<li><a href="footer-style-6.html">Footer Style 6</a></li>
-												<li><a href="footer-style-7.html">Footer Style 7</a></li>
-											</ul>
-										</li>
-										<li>
-											<span class="menu-title">Dashboard</span>
-											<ul>
-												<li><a href="account-dashboard.html">Dashboard</a></li>
-												<li><a href="account-orders.html">Orders</a></li>
-												<li><a href="account-order-details.html">Orders Details</a></li>
-												<li><a href="account-order-confirmation.html">Orders Confirmation</a></li>
-												<li><a href="account-downloads.html">Downloads</a></li>
-												<li><a href="account-return-request.html">Return Request</a></li>
-												<li><a href="account-return-request-detail.html">Return Request Detail</a>
-												</li>
-												<li><a href="account-refund-requests-confirmed.html">Return Request
-														Confirmed</a></li>
-											</ul>
-										</li>
-									</ul>
-								</div>
+							<li class="sub-menu-down">
+								<a href="@Url.Action("AboutMe","About")">About</a>
+								<ul class="sub-menu">
+									<li><a href="@Url.Action("AboutMe","Home")">Me</a></li>
+									<li><a href="@Url.Action("AboutUs","Home")">Us</a></li>
+								</ul>
 							</li>
+							<li class="sub-menu-down"><a href="@Url.Action("CreateBlog","Blog")">Add Post</a></li>
 							@if(isAdmin || isSeller || isBuyer)
 							{
 								<li class="sub-menu-down">
 								<a href="@Url.Action("MyProfile","Profile")">My Account</a>
 								<ul class="sub-menu">
-									<li><a href="account-dashboard.html">Dashboard</a></li>
-									<li><a href="account-orders.html">Orders</a></li>
-									<li><a href="account-order-details.html">Orders Details</a></li>
-									<li><a href="account-order-confirmation.html">Orders Confirmation</a></li>
-									<li><a href="account-downloads.html">Downloads</a></li>
-									<li><a href="account-return-request.html">Return Request</a></li>
-									<li><a href="account-return-request-detail.html">Return Request Detail</a></li>
-									<li><a href="account-refund-requests-confirmed.html">Return Request Confirmed</a></li>
-									<li><a href="account-profile.html">Profile</a></li>
-									<li><a href="account-address.html">Address</a></li>
-									<li><a href="account-shipping-methods.html">Shipping methods</a></li>
-									<li><a href="account-payment-methods.html">Payment Methods</a></li>
-									<li><a href="account-review.html">Review</a></li>
-									<li><a href="account-billing-address.html">Billing address</a></li>
-									<li><a href="account-shipping-address.html">Shipping address</a></li>
-									<li><a href="account-cancellation-requests.html">Cancellation Requests</a></li>
+									<li><a href="@Url.Action("MyProfile","Profile")">Dashboard</a></li>
+									<li><a href="@Url.Action("ListOrders","Order")">Orders</a></li>
+									<li><a href="@Url.Action("Address","Profile")">Address</a></li>
+									<li><a href="@Url.Action("Review","Profile")">Review</a></li>
 								</ul>
 							</li>
 							}
@@ -512,14 +106,12 @@
 							<ul class="header-right">
 								@if(isBuyer || isAdmin || isSeller)
 								{
-									<li class="nav-item login-link">
-										Welcome! @User.Identity.Name
-								</li>
-								<li><a href="@Url.Action("LogOut","Auth")">LogOut</a></li>
+								<li>@User.Identity.Name<a href="@Url.Action("LogOut","Auth")"> LogOut</a></li>
 								}
 								else{
 									<li class="nav-item login-link">
-										<a href="@Url.Action("Login","Auth")" class="nav-link">Login</a>
+										<a href="@Url.Action("Login","Auth")" class="nav-link">Login /</a>
+										<a href="@Url.Action("Register","Auth")" class="nav-link">Register</a>
 									</li>
 								}
 								
@@ -529,22 +121,8 @@
 										<i class="iconly-Light-Search"></i>
 									</a>
 								</li>
-								<li class="nav-item wishlist-link">
-									<a class="nav-link" href="javascript:void(0);" data-bs-toggle="offcanvas"
-										data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-										<i class="iconly-Light-Heart2"></i>
-									</a>
-								</li>
-								@{
-									var cartCount = ViewData["CartCount"];
-								}
-								<li class="nav-item cart-link">
-									<a href="javascript:void(0);" class="nav-link cart-btn" data-bs-toggle="offcanvas"
-										data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-										<i class="iconly-Broken-Buy"></i>
-										<span id="cartCount" class="badge badge-circle">@cartCount</span>
-									</a>
-								</li>
+								
+								@await Component.InvokeAsync("CartCount")
 								<li class="nav-item filte-link">
 									<a href="javascript:void(0);" class="nav-link filte-btn" data-bs-toggle="offcanvas"
 										data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
@@ -565,128 +143,7 @@
 		<!-- Main Header End -->
 
 		<!-- SearchBar -->
-		<div class="dz-search-area dz-offcanvas offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop">
-			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
-				&times;
-			</button>
-			<div class="container">
-				<form class="header-item-search">
-					<h2 class="dz-title">Search Our Site</h2>
-					<div class="input-group search-input">
-						<input type="search" class="form-control" placeholder="Search Here">
-						<button class="btn" type="button">
-							<i class="iconly-Light-Search"></i>
-						</button>
-					</div>
-					<ul class="recent-tag">
-						<li class="pe-0"><span>Quick Search :</span></li>
-						<li><a href="shop-list.html">Small Plants</a></li>
-						<li><a href="shop-list.html">House Plants</a></li>
-						<li><a href="shop-list.html">Aqua Greens</a></li>
-						<li><a href="shop-list.html">Plant Paradise</a></li>
-					</ul>
-				</form>
-
-
-				<div class="row">
-					<div class="col-xl-12">
-						<h2 class="mb-3 dz-title">Popular Product</h2>
-						<div class="swiper category-swiper2 swiper-visible">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/1.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Large Majesty Palm (m)</a></h3>
-											<span class="price">$79<del>$99</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/2.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Endless Stems Gardens (m)</a></h3>
-											<span class="price">$79<del>$199</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/3.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Long Strider Pants (m)</a></h3>
-											<span class="price">$109<del>$149</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/4.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Feather Reed Grass (m)</a></h3>
-											<span class="price">$299<del>$499</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/5.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Miniature Rose Bush (m)</a></h3>
-											<span class="price">$199 <del>$299</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/6.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Large Majesty Palm (m)</a></h3>
-											<span class="price">$79<del>$99</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/7.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Giant Elephant Ear(M)</a></h3>
-											<span class="price">$99<del>$110</del></span>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="images/shop/product/8.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h3 class="title"><a href="shop-list.html">Large Majesty Palm (m)</a></h3>
-											<span class="price">$79<del>$99</del></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		@await Component.InvokeAsync("Search")
 		<!-- SearchBar -->
 
 		<!-- Sidebar cart -->
@@ -717,11 +174,11 @@
 						</ul>
 
 						<h4 class="dz-title">Newsletter</h4>
-						<form class="dzSubscribe dz-subscribe-wrapper1" action="script/mailchamp.php" method="post">
+						<form asp-controller="Home" class="dzSubscribe dz-subscribe-wrapper1" asp-action="NewsLetter" method="post">
 							<div class="dzSubscribeMsg"></div>
 							<div class="form-group">
 								<div class="input-group mb-0">
-									<input name="dzEmail" required="required" type="email" class="form-control"
+									<input name="Email" required="required" type="email" class="form-control"
 										placeholder="Your Email Address">
 									<div class="input-group-addon">
 										<button name="submit" value="Submit" type="submit" class="btn">
@@ -740,22 +197,22 @@
 						<div class="dz-social-icon dz-hover-move style-2 mb-5">
 							<ul>
 								<li>
-									<a href="https://www.facebook.com/dexignzone" target="_blank">
+									<a href="https://www.instagram.com/s4rgin/" target="_blank">
 										<i class="fa-brands fa-facebook-f"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://twitter.com/dexignzones">
+									<a href="https://www.instagram.com/s4rgin/">
 										<i class="fa-brands fa-twitter"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://www.linkedin.com/showcase/3686700/admin/">
+									<a href="https://www.instagram.com/s4rgin/">
 										<i class="fa-brands fa-linkedin"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://www.instagram.com/dexignzone/">
+									<a href="https://www.instagram.com/s4rgin/">
 										<i class="fa-brands fa-instagram"></i>
 									</a>
 								</li>
