@@ -42,65 +42,88 @@ namespace MyApp.Namespace
             }
             return View(product);
         }
-        [HttpGet("CreateProduct")]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            return View();
+            // Kategorileri ViewBag'e gönderiyoruz
+            var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
+            ViewBag.Categories = categories.ToList();
+
+            return View(new ProductDTO());
         }
-        [HttpPost("CreateProduct")]
+
+        [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductDTO productDTO)
         {
+
             var result = await _productService.CreateProductAsync(productDTO);
-            if (!result.Success)
+            if (result.Success)
+            {
+                return RedirectToAction("ProductList", "Admin");
+            }
+            else
             {
                 ViewBag.Error = result.Message;
-                return View();
+                var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
+                ViewBag.Categories = categories.ToList();
             }
-            return RedirectToAction("GetProducts");
+
+            return RedirectToAction("ProductList", "Admin");
         }
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
             var product = await _Repository.GetByIdAsync<ProductEntity>(id);
-            if (product is null)
+            if (product == null)
             {
                 return NotFound();
             }
+
+            var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
+            var discounts = await _Repository.GetAll<DiscountEntity>().ToListAsync();
+
             var productDTO = new ProductDTO
             {
-                Name = product.Name,
-                Price = product.Price,
                 SellerId = product.SellerId,
                 CategoryId = product.CategoryId,
                 DiscountId = product.DiscountId,
+                Name = product.Name,
+                Price = product.Price,
                 Description = product.Description,
                 StockAmount = product.StockAmount,
                 Enabled = product.Enabled
             };
+
+            ViewBag.Categories = categories;
+            ViewBag.Discounts = discounts;
+
             return View(productDTO);
         }
+
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(int id, ProductDTO productDTO)
         {
+
             var result = await _productService.UpdateProductAsync(productDTO, id);
+            if (!result.Success)
+            {
+                ViewBag.Error = result.Message;
+                return View(productDTO);
+            }
+
+            return RedirectToAction("AdminDashboard", "Admin");
+
+        }
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var result = await _productService.DeleteProductAsync(id);
             if (!result.Success)
             {
                 ViewBag.Error = result.Message;
                 return View();
             }
-            return RedirectToAction("GetProducts");
+            return RedirectToAction("AdminDashboard", "Admin");
         }
-            [HttpPost("DeleteProduct")]
-            public async Task<IActionResult> DeleteProduct(int id)
-            {
-                var result = await _productService.DeleteProductAsync(id);
-                if (!result.Success)
-                {
-                    ViewBag.Error = result.Message;
-                    return View();
-                }
-                return RedirectToAction("GetProducts");
-            }
-            
-        }
+
+
     }
+}

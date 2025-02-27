@@ -9,5 +9,6 @@ public interface IBlogCategoryService
     Task<BlogCategoryEntity> CreateCategoryAsync(BlogCategoryEntity category);
     Task<BlogCategoryEntity> UpdateCategoryAsync(BlogCategoryEntity category);
     Task DeleteCategoryAsync(int categoryId);   
+    Task<int> BlogCategoryCount();
     
 }

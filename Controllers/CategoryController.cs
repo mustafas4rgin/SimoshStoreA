@@ -1,6 +1,7 @@
 using App.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimoshStore;
 
 namespace MyApp.Namespace
@@ -9,10 +10,10 @@ namespace MyApp.Namespace
     public class CategoryController : Controller
     {
         // GET: CategoryControlle
-        
+
         private readonly ICategoryService _categoryService;
         private readonly IDataRepository _Repository;
-        
+
         public CategoryController(ICategoryService categoryService, IDataRepository Repository)
         {
             _categoryService = categoryService;
@@ -39,13 +40,14 @@ namespace MyApp.Namespace
         public async Task<IActionResult> CreateCategory(CategoryDTO categoryDTO)
         {
             var result = await _categoryService.CreateCategoryAsync(categoryDTO);
-            if(!result.Success)
+            if (!result.Success)
             {
                 ViewBag.Error = result.Message;
                 return View();
             }
-            return RedirectToAction("ListCategories");
+            return RedirectToAction("CategoryList");
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> UpdateCategory(int id)
         {
@@ -63,6 +65,7 @@ namespace MyApp.Namespace
             };
             return View(categoryDTO);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(CategoryDTO categoryDTO, int id)
         {
@@ -72,17 +75,26 @@ namespace MyApp.Namespace
                 ViewBag.Error = result.Message;
                 return View();
             }
-            return RedirectToAction("ListCategories");
+            return RedirectToAction("CategoryList","Admin");
         }
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategoryAsync(int id)
         {
+            var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
+            var category = await _Repository.GetByIdAsync<CategoryEntity>(id);
+            if (category == null)
+            {
+                ViewBag.Error = "Category not found";
+                return RedirectToAction("CategoryList","Admin");
+            }
             var result = await _categoryService.DeleteCategoryAsync(id);
             if (!result.Success)
             {
                 ViewBag.Error = result.Message;
-                return View();
+                return RedirectToAction("CategoryList","Admin");
             }
-            return RedirectToAction("ListCategories");
+            return RedirectToAction("CategoryList","Admin");
         }
+
+
     }
 }

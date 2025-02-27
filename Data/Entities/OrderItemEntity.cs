@@ -33,12 +33,12 @@ internal class OrderItemEntityConfiguration : IEntityTypeConfiguration<OrderItem
         builder.HasOne(d => d.Order)
             .WithMany(o => o.OrderItems)
             .HasForeignKey(d => d.OrderId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(d => d.Product)
             .WithMany()
             .HasForeignKey(d => d.ProductId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         new OrderItemEntitySeed().SeedData(builder);    
     }

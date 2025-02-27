@@ -106,7 +106,6 @@ public class HomeController : Controller
     }
     public async Task<IActionResult> NewsLetter(NewsLetterViewModel model)
     {
-        // await _emailService.SaveSubscriber(model.Email);
         await _emailService.SendEmailAsync("mustafas4rgin@gmail.com","NewsLetter",$"{model.Email} adresine sahip kişi haber bültenimize abone oldu.");
         await _emailService.SendEmailAsync(model.Email,"NewsLetter",$"Haber bültenimize abone olduğunuz için teşekkür ederiz. İndirim kodunuz: #{GenerateHelper.GenerateNumber()}");
         ViewData["Success"] = "Abone oldunuz.";

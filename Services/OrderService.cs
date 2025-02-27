@@ -20,6 +20,19 @@ public class OrderService : IOrderService
         }
         return orderItems;
     }
+    public async Task<IEnumerable<OrderEntity>> GetLatestOrders()
+    {
+        var orders = await _Repository.GetAll<OrderEntity>().OrderByDescending(o => o.CreatedAt).Take(5).ToListAsync();
+        if (orders == null)
+        {
+            return new List<OrderEntity>();
+        }
+        return orders;
+    }
+    public async Task<int> OrderCount()
+    {
+        return await _Repository.GetAll<OrderEntity>().CountAsync();
+    }
     public async Task<IEnumerable<CartItemEntity>> GetCartItemEntitiesByUserIdAsync(int userId)
     {
         var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c=>c.UserId==userId).ToListAsync();
@@ -27,38 +40,34 @@ public class OrderService : IOrderService
     }
     public async Task<IServiceResult> AddingOrderItemsAsync(OrderEntity order)
 {
-    // Sepetteki tüm öğeleri al
     var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c => c.UserId == order.UserId).ToListAsync();
 
-    // OrderItem'ları eklerken doğru fiyatları kullan
     foreach (var cartItem in cartItems)
     {
         var product = await _Repository.GetByIdAsync<ProductEntity>(cartItem.ProductId);
         
         decimal unitPrice = 0;
         
-        // Eğer ürünün indirimi varsa, fiyatı indirimle hesapla
         if (product.DiscountId != 0)
         {
             var discount = await _Repository.GetByIdAsync<DiscountEntity>(product.DiscountId.Value);
-            unitPrice = product.Price - (product.Price * discount.DiscountRate / 100); // İndirimli fiyat
+            unitPrice = product.Price - (product.Price * discount.DiscountRate / 100);
         }
         else
         {
-            unitPrice = product.Price; // İndirim yoksa, normal fiyat
+            unitPrice = product.Price; 
         }
 
-        // OrderItemEntity oluştur
         OrderItemEntity orderItemEntity = new OrderItemEntity
         {
             OrderId = order.Id,
             ProductId = cartItem.ProductId,
             Quantity = cartItem.Quantity,
-            UnitPrice = unitPrice, // Her ürün için doğru fiyatı kullan
+            UnitPrice = unitPrice,
             CreatedAt = DateTime.UtcNow,
         };
 
-        // OrderItem'ı veritabanına ekle
+        
         await _Repository.AddAsync(orderItemEntity);
     }
     foreach(var item in cartItems)

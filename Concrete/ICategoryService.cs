@@ -10,4 +10,5 @@ public interface ICategoryService
     public Task<IServiceResult> GetAllCategoriesAsync();
     public Task<IServiceResult> GetCategoryAsync(CategoryEntity category);
     public Task<List<CategoryEntity>> ListAllCategories();
+    public Task<int> CategoryCount();
 }

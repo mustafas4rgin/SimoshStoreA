@@ -27,12 +27,23 @@ public class BlogService : IBlogService
             .Where(bc => bc.BlogId == blogId)
             .ToListAsync();
     }
+    public async Task<IEnumerable<BlogEntity>> GetLatestBlogs()
+    {
+        return await _Repository.GetAll<BlogEntity>()
+            .OrderByDescending(b => b.CreatedAt)
+            .Take(3)
+            .ToListAsync();
+    }
     public async Task<BlogEntity> GetRandomBlog()
     {
         var blogs = await _Repository.GetAll<BlogEntity>().ToListAsync();
         var random = new Random();
         var randomBlog = blogs[random.Next(blogs.Count)];
         return randomBlog;
+    }
+    public async Task<int> BlogCount()
+    {
+        return await _Repository.GetAll<BlogEntity>().CountAsync();
     }
     public async Task<BlogEntity> GetBlogByIdAsync(int blogId)
     {

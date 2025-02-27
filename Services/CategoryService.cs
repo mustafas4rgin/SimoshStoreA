@@ -10,6 +10,10 @@ public class CategoryService : ICategoryService
     {
         _Repository = repository;
     }
+    public async Task<int> CategoryCount()
+    {
+        return await _Repository.GetAll<CategoryEntity>().CountAsync();
+    }
     public async Task<List<CategoryEntity>> ListAllCategories()
     {
         var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
@@ -46,7 +50,8 @@ public class CategoryService : ICategoryService
     public async Task<IServiceResult> DeleteCategoryAsync(int id)
     {
         var category = await _Repository.GetByIdAsync<CategoryEntity>(id);
-        var products = _Repository.GetAll<ProductEntity>().Where(p => p.CategoryId == id);
+        var products = await _Repository.GetAll<ProductEntity>().Where(p => p.CategoryId == id).ToListAsync();
+        
         if(products is not null)
         {
             return new ServiceResult(false, "Category has products");

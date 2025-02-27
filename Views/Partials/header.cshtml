@@ -48,6 +48,9 @@
 							<li class="has-mega-menu sub-menu-down auto-width">
 								<a href="@Url.Action("BlogList","Blog")"><span>Blog</span><i
 										class="fas fa-chevron-down tabindex"></i></a>
+										<ul class="sub-menu">
+											<li><a href="@Url.Action("CreateBlog","Blog")">Add Post</a></li>
+										</ul>
 								
 							</li>
 								
@@ -63,10 +66,13 @@
 									<li><a href="@Url.Action("AboutUs","Home")">Us</a></li>
 								</ul>
 							</li>
-							<li class="sub-menu-down"><a href="@Url.Action("CreateBlog","Blog")">Add Post</a></li>
+							
 							@if(isAdmin || isSeller || isBuyer)
 							{
-								<li class="sub-menu-down">
+								<li class="sub-menu-down"><a href="@Url.Action("AdminDashboard","Admin")">Admin Dashboard</a></li>
+								
+							}
+							<li class="sub-menu-down">
 								<a href="@Url.Action("MyProfile","Profile")">My Account</a>
 								<ul class="sub-menu">
 									<li><a href="@Url.Action("MyProfile","Profile")">Dashboard</a></li>
@@ -75,14 +81,6 @@
 									<li><a href="@Url.Action("Review","Profile")">Review</a></li>
 								</ul>
 							</li>
-							}
-							else{
-								<ul class="sub-menu">
-									<li class="nav-item login-link">
-										<a href="@Url.Action("Login","Account")" class="nav-link">Login</a>
-									</li>
-								</ul>
-							}
 							
 						</ul>
 						<div class="dz-social-icon">
@@ -142,6 +140,8 @@
 		</div>
 		<!-- Main Header End -->
 
+
+<!-- Admin Dashboard Section -->
 		<!-- SearchBar -->
 		@await Component.InvokeAsync("Search")
 		<!-- SearchBar -->

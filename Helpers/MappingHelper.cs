@@ -55,16 +55,13 @@ public class MappingHelper
             CategoryId = dto.CategoryId,
             Description = dto.Description,
             DiscountId = dto.DiscountId,
-            Discount = dto.Discount,
             Price = dto.Price,
             Name = dto.Name,
             StockAmount = dto.StockAmount,
             Enabled = dto.Enabled,
-            Category = dto.Category,
-            Images = dto.Images,
-            Comments = dto.Comments
         };
     }
+
     public static ProductImageEntity MappingProductImage(ProductImageDTO dto)
     {
         return new ProductImageEntity

@@ -6,10 +6,6 @@
 @{
     var isAdmin = User.IsInRole("admin");
 }
-@if (isAdmin)
-{
-    <button onclick="window.location.href='@Url.Action("AdminDashboard", "Admin")'">Admin Dashboard</button>
-}
 
 <div class="page-content">
 	

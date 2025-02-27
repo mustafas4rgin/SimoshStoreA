@@ -14,4 +14,5 @@ public interface IProductService
     ProductEntity GetRandomProduct();
     Task<List<ProductEntity>> PopularProducts();
     Task<List<ProductEntity>> ListAllProducts();
+    Task<int> ProductCount();
 }

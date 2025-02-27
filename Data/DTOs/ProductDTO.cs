@@ -12,13 +12,4 @@ public class ProductDTO
     public string Description { get; set; } = null!;
     public byte StockAmount { get; set; }
     public bool Enabled { get; set; } = true;
-
-    // Navigation properties
-    public UserEntity Seller { get; set; } = null!;
-
-    public CategoryEntity Category { get; set; } = null!;
-    public DiscountEntity? Discount { get; set; }
-
-    public ICollection<ProductImageEntity> Images { get; set; } = null!;
-    public ICollection<ProductCommentEntity> Comments { get; set; } = null!;
 }

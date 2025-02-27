@@ -60,6 +60,11 @@ namespace MyApp.Namespace
             });
 
         }
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            await _blogService.DeleteBlogAsync(id);
+            return RedirectToAction("ListBlogs","Admin");
+        }
         public async Task<IActionResult> BlogList()
         {
             var blogEntities = await _blogService.GetAllBlogsAsync();

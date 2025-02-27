@@ -192,7 +192,7 @@ namespace MyApp.Namespace
             var cartItems = _Repository.GetAll<CartItemEntity>().Where(x => x.UserId == userId).ToList();
             int cartCount = cartItems.Count();
 
-            return Json(cartCount); // JSON olarak döndürülüyor
+            return Json(cartCount); 
         }
         [HttpGet]
         public async Task<IActionResult> CheckOut()
@@ -225,15 +225,15 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> CheckOut(CheckOutViewModel model)
         {
-            int userId = _userService.GetUserId(); // Kullanıcı ID'si
-            var user = await _userService.GetUserByIdAsync(userId); // Kullanıcı verisi
+            int userId = _userService.GetUserId(); 
+            var user = await _userService.GetUserByIdAsync(userId); 
             if (user == null)
             {
                 ViewData["AuthError"] = "Bu sayfayı görmek için giriş yapmalısınız";
-                return RedirectToAction("Login", "Auth"); // Kullanıcı bulunamazsa login sayfasına yönlendir
+                return RedirectToAction("Login", "Auth"); 
             }
 
-            // Redirect işlemi ile userId'yi CreateOrder'a gönderiyoruz
+     
             return RedirectToAction("CreateOrder", "Order", new { userId = user.Id });
         }
 

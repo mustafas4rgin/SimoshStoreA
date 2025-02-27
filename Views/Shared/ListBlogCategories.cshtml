@@ -27,7 +27,6 @@
             <tr>
                 <td>@category.Name</td>
                 <td>
-                    <!-- Silme işlemi için form -->
                     <form method="post" action="@Url.Action("DeleteBlogCategory", "Blog")" 
                           onsubmit="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">
                         <input type="hidden" name="id" value="@category.Id" />
@@ -35,7 +34,6 @@
                     </form>
 
                     |
-                    <!-- Düzenle butonu -->
                     <a href="@Url.Action("UpdateBlogCategory", "Blog", new { id = @category.Id })" class="btn btn-warning">Düzenle</a>
                 </td>
             </tr>

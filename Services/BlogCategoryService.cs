@@ -11,6 +11,10 @@ public class BlogCategoryService : IBlogCategoryService
     {
         _Repository = dataRepository;
     }
+    public async Task<int> BlogCategoryCount()
+    {
+        return await _Repository.GetAll<BlogCategoryEntity>().CountAsync();
+    }
     public async Task<BlogCategoryEntity> GetCategoryByIdAsync(int categoryId)
     {
         var category = await _Repository.GetByIdAsync<BlogCategoryEntity>(categoryId);

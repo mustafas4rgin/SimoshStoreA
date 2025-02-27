@@ -18,7 +18,6 @@ public class SearchViewComponent : ViewComponent
         _Repository = dataRepository;
     }
 
-    // Asenkron invoke metodunu kullanıyoruz
     public async Task<IViewComponentResult> InvokeAsync()
     {
         var categories = await _categoryService.ListAllCategories();

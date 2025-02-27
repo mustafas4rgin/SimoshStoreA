@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using App.Data.Entities;
+using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,26 @@ public class UserService : IUserService
     {
         _httpContextAccessor = httpContextAccessor;
         _Repository = Repository;
+    }
+    public async Task<IServiceResult> UpdateUserAsync(UpdateUserViewModel model)
+    {
+        var userId = GetUserId();
+        var user = await _Repository.GetByIdAsync<UserEntity>(userId);
+        if (user is null)
+        {
+            return new ServiceResult(false, "user not found");
+        }
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.Email = model.Email;
+        user.Phone = model.Phone;
+        await _Repository.UpdateAsync(user);
+        return new ServiceResult(true, "user updated successfully");
+    }
+    public async Task<int> UserCount()
+    {
+        var users = _Repository.GetAll<UserEntity>();
+        return await users.CountAsync();
     }
     public async Task<IServiceResult> ContactUsAsync(ContactDTO dto)
     {

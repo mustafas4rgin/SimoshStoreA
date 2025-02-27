@@ -4,6 +4,7 @@ namespace SimoshStore;
 
 public interface IBlogService
 { 
+    Task<IEnumerable<BlogEntity>> GetLatestBlogs();
     Task<IEnumerable<BlogEntity>> GetRecentBlogs(); 
     Task<BlogEntity> GetRandomBlog();
     Task<BlogEntity> GetBlogByIdAsync(int blogId);
@@ -14,5 +15,6 @@ public interface IBlogService
     Task AddTagToBlogAsync(int blogId, int tagId);
     Task AddCategoryToBlogAsync(int blogId, int categoryId);
     Task<IEnumerable<BlogCommentEntity>> GetComments(int blogId);
+    Task<int> BlogCount();
 }
     

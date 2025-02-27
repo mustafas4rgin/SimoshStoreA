@@ -15,10 +15,10 @@ public class SmtpConfiguration
 
 public class SmtpEmailService : IEmailService
 {
-    private readonly string _smtpServer = "smtp.gmail.com";  // Outlook SMTP sunucusu
-    private readonly int _smtpPort = 587;  // TLS portu
-    private readonly string _username = "simoshstoreco@gmail.com";  // Outlook e-posta adresiniz
-    private readonly string _password = "lnqr khna jkbx ffyq";  // Outlook şifreniz
+    private readonly string _smtpServer = "smtp.gmail.com";  
+    private readonly int _smtpPort = 587;  
+    private readonly string _username = "simoshstoreco@gmail.com";  
+    private readonly string _password = "lnqr khna jkbx ffyq";  
 
     public async Task<IServiceResult> SendEmailAsync(string to, string subject, string body)
     {
@@ -29,7 +29,7 @@ public class SmtpEmailService : IEmailService
                 From = new MailAddress(_username),
                 Subject = subject,
                 Body = body,
-                IsBodyHtml = false // Eğer HTML içeriği gönderecekseniz true yapın
+                IsBodyHtml = false 
             };
 
             mailMessage.To.Add(to);
@@ -38,8 +38,8 @@ public class SmtpEmailService : IEmailService
             {
                 smtpClient.Port = _smtpPort;
                 smtpClient.Credentials = new NetworkCredential(_username, _password);
-                smtpClient.EnableSsl = true; // TLS'yi etkinleştir
-                smtpClient.Timeout = 60000;  // 30 saniye
+                smtpClient.EnableSsl = true;
+                smtpClient.Timeout = 60000;  
                 await smtpClient.SendMailAsync(mailMessage);
                 return new ServiceResult(true, "E-posta başarıyla gönderildi.");
             }

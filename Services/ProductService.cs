@@ -11,6 +11,10 @@ public class ProductService : IProductService
     {
         _Repository = dataRepository;
     }
+    public async Task<int> ProductCount()
+    {
+        return await _Repository.GetAll<ProductEntity>().CountAsync();
+    }
     public async Task<IServiceResult> GettingProductImages(int id)
     {
         var images = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id).ToListAsync();
@@ -41,9 +45,34 @@ public class ProductService : IProductService
         {
             return new ServiceResult(false, "product not found");
         }
+        var productComments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id).ToListAsync();
+        foreach (var comment in productComments)
+        {
+            await _Repository.DeleteAsync<ProductCommentEntity>(comment.Id);
+        }
+        var productImages = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id).ToListAsync();
+        foreach (var image in productImages)
+        {
+            await _Repository.DeleteAsync<ProductImageEntity>(image.Id);
+        }
+        var orderItems = await _Repository.GetAll<OrderItemEntity>().Where(x => x.ProductId == id).ToListAsync();
+        var orderIds = orderItems.Select(x => x.OrderId).Distinct().ToList();
+
+        foreach (var orderItem in orderItems)
+        {
+            await _Repository.DeleteAsync<OrderItemEntity>(orderItem.Id);
+        }
+        var ordersToDelete = await _Repository.GetAll<OrderEntity>().Where(o => orderIds.Contains(o.Id)).ToListAsync();
+        foreach (var order in ordersToDelete)
+        {
+            await _Repository.DeleteAsync<OrderEntity>(order.Id);
+        }
+
         await _Repository.DeleteAsync<ProductEntity>(id);
+
         return new ServiceResult(true, "product deleted successfully");
     }
+
     public async Task<IServiceResult> UpdateProductAsync(ProductDTO productDTO, int id)
     {
         var product = await _Repository.GetByIdAsync<ProductEntity>(id);
@@ -89,16 +118,16 @@ public class ProductService : IProductService
     }
     public ProductEntity GetRandomProduct()
     {
-        // Fetch all products from the repository
+        
         var products = _Repository.GetAll<ProductEntity>().ToList();
 
-        // Check if any products exist
+        
         if (!products.Any())
         {
-            return null; // or throw an exception if necessary
+            return null; 
         }
 
-        // Select a random product
+        
         var randomProduct = products[new Random().Next(products.Count)];
 
         return randomProduct;
@@ -122,9 +151,9 @@ public class ProductService : IProductService
     }
     public async Task<List<ProductEntity>> ListAllProducts()
     {
-        var products =await _Repository.GetAll<ProductEntity>().ToListAsync();
-        if(products is not null)
-        return products;
+        var products = await _Repository.GetAll<ProductEntity>().ToListAsync();
+        if (products is not null)
+            return products;
         return new List<ProductEntity>();
     }
 

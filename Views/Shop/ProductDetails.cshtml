@@ -2,14 +2,23 @@
 
 <div class="page-content">
 		
+		
 		<div class="d-sm-flex justify-content-between container-fluid py-3">
 			<nav aria-label="breadcrumb" class="breadcrumb-row  text-dark">
 				<ul class="breadcrumb mb-0">
-					<li class="breadcrumb-item"><a href="index.html"> Home</a></li>
+					@if (TempData["CommentPendingApproval"] != null)
+    {
+		<li class="breadcrumb-item"><div class="alert alert-info"> @TempData["CommentPendingApproval"]
+        </div></li>
+        
+    }
+					<li class="breadcrumb-item"></li>
+					<li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"> Home</a></li>
                     <li class="breadcrumb-item">@Model.category.Name</li>
 					<li class="breadcrumb-item">@Model.product.Name</li>
 				</ul>
 			</nav>
+			
 		</div>
 		
 		<section class="content-inner py-0">
@@ -20,6 +29,7 @@
 							<div class="swiper-btn-center-lr">
 								<div class="swiper product-gallery-swiper2">
 									<div class="swiper-wrapper" id="lightgallery">
+										
                                         @foreach(var img in Model.images)
                                         {
                                             <div class="swiper-slide">
@@ -487,7 +497,9 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 											<ol class="comment-list">
 												@foreach(var comment in Model.comments)
 												{
-													<li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
+													if(comment.IsConfirmed)
+													{
+														<li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
 												<div class="comment-body" id="div-comment-4">
 													<div class="comment-author vcard">
 														<img src="https://picsum.photos/250/250" alt="/" class="avatar">
@@ -498,6 +510,8 @@ Hızlı Kargo: Eğer hızlı teslimat seçeneğini tercih ederseniz, siparişini
 													</div>
 												</div>
 											</li>
+													}
+													
 												}
 									  </div>
 									<div class="default-form comment-respond style-1" id="respond">

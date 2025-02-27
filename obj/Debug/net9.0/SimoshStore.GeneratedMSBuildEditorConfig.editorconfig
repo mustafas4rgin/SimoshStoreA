@@ -32,6 +32,30 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRtaW5EYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/CategoryList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ2F0ZWdvcnlMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/ListBlogs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTGlzdEJsb2dzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTWFuYWdlVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/OrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vT3JkZXJMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/ProductCommentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdENvbW1lbnRMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Admin/ProductList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJvZHVjdExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Auth/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -78,6 +102,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Cart/ShopCart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9TaG9wQ2FydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Category/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnkvQ3JlYXRlQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Category/UpdateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcnkvVXBkYXRlQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Error/NotFound.cshtml]
@@ -176,10 +208,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9VcGRhdGVQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/CategoryList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NhdGVnb3J5TGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/Components/Account/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQWNjb3VudC9EZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -208,10 +236,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0xpc3RCbG9nQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/ProductList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL1Byb2R1Y3RMaXN0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -226,6 +250,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/Shop/_QuickView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hvcC9fUXVpY2tWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/User/UpdateUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9VcGRhdGVVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/s4rgin/Documents/GitHub/SimoshStoreA/Views/_ViewImports.cshtml]

@@ -22,7 +22,7 @@ namespace MyApp.Namespace
             int pageSize = 4;
             int skip = (page - 1) * pageSize;
 
-            var comments = await _Repository.GetAll<ProductCommentEntity>().ToListAsync();
+            var comments = await _Repository.GetAll<ProductCommentEntity>().Where(c => c.IsConfirmed).ToListAsync();
             var discounts = await _Repository.GetAll<DiscountEntity>().ToListAsync();
             var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
             var images = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
@@ -83,7 +83,8 @@ namespace MyApp.Namespace
             var Category = await _Repository.GetByIdAsync<CategoryEntity>(id.Value);
             var Product = await _Repository.GetByIdAsync<ProductEntity>(id.Value);
             var Images = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
-            var Comments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
+            var comments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
+            var Comments = comments.Where(s=>s.IsConfirmed==true).ToList();
             var OrderedByCategoryProducts = Products;
             var AllImages = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
             await _productService.OrderProductsByCategory(OrderedByCategoryProducts);
