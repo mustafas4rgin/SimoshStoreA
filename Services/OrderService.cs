@@ -35,47 +35,47 @@ public class OrderService : IOrderService
     }
     public async Task<IEnumerable<CartItemEntity>> GetCartItemEntitiesByUserIdAsync(int userId)
     {
-        var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c=>c.UserId==userId).ToListAsync();
+        var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c => c.UserId == userId).ToListAsync();
         return cartItems;
     }
     public async Task<IServiceResult> AddingOrderItemsAsync(OrderEntity order)
-{
-    var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c => c.UserId == order.UserId).ToListAsync();
-
-    foreach (var cartItem in cartItems)
     {
-        var product = await _Repository.GetByIdAsync<ProductEntity>(cartItem.ProductId);
-        
-        decimal unitPrice = 0;
-        
-        if (product.DiscountId != 0)
-        {
-            var discount = await _Repository.GetByIdAsync<DiscountEntity>(product.DiscountId.Value);
-            unitPrice = product.Price - (product.Price * discount.DiscountRate / 100);
-        }
-        else
-        {
-            unitPrice = product.Price; 
-        }
+        var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c => c.UserId == order.UserId).ToListAsync();
 
-        OrderItemEntity orderItemEntity = new OrderItemEntity
+        foreach (var cartItem in cartItems)
         {
-            OrderId = order.Id,
-            ProductId = cartItem.ProductId,
-            Quantity = cartItem.Quantity,
-            UnitPrice = unitPrice,
-            CreatedAt = DateTime.UtcNow,
-        };
+            var product = await _Repository.GetByIdAsync<ProductEntity>(cartItem.ProductId);
 
-        
-        await _Repository.AddAsync(orderItemEntity);
+            decimal unitPrice = 0;
+
+            if (product.DiscountId != 0)
+            {
+                var discount = await _Repository.GetByIdAsync<DiscountEntity>(product.DiscountId.Value);
+                unitPrice = product.Price - (product.Price * discount.DiscountRate / 100);
+            }
+            else
+            {
+                unitPrice = product.Price;
+            }
+
+            OrderItemEntity orderItemEntity = new OrderItemEntity
+            {
+                OrderId = order.Id,
+                ProductId = cartItem.ProductId,
+                Quantity = cartItem.Quantity,
+                UnitPrice = unitPrice,
+                CreatedAt = DateTime.UtcNow,
+            };
+
+
+            await _Repository.AddAsync(orderItemEntity);
+        }
+        foreach (var item in cartItems)
+        {
+            await _Repository.DeleteAsync<CartItemEntity>(item.Id);
+        }
+        return new ServiceResult(true, "Added successfully");
     }
-    foreach(var item in cartItems)
-    {
-        await _Repository.DeleteAsync<CartItemEntity>(item.Id);
-    }
-    return new ServiceResult(true, "Added successfully");
-}
 
     public async Task<IEnumerable<OrderItemEntity>> GetOrderItemsByOrderIdAsync(int orderId)
     {
@@ -109,10 +109,20 @@ public class OrderService : IOrderService
         var order = MappingHelper.MappingOrderEntity(dto);
         await _Repository.AddAsync(order);
         var result = await AddingOrderItemsAsync(order);
-        
-        if(!result.Success)
+
+        if (!result.Success)
         {
             return new OrderEntity();
+        }
+        var orderItems = await _Repository.GetAll<OrderItemEntity>().Where(oi => oi.OrderId == order.Id).ToListAsync();
+        foreach (var orderItem in orderItems)
+        {
+            var product = await _Repository.GetByIdAsync<ProductEntity>(orderItem.ProductId);
+            if (product is not null)
+            {
+                product.StockAmount -= orderItem.Quantity;
+                await _Repository.UpdateAsync(product);
+            }
         }
         return order;
     }
@@ -128,6 +138,13 @@ public class OrderService : IOrderService
         var orderItems = await GetOrderItemsByOrderIdAsync(orderId);
         foreach (var orderItem in orderItems)
         {
+            var product = await _Repository.GetByIdAsync<ProductEntity>(orderItem.ProductId);
+            if (product is not null)
+            {
+                product.StockAmount += orderItem.Quantity;
+                await _Repository.UpdateAsync(product);
+
+            }
             await _Repository.DeleteAsync<OrderItemEntity>(orderItem.Id);
         }
         if (order != null)

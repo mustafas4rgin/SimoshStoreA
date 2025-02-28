@@ -95,6 +95,23 @@ namespace MyApp.Namespace
             return View(order);
 
         }
+        /*
+        public async Task<IActionResult> OrderDelivered(int id)
+        {
+        var order = await _orderService.GetOrderByIdAsync(id);
+        if (order == null)
+        {
+            ViewBag.Error = "Order not found";
+            return RedirectToAction("NotFound", "Error");
+        }
+        order.Status = OrderStatus.Delivered;
+        var orderItems = await _orderService.GetOrderItemsByOrderIdAsync(order.Id);
+        foreach (var orderItem in orderItems)
+        {
+        await _Repository.DeleteAsync<OrderItemEntity>(orderItem.Id);
+        }
+        await _orderService.UpdateOrderAsync(order);
+        */
         public async Task<IActionResult> CreateOrder(int userId)
         {
             var user = await _userService.GetUserByIdAsync(userId); 

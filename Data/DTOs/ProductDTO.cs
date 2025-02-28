@@ -10,6 +10,6 @@ public class ProductDTO
     public string Name { get; set; } = null!;
     public decimal Price { get; set; }
     public string Description { get; set; } = null!;
-    public byte StockAmount { get; set; }
+    public int StockAmount { get; set; }
     public bool Enabled { get; set; } = true;
 }
