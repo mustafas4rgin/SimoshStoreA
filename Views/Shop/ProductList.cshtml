@@ -87,7 +87,14 @@
                 <div class="widget-post clearfix">
                     <div class="dz-media">
                         <a href="@Url.Action("ProductDetails", "Shop", new { id = product.Id })">
-                            <img width="600" height="600" src="@img.Url" alt="Product Image" />
+                            @if(img is not null)
+                            {
+                                <img width="600" height="600" src="@img.Url" alt="Product Image" />
+                            }
+                            else{
+                                <img width="600" height="600" src="https://picsum.photos/600/600" alt="Product Image" />
+                            }
+                            
                         </a>
                     </div>
                     <div class="dz-info">
@@ -166,7 +173,14 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="dz-shop-card style-2">
                         <div class="dz-media">
-                            <img src="@img.Url" alt="product-image" />
+                            @if(img is not null)
+                            {
+                                <img src="@img.Url" alt="product-image" />
+                            }
+                            else
+                            {
+                                <img src="https://picsum.photos/600/600" alt="product-image" />
+                            }
                         </div>
                         <div class="dz-content">
                             <h2 class="title mb-0">
