@@ -40,7 +40,6 @@ internal class OrderItemEntityConfiguration : IEntityTypeConfiguration<OrderItem
             .HasForeignKey(d => d.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        new OrderItemEntitySeed().SeedData(builder);    
     }
     internal class OrderItemEntitySeed : IEntityTypeSeed<OrderItemEntity>
     {

@@ -39,7 +39,6 @@ internal class BlogEntityConfiguration : IEntityTypeConfiguration<BlogEntity>
             .HasForeignKey(d => d.UserId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        new BlogEntitySeed().SeedData(builder);
     }
 }
 

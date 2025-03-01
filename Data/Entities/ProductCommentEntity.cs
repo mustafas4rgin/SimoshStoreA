@@ -39,8 +39,6 @@ internal class ProductCommentEntityConfiguration : IEntityTypeConfiguration<Prod
             .WithMany()
             .HasForeignKey(d => d.UserId)
             .OnDelete(DeleteBehavior.NoAction);
-
-        new ProductCommentEntitySeed().SeedData(builder);
     }
     internal class ProductCommentEntitySeed : IEntityTypeSeed<ProductCommentEntity>
 {

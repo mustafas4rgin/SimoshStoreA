@@ -36,7 +36,6 @@ internal class RelBlogCategoryEntityConfiguration : IEntityTypeConfiguration<Rel
             .HasForeignKey(d => d.CategoryId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        new RelBlogCategoryEntitySeed().SeedData(builder);
     }
 }
 

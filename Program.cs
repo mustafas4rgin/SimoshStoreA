@@ -25,11 +25,6 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    if (app.Environment.IsDevelopment())
-    {
-        context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
-    }
 }
 
 // Configure the HTTP request pipeline for non-development environments

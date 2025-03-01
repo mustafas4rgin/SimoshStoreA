@@ -23,7 +23,6 @@ internal class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEn
         builder.Property(e => e.IconCssClass).IsRequired().HasMaxLength(50);
         builder.Property(e => e.CreatedAt).IsRequired();
 
-        new CategoryEntitySeed().SeedData(builder);
     }
 }
 

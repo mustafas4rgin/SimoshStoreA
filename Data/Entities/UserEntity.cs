@@ -42,7 +42,6 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .HasForeignKey(d => d.RoleId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        new UserEntitySeed().SeedData(builder);
     }
 }
 

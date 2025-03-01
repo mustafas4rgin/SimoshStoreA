@@ -28,6 +28,11 @@ namespace MyApp.Namespace
         }
         public async Task<IActionResult> OrderDetails(int? orderId)
         {
+            int userId = _userService.GetUserId();
+            if(userId == 0)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
             if (!orderId.HasValue || orderId.Value <= 0)
             {
                 return RedirectToAction("NotFound", "Error");
@@ -40,7 +45,10 @@ namespace MyApp.Namespace
                 ViewBag.Error = "Order not found";
                 return RedirectToAction("NotFound", "Error");
             }
-
+            if(userId != order.UserId)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
             var orderItems = await _orderService.GetOrderItemsByOrderIdAsync(order.Id);
             var products = await _productService.ListAllProducts();
             ProductEntity product = null;

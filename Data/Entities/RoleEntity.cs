@@ -18,7 +18,6 @@ internal class RoleEntityConfiguration : IEntityTypeConfiguration<RoleEntity>
         builder.Property(e => e.Name).IsRequired().HasMaxLength(10);
         builder.Property(e => e.CreatedAt).IsRequired();
 
-        new RoleEntitySeed().SeedData(builder);
     }
 }
 

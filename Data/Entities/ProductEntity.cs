@@ -59,7 +59,6 @@ internal class ProductEntityConfiguration : IEntityTypeConfiguration<ProductEnti
 
 
 
-        new ProductEntitySeed().SeedData(builder);
     }
 }
 

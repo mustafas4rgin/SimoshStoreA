@@ -33,7 +33,6 @@ internal class OrderEntityConfiguration : IEntityTypeConfiguration<OrderEntity>
             .HasForeignKey(d => d.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        new OrderEntitySeed().SeedData(builder);    
     }
 }
 

@@ -39,13 +39,13 @@ namespace MyApp.Namespace
             // Arama kelimesine göre filtreleme (ürün adını kontrol et)
             if (!string.IsNullOrEmpty(dzSearch))
             {
-                query = query.Where(p => p.Name.Contains(dzSearch)); // Büyük/küçük harf duyarsız olmayacak
+                query = query.Where(p =>     p.Name.ToLower().Contains(dzSearch.ToLower())); // Büyük/küçük harf duyarsız olmayacak
             }
 
             var products = await query.Skip(skip).Take(pageSize).ToListAsync();
             int totalProducts = await query.CountAsync();
             int totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
-
+            
             var viewModel = new ListProductsViewModel
             {
                 comments = comments,

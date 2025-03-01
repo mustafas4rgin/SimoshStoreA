@@ -21,7 +21,6 @@ namespace App.Data.Entities
             builder.Property(e => e.Enabled).IsRequired().HasDefaultValue(true);
             builder.Property(e => e.CreatedAt).IsRequired();
 
-            new DiscountEntitySeed().SeedData(builder);
         }
     }
 

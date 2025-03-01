@@ -28,7 +28,6 @@ internal class ProductImageEntityConfiguration : IEntityTypeConfiguration<Produc
             .HasForeignKey(d => d.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        new ProductImageEntitySeed().SeedData(builder);
     }
 }
 

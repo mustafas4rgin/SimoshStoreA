@@ -20,8 +20,7 @@ internal class BlogCategoryEntityConfiguration : IEntityTypeConfiguration<BlogCa
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Name).IsRequired().HasMaxLength(50);
         builder.Property(e => e.CreatedAt).IsRequired();
-        
-        new BlogCategoryEntitySeed().SeedData(builder);
+
     }
 }
 
