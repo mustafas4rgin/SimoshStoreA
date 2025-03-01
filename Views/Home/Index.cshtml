@@ -38,18 +38,19 @@
 					@foreach(var category in Model.categories)
 {
     <div class="swiper-slide">
-        <div class="category-product box-hover">
-            <!-- Kategoriye tıklanınca parametre olarak kategoriId gönderiyoruz -->
+		<a href="@Url.Action("ProductList", "Shop", new { selectedCategoryIds = new List<int> { category.Id } })">
+			<div class="category-product box-hover">
             <h3 class="title">
-                <a href="@Url.Action("ProductList", "Shop", new { selectedCategoryIds = new List<int> { category.Id } })">
 					<p style="color: @category.Color;">
 						@category.Name
 					</p>
                     
-                </a>
+                
             </h3>
             <img src="https://picsum.photos/350/300" alt="Lorem Ipsum">
         </div>
+		</a>
+        
     </div>
 }
 

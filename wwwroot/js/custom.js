@@ -979,7 +979,7 @@ var PlantZone = function(){
 		var modalBox = `<div class="modal fade inquiry-modal style-1" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="inquiry-adv">
-					<img src="images/adv-2.png" alt=""/>
+					<img src="~/images/adv-2.png" alt=""/>
 				</div>
 				<div class="modal-content">
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -996,13 +996,20 @@ var PlantZone = function(){
 							<form class="dzSubscribe style-3" action="script/mailchamp.php" method="post">
 								<div class="dzSubscribeMsg"></div>
 								<div class="form-group">
-									<div class="input-group mb-0">
-										<input name="dzEmail" required="required" type="email" class="form-control h-70" placeholder="Your Email Address">
-										<div class="sub-btn">
-											<button name="submit" value="Submit" type="submit" class="btn btn-secondary">Subscribe</button>
-										</div>
-									</div>
-								</div>
+								
+<form asp-controller="Home" asp-action="NewsLetter" method="post" class="dzSubscribe style-2">
+                    <div class="dzSubscribeMsg"></div>
+                    <div class="form-group">
+                        <div class="input-group mb-0">
+                            <input name="Email" required="required" type="email" class="form-control h-70" placeholder="Your Email Address">
+                            <div class="sub-btn">
+                                <button type="submit" name="submit" value="Submit" class="btn btn-secondary">Subscribe Now</button>
+                            </div>
+                        </div>	
+                    </div>
+                </form>
+
+									
 								<div class="custom-checkbox">
 									<input type="checkbox" class="form-check-input" id="basic_checkbox_3">
 									<label class="form-check-label" for="basic_checkbox_3">don’t Show This Pop Up Again</label>

@@ -974,58 +974,6 @@ var PlantZone = function(){
 		});
 	}
 	
-	var handleOpenModal = function(){
-		
-		var modalBox = `<div class="modal fade inquiry-modal style-1" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="inquiry-adv">
-					<img src="images/adv-2.png" alt=""/>
-				</div>
-				<div class="modal-content">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-					  <span aria-hidden="true">
-						<i class="icon feather icon-x"></i>
-					  </span>
-					</button>
-					<div>
-						<div class="modal-header">
-							<h3 class="modal-title" id="exampleModalLongTitle">Join our Newsletter and get 20% off your first order</h3>
-							<p class="text">Subscribe to our newsletter and get the latest trending products and offers updates.</p>
-						</div>
-						<div class="modal-body">
-							<form class="dzSubscribe style-3" action="script/mailchamp.php" method="post">
-								<div class="dzSubscribeMsg"></div>
-								<div class="form-group">
-									<div class="input-group mb-0">
-										<input name="dzEmail" required="required" type="email" class="form-control h-70" placeholder="Your Email Address">
-										<div class="sub-btn">
-											<button name="submit" value="Submit" type="submit" class="btn btn-secondary">Subscribe</button>
-										</div>
-									</div>
-								</div>
-								<div class="custom-checkbox">
-									<input type="checkbox" class="form-check-input" id="basic_checkbox_3">
-									<label class="form-check-label" for="basic_checkbox_3">don’t Show This Pop Up Again</label>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>`;
-		
-		
-		
-		jQuery('body').append(modalBox);
-		setTimeout(function() {
-			if(!getCookie('inquiryModal')){
-				jQuery("#myModal").modal('show');
-				setCookie('inquiryModal',true);
-			}
-		}, 5000)
-
-	}
-	
 	var handleSplitSlider = function(){					
 		if(jQuery('#myContainer').length > 0){			
 			$('#myContainer').multiscroll({		
