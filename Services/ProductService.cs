@@ -36,6 +36,15 @@ public class ProductService : IProductService
             }
         }
         await _Repository.AddAsync(newProduct);
+        var imagesOfNewProduct = await GettingProductImages(newProduct.Id);
+        if (!imagesOfNewProduct.Success)
+        {
+            await _Repository.AddAsync(new ProductImageEntity
+            {
+                ProductId = newProduct.Id,
+                Url = "https://via.placeholder.com/150"
+            });
+        }
         return new ServiceResult(true, "product created successfully");
     }
     public async Task<IServiceResult> DeleteProductAsync(int id)

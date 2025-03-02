@@ -32,12 +32,11 @@
 										@foreach (var item in Model.cartItems)
 {
     var product = Model.products.FirstOrDefault(o => o.Id == item.ProductId);
-    var img = Model.images.FirstOrDefault(o => o.ProductId == product.Id);
     
     <li>
         <div class="cart-widget">
             <div class="dz-media me-3">
-                <img src="@img.Url" alt="">
+                <img src="" alt="">
             </div>
             <div class="cart-content">
                 <h6 class="title"><a href="@Url.Action("ProductDetails", "Shop", new { id = product.Id })">@product.Name</a></h6>

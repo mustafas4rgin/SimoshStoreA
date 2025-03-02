@@ -4782,3 +4782,17 @@ c:/Users/MCANS/Desktop/SimoshStore/bin/Debug/net9.0/AutoMapper.Extensions.Micros
 /Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/Debug/net9.0/compressed/p4lpialnox-su5qkplxif.gz
 /Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/Debug/net9.0/compressed/qdzd1rnxgj-qjjqe9dcvc.gz
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/web.config
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/appsettings.Development.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/appsettings.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/SimoshStore.deps.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/SimoshStore.runtimeconfig.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/SimoshStore.staticwebassets.endpoints.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/script/php_mail/composer.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/script/php_mail/vendor/composer/installed.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/script/php_mail/vendor/phpmailer/phpmailer/composer.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/script/recaptcha-master/composer.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/vendor/multiscroll-master/bower.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/vendor/multiscroll-master/package.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/vendor/scrollbar/bower.json
+/Users/s4rgin/Documents/GitHub/SimoshStoreA/bin/Debug/net9.0/publish/wwwroot/vendor/scrollbar/package.json
