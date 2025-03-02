@@ -27,16 +27,13 @@ namespace MyApp.Namespace
             var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
             var images = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
 
-            // Kategorilere göre filtreleme
             var query = _Repository.GetAll<ProductEntity>().AsQueryable();
 
-            // Kategori filtreleme
             if (selectedCategoryIds != null && selectedCategoryIds.Any())
             {
                 query = query.Where(p => selectedCategoryIds.Contains(p.CategoryId));
             }
 
-            // Arama kelimesine göre filtreleme (ürün adını kontrol et)
             if (!string.IsNullOrEmpty(dzSearch))
             {
                 query = query.Where(p =>     p.Name.ToLower().Contains(dzSearch.ToLower())); // Büyük/küçük harf duyarsız olmayacak
@@ -80,8 +77,13 @@ namespace MyApp.Namespace
             }
             var Categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
             var Products = await _Repository.GetAll<ProductEntity>().ToListAsync();
-            var Category = await _Repository.GetByIdAsync<CategoryEntity>(id.Value);
+            
             var Product = await _Repository.GetByIdAsync<ProductEntity>(id.Value);
+            if (Product == null)
+            {
+                return NotFound();
+            }
+            var Category = await _Repository.GetByIdAsync<CategoryEntity>(Product.CategoryId);
             var Images = await _Repository.GetAll<ProductImageEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
             var comments = await _Repository.GetAll<ProductCommentEntity>().Where(x => x.ProductId == id.Value).ToListAsync();
             var Comments = comments.Where(s=>s.IsConfirmed==true).ToList();
