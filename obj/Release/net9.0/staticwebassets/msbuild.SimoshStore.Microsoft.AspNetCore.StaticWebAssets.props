@@ -36126,6 +36126,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\map\map.png'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\MonsterASP.net - WebFTP.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>SimoshStore</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/SimoshStore</BasePath>
+      <RelativePath>images/MonsterASP.net - WebFTP.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>su5qkplxif</Fingerprint>
+      <Integrity>JMgNmWXrcjsCjfgOpG5z/EpOGDRM8rl3hwsCEoEgSiM=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\MonsterASP.net - WebFTP.html'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\New folder\box-tick.png'))">
       <SourceType>Package</SourceType>
       <SourceId>SimoshStore</SourceId>
@@ -41202,12 +41220,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial3.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial4.JPG'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial4.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>SimoshStore</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/SimoshStore</BasePath>
-      <RelativePath>images/testimonial/testimonial4.JPG</RelativePath>
+      <RelativePath>images/testimonial/testimonial4.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -41218,7 +41236,7 @@
       <Integrity>vBjh4GI1nYzy5pMux5z3eNb4u4E7NDfZrJwZS+PxnbY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial4.JPG'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial4.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\testimonial\testimonial5.jpg'))">
       <SourceType>Package</SourceType>
@@ -41322,8 +41340,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gw5fcu01hd</Fingerprint>
-      <Integrity>oM8wuYM2+PsliR6AAx7y6/esvG7cavptZLwg4/MZfx4=</Integrity>
+      <Fingerprint>qjjqe9dcvc</Fingerprint>
+      <Integrity>irioquY9xtWGqveRpfRvlyTb/VHGAZabDOUVl/+YFs4=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\custom.js'))</OriginalItemSpec>
@@ -53883,7 +53901,7 @@
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Alternative</AssetRole>
-      <RelatedAsset>/Users/s4rgin/Documents/GitHub/SimoshStoreA/wwwroot/vendor/scrollbar/js/minified/jquery.mCustomScrollbar.min.js</RelatedAsset>
+      <RelatedAsset>/var/www/SimoshStoreA/wwwroot/vendor/scrollbar/js/minified/jquery.mCustomScrollbar.min.js</RelatedAsset>
       <AssetTraitName>Content-Encoding</AssetTraitName>
       <AssetTraitValue>gzip</AssetTraitValue>
       <Fingerprint>w5ygyrjxu4</Fingerprint>

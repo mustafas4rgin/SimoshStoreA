@@ -34,7 +34,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts(); // HTTP Strict Transport Security (HSTS)
 }
 
-app.UseHttpsRedirection();  // HTTPS yönlendirme
+app.UseForwardedHeaders()
 app.UseStaticFiles();  // Statik dosyalar için middleware
 
 app.Run();
