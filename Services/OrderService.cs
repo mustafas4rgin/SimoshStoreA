@@ -47,8 +47,9 @@ public class OrderService : IOrderService
             var product = await _Repository.GetByIdAsync<ProductEntity>(cartItem.ProductId);
 
             decimal unitPrice = 0;
-
-            if (product.DiscountId != 0)
+            if(product.DiscountId is not null)
+            {
+                if (product.DiscountId.Value >= 0)
             {
                 var discount = await _Repository.GetByIdAsync<DiscountEntity>(product.DiscountId.Value);
                 unitPrice = product.Price - (product.Price * discount.DiscountRate / 100);
@@ -57,6 +58,8 @@ public class OrderService : IOrderService
             {
                 unitPrice = product.Price;
             }
+            }
+            
 
             OrderItemEntity orderItemEntity = new OrderItemEntity
             {
