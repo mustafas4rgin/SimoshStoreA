@@ -7427,19 +7427,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/s4rgin/.nuget/packages/": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
+      "projectUniqueName": "/root/SimoshStore.csproj",
       "projectName": "SimoshStore",
-      "projectPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
-      "packagesPath": "/Users/s4rgin/.nuget/packages/",
-      "outputPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/",
+      "projectPath": "/root/SimoshStore.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/root/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/s4rgin/.nuget/NuGet/NuGet.Config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -7463,7 +7463,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -7535,7 +7535,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
