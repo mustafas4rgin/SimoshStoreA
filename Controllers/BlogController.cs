@@ -6,8 +6,9 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class BlogController(IHttpClientFactory httpClientFactory) : BaseController
+    public class BlogController(IHttpClientFactory httpClientFactory, ApiHelper apiHelper) : BaseController
     {
+        private ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
         
         public async Task<IActionResult> BlogPost(int id)
@@ -27,7 +28,7 @@ namespace MyApp.Namespace
         }
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            var response = await Client.DeleteAsync($"/api/delete/blog/{id}");
+            var response = await _apiHelper.SendDeleteRequestAsync($"/api/delete/blog",HttpMethod.Delete,id);
 
             if(!response.IsSuccessStatusCode)
             {
@@ -72,10 +73,16 @@ namespace MyApp.Namespace
         //     });
         // }
         // [HttpPost]
-        // public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
-        // {
-        //     var blog = await _blogService.CreateBlogAsync(blogDTO);
-        //     return RedirectToAction("BlogList");
-        // }
+        public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
+        {
+            var response = await _apiHelper.SendApiRequestAsync("/api/create/blog", HttpMethod.Post, blogDTO);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return View(blogDTO);
+            }
+
+            return RedirectToAction("BlogList");
+        }
     }
 }

@@ -7,8 +7,9 @@ using SimoshStore;
 namespace MyApp.Namespace
 {
     [Authorize(Roles = "admin")]
-    public class CategoryController(IHttpClientFactory httpClientFactory) : BaseController
+    public class CategoryController(IHttpClientFactory httpClientFactory,ApiHelper apiHelper) : BaseController
     {
+        ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
         // GET: CategoryControlle
 
@@ -35,7 +36,7 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryDTO categoryDTO)
         {
-            var response = await Client.PostAsJsonAsync("api/create/category", categoryDTO);
+            var response = await _apiHelper.SendApiRequestAsync("api/create/category", HttpMethod.Post,categoryDTO);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -44,7 +45,7 @@ namespace MyApp.Namespace
             }
             SetSuccessMessage("Category created successfully");
 
-            return RedirectToAction("CategoryList");
+            return RedirectToAction("CategoryList","Admin");
         }
         [Authorize(Roles = "admin")]
         [HttpGet]
@@ -77,7 +78,7 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(CategoryDTO categoryDTO, int id)
         {
-            var response = await Client.PutAsJsonAsync($"api/update/category/{id}", categoryDTO);
+            var response = await _apiHelper.SendApiRequestAsync($"api/update/category/{id}", HttpMethod.Put, categoryDTO);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -91,7 +92,7 @@ namespace MyApp.Namespace
         }
         public async Task<IActionResult> DeleteCategoryAsync(int id)
         {
-            var response = await Client.DeleteAsync($"api/delete/category/{id}");
+            var response = await _apiHelper.SendDeleteRequestAsync($"api/delete/category", HttpMethod.Delete,id);
 
             if (!response.IsSuccessStatusCode)
             {

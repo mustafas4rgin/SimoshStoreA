@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddHttpClient("Api.Data", client =>
 {
-    client.BaseAddress = new Uri("https://www.simosh.shop/");
+    client.BaseAddress = new Uri("https://www.simosh.shop");
 });
 
 builder.Services.AddBusinessService();
@@ -20,6 +20,8 @@ app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

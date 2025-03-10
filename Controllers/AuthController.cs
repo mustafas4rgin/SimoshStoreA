@@ -32,6 +32,16 @@ namespace MyApp.Namespace
                 return View(model);
             }
 
+            var token = await GetTokenFromLoginAsync(model);
+
+            if(string.IsNullOrEmpty(token))
+            {
+                ModelState.AddModelError(string.Empty, "Token is empty.");
+                return View(model);
+            }
+
+            HttpContext.Session.SetString("JwtToken", token);
+
             var user = await response.Content.ReadFromJsonAsync<UserEntity>();
 
             if (user == null)
@@ -68,6 +78,7 @@ namespace MyApp.Namespace
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+
             return RedirectToAction("Index", "Home");
         }
         [HttpGet("Register")]
@@ -116,6 +127,7 @@ namespace MyApp.Namespace
 
         private async Task LogoutUser()
         {
+            HttpContext.Session.Remove("JwtToken");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
         [HttpGet]
@@ -174,6 +186,20 @@ namespace MyApp.Namespace
         public IActionResult ForgotPasswordConfirmation(ResetPasswordDTO dto)
         {
             return View();
+        }
+
+        public async Task<string> GetTokenFromLoginAsync(LoginModel model)
+        {
+            var response = await Client.PostAsJsonAsync("/api/authenticate", model);
+
+            if(!response.IsSuccessStatusCode)
+            {
+                return "";
+            }
+
+            var token = await response.Content.ReadAsStringAsync();
+
+            return token;
         }
     }
 }

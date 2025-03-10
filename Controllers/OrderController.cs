@@ -1,15 +1,19 @@
 using App.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class OrderController(IHttpClientFactory httpClientFactory) : BaseController
+    public class OrderController(IHttpClientFactory httpClientFactory,ApiHelper apiHelper) : BaseController
     {
+        private ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
-            var response = await Client.DeleteAsync($"api/delete/order/{orderId}");
+            var response = await _apiHelper.SendDeleteRequestAsync("/api/delete/order",HttpMethod.Delete,orderId);
 
             if(!response.IsSuccessStatusCode)
             {
@@ -67,7 +71,9 @@ namespace MyApp.Namespace
                 return RedirectToAction("NotFound", "Error");
             }
 
-            var response = await Client.GetAsync($"/api/order-list/{userId}");
+            var request = await CreateRequestMessage($"/api/order-list/{userId}");
+
+            var response = await Client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -134,6 +140,7 @@ namespace MyApp.Namespace
         // }
         // await _orderService.UpdateOrderAsync(order);
         // */
+        [Authorize]
         public async Task<IActionResult> CreateOrder(int userId)
         {
             var dto = new OrderDTO
@@ -142,7 +149,7 @@ namespace MyApp.Namespace
                 UserId = userId
             };
 
-            var response = await Client.PostAsJsonAsync("/api/create/order",dto);
+            var response = await _apiHelper.SendApiRequestAsync("/api/create/order", HttpMethod.Post, dto);
 
             if (!response.IsSuccessStatusCode)
             {

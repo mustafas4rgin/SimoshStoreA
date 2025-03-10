@@ -6,13 +6,16 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class CommentController(IHttpClientFactory httpClientFactory) : BaseController
+    public class CommentController(IHttpClientFactory httpClientFactory, ApiHelper apiHelper) : BaseController
     {
+        private ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> ConfirmProductComment(int id)
         {
-            var response = await Client.GetAsync($"/api/confirm-comment/{id}");
+            var request = await CreateRequestMessage($"/api/confirm/productcomment/{id}");
+
+            var response = await Client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -25,7 +28,7 @@ namespace MyApp.Namespace
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteProductComment(int id)
         {
-            var response = await Client.GetAsync($"/api/delete/productcomment/{id}");
+            var response = await _apiHelper.SendDeleteRequestAsync("/api/delete/productcomment", HttpMethod.Delete, id);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -85,7 +88,7 @@ namespace MyApp.Namespace
                 Text = commentText
             };
 
-            var response = await Client.PostAsJsonAsync("/api/create/productcomment", dto);
+            var response = await _apiHelper.SendApiRequestAsync("/api/create/productcomment", HttpMethod.Post, dto);
 
             if (!response.IsSuccessStatusCode)
             {

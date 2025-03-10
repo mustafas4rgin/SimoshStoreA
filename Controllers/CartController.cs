@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using App.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimoshStore;
@@ -14,6 +15,12 @@ namespace MyApp.Namespace
         {
             var userId = GetUserId();
 
+            if(userId is null)
+            {
+                SetErrorMessage("You must login.");
+                return RedirectToAction("NotFound","Error");
+            }
+
             var response = await Client.GetAsync($"/api/{userId}/cart-items");
 
             if (!response.IsSuccessStatusCode)
@@ -26,7 +33,6 @@ namespace MyApp.Namespace
             return View(cartItems);
 
         }
-
         public async Task<IActionResult> AddToCart(int productId, int quantity)
         {
             var userId = GetUserId();

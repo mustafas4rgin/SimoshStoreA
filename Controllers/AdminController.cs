@@ -14,7 +14,9 @@ namespace SimoshStore.Controllers
         
         public async Task<IActionResult> AdminDashboard()
         {
-            var response = await Client.GetAsync("/api/admin-dashboard");
+            var request = await CreateRequestMessage("/api/admin-dashboard");
+
+            var response = await Client.SendAsync(request);
 
             if(!response.IsSuccessStatusCode)
             {

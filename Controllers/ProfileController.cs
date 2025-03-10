@@ -2,13 +2,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using App.Data.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class ProfileController(IHttpClientFactory httpClientFactory) : BaseController
+    public class ProfileController(IHttpClientFactory httpClientFactory, ApiHelper apiHelper) : BaseController
     {
+        private ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
         public async Task<IActionResult> Review()
         {
@@ -32,6 +34,7 @@ namespace MyApp.Namespace
 
             return View(comments);
         }
+        [Authorize]
         public async Task<IActionResult> UpdateProfileAsync()
         {
             var userId = GetUserId();
@@ -59,6 +62,7 @@ namespace MyApp.Namespace
                 }
             );
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel model)
         {
@@ -75,6 +79,12 @@ namespace MyApp.Namespace
                 return RedirectToAction("NotFound","Error");
             }
 
+            if(userId == model.user.Id)
+            {
+                SetErrorMessage("You are not authorized");
+                return RedirectToAction("NotFound","Error");
+            }
+
             var dto = new UserDTO
             {
                 FirstName = model.FirstName,
@@ -83,7 +93,7 @@ namespace MyApp.Namespace
                 Phone = model.Phone,
             };
 
-            var response = await Client.PutAsJsonAsync($"api/update/user/{userId}", dto);
+            var response = await _apiHelper.SendApiRequestAsync($"/api/update/user/{userId}", HttpMethod.Put, dto);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -105,11 +115,13 @@ namespace MyApp.Namespace
                 return RedirectToAction("NotFound","Error");
             }
 
-            var response = await Client.GetAsync($"/api/my-profile/{userId}");
+            var request =  await CreateRequestMessage($"/api/my-profile/{userId}");
+
+            var response = await Client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
-                SetErrorMessage("Failed to load user");
+                SetErrorMessage("Failed to load profile");
                 return RedirectToAction("NotFound", "Error");
             }
 
@@ -160,7 +172,7 @@ namespace MyApp.Namespace
                 return RedirectToAction("NotFound", "Error");
             }
             
-            var response = await Client.PutAsJsonAsync($"api/update/address/{userId}",model);
+            var response = await _apiHelper.SendApiRequestAsync("/api/update/address",HttpMethod.Put,model);
 
             if (!response.IsSuccessStatusCode)
             {

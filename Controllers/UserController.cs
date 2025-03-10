@@ -6,33 +6,37 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    [Authorize(Roles = "admin")]
-    public class UserController(IHttpClientFactory httpClientFactory) : BaseController
+    
+    public class UserController(IHttpClientFactory httpClientFactory, ApiHelper apiHelper) : BaseController
     {
+        private ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
-
+        
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteUserAsync(int id)
         {
-            var response = await Client.DeleteAsync($"/api/delete/user/{id}");
+            var response = await _apiHelper.SendDeleteRequestAsync($"/api/delete/user",HttpMethod.Delete,id);
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             SetSuccessMessage("User deleted successfully.");
 
             return RedirectToAction("ManageUsers", "Admin");
         }
+        [Authorize(Roles = "admin,buyer,seller")]
         public async Task<IActionResult> UpdateUser(int id)
         {
+
             var response = await Client.GetAsync($"/api/users/{id}");
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             var user = await response.Content.ReadFromJsonAsync<UserEntity>();
@@ -55,26 +59,28 @@ namespace MyApp.Namespace
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserViewModel model)
         {
+            var userId = GetUserId();
+
             if (ModelState.IsValid)
             {
-                var response = await Client.PutAsJsonAsync($"/api/update/user/{model.Id}",new UserDTO
+                var response = await apiHelper.SendApiRequestAsync($"/api/update/user/{userId}", HttpMethod.Put, new UserDTO
                 {
+                    Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Phone = model.Phone,
-                    Email = model.Email
                 });
 
-                if(!response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
                     SetErrorMessage("Data cannot be fetched.");
-                    return RedirectToAction("NotFound","Error");
+                    return RedirectToAction("NotFound", "Error");
                 }
             }
 
             SetSuccessMessage("User updated successfully.");
-            
-            return RedirectToAction("AdminDashboard","Admin");
+
+            return RedirectToAction("AdminDashboard", "Admin");
         }
 
     }

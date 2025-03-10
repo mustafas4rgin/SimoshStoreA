@@ -9,8 +9,9 @@ using SimoshStore;
 namespace MyApp.Namespace
 {
     [Authorize(Roles = "admin")]
-    public class ProductController(IHttpClientFactory httpClientFactory) : BaseController
+    public class ProductController(IHttpClientFactory httpClientFactory, ApiHelper apiHelper) : BaseController
     {
+        ApiHelper _apiHelper => apiHelper;
         private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
 
         [HttpGet("GetProducts")]
@@ -18,10 +19,10 @@ namespace MyApp.Namespace
         {
             var response = await Client.GetAsync("/api/products");
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             var products = await response.Content.ReadFromJsonAsync<List<ProductEntity>>();
@@ -33,24 +34,27 @@ namespace MyApp.Namespace
         {
             var response = await Client.GetAsync($"/api/products/{id}");
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             var product = await response.Content.ReadFromJsonAsync<ProductEntity>();
 
             return View(product);
         }
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateProduct()
         {
-            var response = await Client.GetAsync("/api/categories");
+            var request = await CreateRequestMessage("/api/categories");
 
-            if(!response.IsSuccessStatusCode)
+            var response = await Client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             var categories = await response.Content.ReadFromJsonAsync<List<CategoryEntity>>();
@@ -59,28 +63,30 @@ namespace MyApp.Namespace
 
             return View(new ProductDTO());
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductDTO productDTO)
         {
-            var response = await Client.PostAsJsonAsync("/api/create/product", productDTO);
+             var response = await apiHelper.SendApiRequestAsync("/api/create/product", HttpMethod.Post, productDTO);
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
             return RedirectToAction("ProductList", "Admin");
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
+            
             var response = await Client.GetAsync($"/api/update-admin/product/{id}");
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             var dto = await response.Content.ReadFromJsonAsync<UpdateProductDTO>();
@@ -110,16 +116,16 @@ namespace MyApp.Namespace
 
             return View(productDTO);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(int id, ProductDTO productDTO)
         {
-            var response = await Client.PutAsJsonAsync($"/api/update/product/{id}",productDTO);
+            var response = await apiHelper.SendApiRequestAsync($"/api/update/product/{id}", HttpMethod.Put, productDTO);
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             SetSuccessMessage("Product uptaded successfully.");
@@ -127,14 +133,16 @@ namespace MyApp.Namespace
             return RedirectToAction("AdminDashboard", "Admin");
 
         }
+        [Authorize(Roles="admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var response = await Client.DeleteAsync($"/api/delete/product/{id}");
+            
+            var response = await apiHelper.SendDeleteRequestAsync("/api/delete/product", HttpMethod.Delete, id);
 
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 SetErrorMessage("Data cannot be fetched.");
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             SetSuccessMessage("Product deleted successfully.");
