@@ -6,102 +6,76 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class BlogController : Controller
+    public class BlogController(IHttpClientFactory httpClientFactory) : BaseController
     {
-        ITagService _tagService;
-        IDataRepository _Repository;
-        IBlogService _blogService;
-        IBlogCategoryService _blogCategoryService;
-        ICategoryService _categoryService;
-        IProductService _productService;
-        IUserService _userService;
-        public BlogController(IUserService userService, ITagService tagService, ICategoryService categoryService, IProductService productService, IDataRepository dataRepository, IBlogService blogService, IBlogCategoryService blogCategoryService)
-        {
-            _Repository = dataRepository;
-            _blogCategoryService = blogCategoryService;
-            _blogService = blogService;
-            _productService = productService;
-            _categoryService = categoryService;
-            _tagService = tagService;
-            _userService = userService;
-        }
+        private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
+        
         public async Task<IActionResult> BlogPost(int id)
         {
-            var randomBlog = await _blogService.GetRandomBlog();
-            var blogEntity = await _blogService.GetBlogByIdAsync(id);
-            if (blogEntity is null)
-            {
-                return RedirectToAction("UnderConstruction", "Error");
-            }
-            var blogEntities = await _blogService.GetAllBlogsAsync();
-            var blogComments = await _blogService.GetComments(id);
-            var relBlogTags = await _Repository.GetAll<RelBlogTagEntity>().ToListAsync();
-            var user = await _Repository.GetByIdAsync<UserEntity>(blogEntity.UserId);
-            List<BlogTagEntity> tags = new List<BlogTagEntity>();
-            foreach (var relBlogTag in relBlogTags)
-            {
-                var tag = await _tagService.GetTagByIdAsync(relBlogTag.TagId);
-                tags.Add(tag);
-            }
-            if (user is null)
-            {
-                user = new UserEntity();
-            }
-            return View(new BlogPostViewModel
-            {
-                randomBlog = randomBlog,
-                blog = blogEntity,
-                blogs = blogEntities,
-                blogComments = blogComments,
-                user = user,
-                quote = QuoteHelper.GenerateQuote(),
-                tags = tags
+            var response = await Client.GetAsync($"/api/blog-post/{id}");
 
-            });
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var model = await response.Content.ReadFromJsonAsync<BlogPostViewModel>();
+            
+            return View(model);
 
         }
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            await _blogService.DeleteBlogAsync(id);
+            var response = await Client.DeleteAsync($"/api/delete/blog/{id}");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
             return RedirectToAction("ListBlogs","Admin");
         }
         public async Task<IActionResult> BlogList()
         {
-            var blogEntities = await _blogService.GetAllBlogsAsync();
-            var blogCategoryEntities = await _blogCategoryService.GetAllCategoriesAsync();
-            return View(new BlogListViewModel
-            {
-                blogCategoryEntities = blogCategoryEntities,
-                blogEntities = blogEntities,
+            var response = await Client.GetAsync("/api/blogs");
 
-            });
-        }
-        public async Task<IActionResult> BlogListWithTag(BlogTagEntity blogTagEntity)
-        {
-            return RedirectToAction("UnderConstruction", "Error");
-        }
-        public async Task<IActionResult> RecentBlogs()
-        {
-            var blogEntities = await _blogService.GetRecentBlogs();
-            return View(blogEntities);
-        }
-        public async Task<IActionResult> CreateBlog()
-        {
-            int userId = _userService.GetUserId();
-            var user = await _userService.GetUserByIdAsync(userId);
-            if (user is null)
+            if(!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Login", "Account");
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            return View(new BlogDTO{
-                userId = userId
-            });
+
+            var blogs = await response.Content.ReadFromJsonAsync<List<BlogEntity>>();
+
+            return View(blogs);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
-        {
-            var blog = await _blogService.CreateBlogAsync(blogDTO);
-            return RedirectToAction("BlogList");
-        }
+        // public async Task<IActionResult> BlogListWithTag(BlogTagEntity blogTagEntity)
+        // {
+        //     return RedirectToAction("UnderConstruction", "Error");
+        // }
+        // public async Task<IActionResult> RecentBlogs()
+        // {
+        //     var blogEntities = await _blogService.GetRecentBlogs();
+        //     return View(blogEntities);
+        // }
+        // public async Task<IActionResult> CreateBlog()
+        // {
+        //     int userId = _userService.GetUserId();
+        //     var user = await _userService.GetUserByIdAsync(userId);
+        //     if (user is null)
+        //     {
+        //         return RedirectToAction("Login", "Account");
+        //     }
+        //     return View(new BlogDTO{
+        //         userId = userId
+        //     });
+        // }
+        // [HttpPost]
+        // public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
+        // {
+        //     var blog = await _blogService.CreateBlogAsync(blogDTO);
+        //     return RedirectToAction("BlogList");
+        // }
     }
 }

@@ -5,25 +5,26 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SimoshStore;
 
-public class AccountViewComponent : ViewComponent
+public class AccountViewComponent(IHttpClientFactory httpClientFactory) : ViewComponent
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IProfileService _profileService;
-    public AccountViewComponent(IHttpContextAccessor httpContextAccessor, IProfileService profileService)
-    {
-        _profileService = profileService;
-        _httpContextAccessor = httpContextAccessor;
-    }
+    private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-        if (userIdClaim == null)
+        var userId = GetUserId();
+        
+        var response = await Client.GetAsync($"/api/users/{userId}");
+
+        if(!response.IsSuccessStatusCode)
         {
-            ViewData["AuthError"] = "You need to login to view this page";
-            return View(new UserEntity());
+            return Content("Data cannot be fetched.");
         }
-        int userId = int.Parse(userIdClaim);
-        var user = await _profileService.GetUserByIdAsync(userId);
+
+        var user = await response.Content.ReadFromJsonAsync<UserEntity>();
+        
         return View(user);
     }
+    private int? GetUserId()
+        {
+            return int.TryParse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId) ? userId : null;
+        }
 }

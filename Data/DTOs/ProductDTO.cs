@@ -4,7 +4,7 @@ namespace SimoshStore;
 
 public class ProductDTO
 {
-    public int SellerId { get; set; }
+    public int SellerId { get; set; } = 2;
     public int CategoryId { get; set; }
     public int? DiscountId { get; set; }
     public string Name { get; set; } = null!;

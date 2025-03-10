@@ -1,43 +1,73 @@
 using System.Security.Claims;
 using System.Security.Principal;
+using App.Data.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class AuthController : Controller
+    public class AuthController(IHttpClientFactory httpClientFactory) : BaseController
     {
-        private readonly IAuthService _authService;
-        private readonly IAuthRepository _authRepository;
-        public AuthController(IAuthService authService, IAuthRepository authRepository)
-        {
-            _authService = authService;
-            _authRepository = authRepository;
-        }
+        private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
+
         [HttpGet("Login")]
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync(LoginViewModel model, string? ReturnUrl)
+        public async Task<IActionResult> Login([FromForm] LoginModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
-
-            var loginDto = new LoginDto(model.Email, model.Password, model.RememberMe);
-            var result = await _authService.LoginAsync(loginDto);
-
-            if (!result.Success)
             {
-                ViewBag.Error = result.Message;
+                return View(model);
+            }
+            var response = await Client.PostAsJsonAsync("/api/login", model);
+
+            if (!response.IsSuccessStatusCode)
+            {
                 return View(model);
             }
 
-            if (!string.IsNullOrEmpty(ReturnUrl))
-                return Redirect(ReturnUrl);
+            var user = await response.Content.ReadFromJsonAsync<UserEntity>();
 
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre hatalı.");
+                return View(model);
+            }
+            await LoginAsync(user);
+
+            return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> LoginAsync(UserEntity user)
+        {
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.FirstName),
+                new(ClaimTypes.Surname, user.LastName),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, user.Role.Name),
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
             return RedirectToAction("Index", "Home");
         }
         [HttpGet("Register")]
@@ -47,7 +77,7 @@ namespace MyApp.Namespace
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync(RegisterViewModel model)
+        public async Task<IActionResult> RegisterAsync([FromForm] RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,27 +90,33 @@ namespace MyApp.Namespace
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = model.Password,
-                Phone = model.Phone
+                Phone = model.Phone,
+                PasswordConfirm = model.PasswordConfirm
             };
 
-            var result = await _authService.RegisterAsync(registerDto);
+            var response = await Client.PostAsJsonAsync("/api/create/user", registerDto);
 
-            if (!result.Success)
+            if (!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
                 return View(model);
             }
 
+            SetSuccessMessage("User created successfully.");
+
             return RedirectToAction("Login");
         }
+        [Route("/logout")]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            var result = await _authService.LogOutAsync();
-            if (!result.Success)
-            {
-                ViewBag.Error = result.Message;
-            }
-            return RedirectToAction("Index", "Home");
+            await LogoutUser();
+
+            return RedirectToAction(nameof(Login));
+        }
+
+        private async Task LogoutUser()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -91,25 +127,21 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
-            var result = await _authService.ForgotPasswordAsync(email);
+            var response = await Client.PostAsJsonAsync("/api/forgot-password", email);
 
-            if (result.Success)
+            if (!response.IsSuccessStatusCode)
             {
-                TempData["Message"] = result.Message;
-                return RedirectToAction("ForgotPasswordConfirmation");
-            }
-            else
-            {
-                ModelState.AddModelError("", result.Message);
                 return View();
             }
+
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
         [HttpGet]
         public IActionResult ResetPassword(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
-                return RedirectToAction("NotFound","Error");
+                return RedirectToAction("NotFound", "Error");
             }
 
             return View(new ResetPasswordViewModel { Token = token });
@@ -118,26 +150,28 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // Token'ı doğrula ve şifreyi güncelle
-                var result = await _authService.ResetPasswordAsync(model.Token, model.NewPassword);
-
-                if (result.Success)
-                {
-                    TempData["Message"] = "Şifreniz başarıyla sıfırlandı.";
-                    return RedirectToAction("Login");
-                }
-                else
-                {
-                    ModelState.AddModelError("", result.Message);
-                    return View();
-                }
+                return View(model);
             }
-            return View(model);
+            var dto = new ResetPasswordDTO
+            {
+                Token = model.Token,
+                Password = model.NewPassword
+            };
+
+            var response = await Client.PutAsJsonAsync($"/api/reset-password/{dto.Token}",dto);
+
+            if(!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            SetSuccessMessage("Password changed.");
+            return RedirectToAction(nameof(Login));
         }
-        [HttpGet]
-        public IActionResult ForgotPasswordConfirmation()
+        [HttpGet("/PasswordConfirmation/{dto.Token}")]
+        public IActionResult ForgotPasswordConfirmation(ResetPasswordDTO dto)
         {
             return View();
         }

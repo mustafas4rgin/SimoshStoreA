@@ -7,27 +7,35 @@ using SimoshStore;
 namespace MyApp.Namespace
 {
     [Authorize(Roles = "admin")]
-    public class UserController : Controller
+    public class UserController(IHttpClientFactory httpClientFactory) : BaseController
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
 
-        public ActionResult DeleteUser(int id)
+        public async Task<ActionResult> DeleteUserAsync(int id)
         {
-            _userService.DeleteUserAsync(id);
+            var response = await Client.DeleteAsync($"/api/delete/user/{id}");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            SetSuccessMessage("User deleted successfully.");
+
             return RedirectToAction("ManageUsers", "Admin");
         }
         public async Task<IActionResult> UpdateUser(int id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var response = await Client.GetAsync($"/api/users/{id}");
 
-            if (user == null)
+            if(!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("ManageUsers", "Admin");
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            var user = await response.Content.ReadFromJsonAsync<UserEntity>();
 
             var viewModel = new UpdateUserViewModel
             {
@@ -49,20 +57,24 @@ namespace MyApp.Namespace
         {
             if (ModelState.IsValid)
             {
-                var result =await _userService.UpdateUserAsync(model);
+                var response = await Client.PutAsJsonAsync($"/api/update/user/{model.Id}",new UserDTO
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Phone = model.Phone,
+                    Email = model.Email
+                });
 
-                if (result.Success)
+                if(!response.IsSuccessStatusCode)
                 {
-                    TempData["SuccessMessage"] = "User updated successfully.";
-                    return RedirectToAction("ManageUsers","Admin");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Failed to update user.");
+                    SetErrorMessage("Data cannot be fetched.");
+                    return RedirectToAction("NotFound","Error");
                 }
             }
 
-            return View(model);
+            SetSuccessMessage("User updated successfully.");
+            
+            return RedirectToAction("AdminDashboard","Admin");
         }
 
     }

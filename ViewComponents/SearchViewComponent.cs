@@ -5,47 +5,21 @@ using SimoshStore;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class SearchViewComponent : ViewComponent
+public class SearchViewComponent(IHttpClientFactory httpClientFactory) : ViewComponent
 {
-    private readonly ICategoryService _categoryService;
-    private readonly IProductService _productService;
-    private readonly IDataRepository _Repository;
-
-    public SearchViewComponent(IDataRepository dataRepository, ICategoryService categoryService, IProductService productService)
-    {
-        _categoryService = categoryService;
-        _productService = productService;
-        _Repository = dataRepository;
-    }
+    private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var categories = await _categoryService.ListAllCategories();
-        var popularProducts = await _productService.PopularProducts();
-        var discounts = _Repository.GetAll<DiscountEntity>();
-        var images = await _Repository.GetAll<ProductImageEntity>().ToListAsync();
-        foreach(var product in popularProducts)
+        var response = await Client.GetAsync("/api/search-product");
+
+        if(!response.IsSuccessStatusCode)
         {
-            if(images is not null)
-            {
-                product.Images = images.Where(i => i.ProductId == product.Id).ToList();
-            }
-            if(product.DiscountId!=null)
-            {
-                product.Discount = discounts.Where(d=>d.Id==product.Id).FirstOrDefault();
-            }
-            else
-            {
-                product.Discount = null;
-            }
+            return View(new SearchBarViewModel());
         }
 
-        return View(
-            new SearchBarViewModel
-            {
-                Categories = categories,
-                Products = popularProducts,
-            }
-        );
+        var model = await response.Content.ReadFromJsonAsync<SearchBarViewModel>();
+
+        return View(model);
     }
 }

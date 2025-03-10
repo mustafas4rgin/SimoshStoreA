@@ -1,5 +1,4 @@
 ﻿
-@model IndexViewModel;
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -13,53 +12,7 @@
 	<!-- Banner End-->
 		
 	<!--category section-->
-	<section class="content-inner p-b0">
-		<div class="container">
-
-			<div class="section-head style-3 d-flex align-items-center justify-content-between left wow fadeInUp m-b30">
-				<div class="left-content">
-					<h2 class="title">Categories</h2>
-				</div>
-				<div class="right-content">
-					<a  class="tranding-button-prev me-3">
-						<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M46.0938 24.2149H5.83226L15.3599 14.9528C16.0879 14.2456 15.0081 13.1198 14.2704 13.8329C14.2704 13.8328 3.36152 24.4377 3.36152 24.4377C3.04321 24.7276 3.06856 25.2508 3.36156 25.5577C3.36152 25.5577 14.2704 36.1671 14.2704 36.1671C15.0046 36.8717 16.0905 35.7669 15.3599 35.0471C15.3599 35.0471 5.82873 25.7774 5.82873 25.7774H46.0938C47.0921 25.768 47.1436 24.234 46.0938 24.2149Z" fill="black"/>
-						</svg>
-					</a>	
-					<a  class="tranding-button-next">
-						<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M3.90623 24.2149H44.1677L34.6401 14.9528C33.9121 14.2456 34.9919 13.1198 35.7296 13.8329C35.7296 13.8328 46.6385 24.4377 46.6385 24.4377C46.9568 24.7276 46.9314 25.2508 46.6384 25.5577C46.6385 25.5577 35.7296 36.1671 35.7296 36.1671C34.9954 36.8717 33.9095 35.7669 34.6401 35.0471C34.6401 35.0471 44.1713 25.7774 44.1713 25.7774H3.90623C2.90785 25.768 2.85645 24.234 3.90623 24.2149Z" fill="black"/>
-						</svg>
-					</a>	
-				</div>
-			</div>
-			<div class="swiper swiper-slider category-swiper2">
-				<div class="swiper-wrapper">
-					@foreach(var category in Model.categories)
-{
-    <div class="swiper-slide">
-		<a href="@Url.Action("ProductList", "Shop", new { selectedCategoryIds = new List<int> { category.Id } })">
-			<div class="category-product box-hover">
-            <h3 class="title">
-					<p style="color: @category.Color;">
-						@category.Name
-					</p>
-                    
-                
-            </h3>
-            <img src="https://picsum.photos/350/300" alt="Lorem Ipsum">
-        </div>
-		</a>
-        
-    </div>
-}
-
-					
-					
-				</div>	
-			</div>	
-		</div>
-	</section>
+	@await Component.InvokeAsync("CategorySlider")
 	<!--category section-->
 
 
@@ -70,83 +23,7 @@
 			<div class="row about-style1 align-items-end m-b0 m-lg-b50">
 				<div class="col-lg-6 col-md-12 align-self-center m-b30">
 					<div class="row align-items-end">
-						<div class="col-lg-6 col-md-6 col-sm-6 m-lg-b80">
-							<div class="shop-card ">
-								@{
-									var firstProduct = Model.randomProducts.FirstOrDefault();
-									var lastProduct = Model.randomProducts.Last();
-									var firstImage = Model.images.Where(s => s.ProductId==firstProduct.Id).FirstOrDefault();
-									var secondImage = Model.images.Where(s => s.ProductId == lastProduct.Id).FirstOrDefault();
-									
-									
-								}
-								<div class="dz-media">
-									<img src="https://picsum.photos/600/600" alt="image">
-									<div class="shop-meta">
-										<a href="@Url.Action("AddToCart","Cart",new {id = firstProduct.Id,quantity=1})"id="addToCartBtn">
-											<div class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</div></a>
-										
-									</div>
-								</div>
-								<div class="dz-content">
-									<h2 class="title"> <a href="@Url.Action("ProductList", "Shop")">@firstProduct.Name</a></h2>
-									@if(firstProduct.DiscountId>0)
-									{
-										var discount = Model.discounts.Where(d => d.Id==firstProduct.DiscountId).FirstOrDefault();
-										decimal newPrice = lastProduct.Price - (firstProduct.Price*discount.DiscountRate/100);
-										<h6 class="price">
-											@newPrice
-											<del>@firstProduct.Price</del>
-										</h6>
-									}
-									else
-									{
-										<h6 class="price">
-											@firstProduct.Price;
-										</h6>
-									}
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6">
-							<div class="shop-card ">
-								<div class="dz-media">
-									<img src="https://picsum.photos/600/600" alt="image">
-									<div class="shop-meta">
-										
-										
-										<a href="@Url.Action("AddToCart","Cart",new {id = lastProduct.Id,quantity=1})" id="addToCartBtn1">
-											<div class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</div>
-										</a>
-										
-									</div>
-								</div>
-								<div class="dz-content">
-									<h2 class="title"><a href="@Url.Action("ProductList", "Shop")">@lastProduct.Name</a></h2>
-									@if(lastProduct.DiscountId>0)
-									{
-										var discount = Model.discounts.Where(d => d.Id==lastProduct.DiscountId).FirstOrDefault();
-										decimal newPrice = lastProduct.Price - (lastProduct.Price*discount.DiscountRate/100);
-										<h6 class="price">
-											@newPrice
-											<del>@lastProduct.Price</del>
-										</h6>
-									}
-									else
-									{
-										<h6 class="price">
-											@lastProduct.Price;
-										</h6>
-									}
-								</div>
-							</div>
-						</div>
+						@await Component.InvokeAsync("AboutSection")
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-12 m-b30">
@@ -188,186 +65,13 @@
 	</section>
 	<!--About Section End -->
 
-
-	<section class="content-inner position-relative z-1 overflow-hidden" id="Plant_section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-xl-7 col-lg-9 col-sm-12 m-b30">
-					<div class="service-box wow zoomIn" data-wow-delay="1s">
-						<ul class="nav nav-tabs Plant_row"  id="Plant_row" style="--sr-total: 6" role="tablist">
-							@for(int i = 1;i<7;i++)
-							{
-								var product = Model.products[i];
-								var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
-								<li class="nav-item " style="--sr-item:@i" role="presentation">
-								<button class="nav-link active" id="plant_1" data-bs-toggle="tab" data-bs-target="#plant_@i-pane" type="button" role="tab" aria-controls="plant_@i-pane" aria-selected="true" onclick="redirectToProductDetails(@product.Id)">
-    <span class="plant-bx">
-        <span class="dz-media">
-            <img src="https://picsum.photos/600/600" alt="">
-        </span>
-    </span>
-</button>
-							</li>
-							}
-							
-						</ul>
-						<div class="tab-content">
-							@for(int i = 1;i<7;i++)
-							{
-								var product = Model.products[i];
-								var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
-								@if(i==1)
-								{
-									<div class="tab-pane fade show active" id="plant_@i-pane" role="tabpanel" aria-labelledby="plant_@i" tabindex="0">
-								<div class="content">
-									<div class="shop-card ">
-										<div class="dz-media">
-											<img href="@Url.Action("ProductDetails", "Shop", new { id = product.Id })" src="https://picsum.photos/600/600" alt="image">
-											<div class="shop-meta">
-												<a href="@Url.Action("AddToCart","Cart",new {id = product.Id,quantity=1})"id="addToCartBtn2">
-													<div class="btn btn-primary meta-icon dz-carticon">
-													<i class="flaticon flaticon-basket"></i>
-													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-												</div>
-												</a>
-												
-											</div>
-										</div>
-										<div class="dz-content">
-											<h2 class="title"><a href="@Url.Action("ProductList", "Shop")">@product.Name</a></h2>
-											@if(product.Discount is not null)
-											{
-												var newPrice = product.Price - (product.Price * product.Discount.DiscountRate / 100);
-											}
-											else
-											{
-												<span class="price">
-												$@product.Price
-											</span>
-											}
-											
-										</div>
-									</div>
-								</div>
-							</div>
-								}
-								else{
-									<div class="tab-pane fade show " id="plant_@i-pane" role="tabpanel" aria-labelledby="plant_@i" tabindex="0">
-								<div class="content">
-									<div class="shop-card ">
-										<div class="dz-media">
-											<img href="@Url.Action("ProductDetails", "Shop", new { id = product.Id })" src="https://picsum.photos/600/600" alt="image">
-											<div class="shop-meta">
-												<a href="@Url.Action("AddToCart","Cart", new {id = product.Id,quantity = 1})"id="addToCartBtn2">
-													<div class="btn btn-primary meta-icon dz-carticon">
-													<i class="flaticon flaticon-basket"></i>
-													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-												</div>
-												</a>
-												
-											</div>
-										</div>
-										<div class="dz-content">
-											<h2 class="title"><a href="@Url.Action("ProductList", "Shop")">@product.Name</a></h2>
-											@if(product.Discount is not null)
-											{
-												var newPrice = product.Price - (product.Price * product.Discount.DiscountRate / 100);
-												<span class="price">
-												$@newPrice
-												<del>$@product.Price</del>
-												</span>
-											}
-											else{
-												<span class="price">
-												$@product.Price
-											</span>
-											}
-										</div>
-									</div>
-								</div>
-							</div>
-								}
-							}
-							
-								
-						</div>
-						
-					</div>
-				</div>
-			</div>	
-		</div>
-		<div class=" plant-row">
-			<div class="tag-slider style-1 wow fadeInUp" data-wow-delay="0.2s" id="tagSlider">
-				<div class="item-wrap">	
-					<div class="item">
-						<span class="plant-text">Fast</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">And</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Secure </span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Fast</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">and</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Secure </span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Fast</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">and</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Secure</span>
-					</div>
-				</div>
-			</div>
-			<div class="tag-slider wow fadeInUp" data-wow-delay="0.4s" id="tagSlider2">
-				<div class="item-wrap">	
-					<div class="item">
-						<span class="plant-text">Do</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Your</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Shopping </span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Do</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Your</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Shopping </span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Do</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Your</span>
-					</div>
-					<div class="item">
-						<span class="plant-text">Shopping </span>
-					</div>
-				</div>
-			</div>
-		</div>	
-	</section>		
+@await Component.InvokeAsync("Carousel")
+		
 	<div class="content-inner bg-light">
 		<div class="container-fluid">
 			<div class="gallery-wrapper" id="lightgallery">
 				<div class="gallery-col">
 					@for(int i = 1; i<=2; i++){
-						var product = Model.products[i];
-						var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
 						<div class="gallery-item m-b30">
 						<div class="dz-box post-@i box-hover">
 							<a href="https://picsum.photos/450/510" data-src="https://picsum.photos/450/510" class="dz-media lg-item">
@@ -379,8 +83,6 @@
 					}
 					@for(int i = 3; i<=4;i++)
 					{
-						var product = Model.products[i];
-						var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
 						<div class="gallery-item">
 						<div class="dz-box post-@i box-hover">
 							<a href="https://picsum.photos/450/360" data-src="https://picsum.photos/450/360" class="dz-media lg-item">
@@ -391,10 +93,6 @@
 					</div>
 					}
 				</div>
-				@{
-					var p = Model.products[5];
-					var im = Model.images.Where(i => i.ProductId == p.Id).FirstOrDefault();
-				}
 				<div class="gallery-col-2">
 					<div class="gallery-item">
 						<div class="dz-box post-5 box-hover">
@@ -408,8 +106,6 @@
 				<div class="gallery-col">
 					@for(int i = 6;i<=7;i++)
 					{
-						var product = Model.products[i];
-						var img = Model.images.Where(i => i.ProductId==product.Id).FirstOrDefault();
 						<div class="gallery-item m-b30">
 						<div class="dz-box post-@i box-hover">
 							<a href="https://picsum.photos/450/510" data-src="https://picsum.photos/450/510" class="dz-media lg-item">
@@ -421,8 +117,6 @@
 					}
 					@for(int i = 8;i<=9;i++)
 					{
-						var product = Model.products[i];
-						var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
 						<div class="gallery-item">
 						<div class="dz-box post-@i box-hover">
 							<a href="https://picsum.photos/450/360" data-src="https://picsum.photos/450/360" class="dz-media lg-item">
@@ -451,47 +145,7 @@
 					</div>	
 				</div>
 			</div>
-			<div class="clearfix">
-				<ul id="masonry" class="row g-xl-4 g-3">
-					@foreach(var product in Model.popularProducts)
-					{
-						var img = Model.images.Where(i => i.ProductId == product.Id).FirstOrDefault();
-						<li class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 herbs wow fadeInUp" data-wow-delay="0.6s">
-						<div class="shop-card ">
-							<div class="dz-media">
-								<img src="https://picsum.photos/600/600" alt="image">
-								<div class="shop-meta">
-									<a href="@Url.Action("AddToCart","Cart", new {id = product.Id,quantity = 1})"id="addToCartBtn3">
-										<div class="btn btn-primary meta-icon dz-carticon")">
-										<i class="flaticon flaticon-basket"></i>
-										<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-									</div>
-									</a>
-									
-								</div>
-							</div>
-							<div class="dz-content">
-								<h2 class="title"><a href="@Url.Action("ProductList", "Shop")">@product.Name</a></h2>
-								@if(product.Discount is not null)
-								{
-									var newPrice = product.Price - (product.Price * product.Discount.DiscountRate / 100);
-									<span class="price">
-									$@newPrice
-									<del>$@product.Price</del>
-									</span>
-								}
-								else{
-									<span class="price">
-									$@product.Price
-									</span>
-								}
-								
-							</div>
-						</div>	
-					</li>
-					}
-				</ul>
-			</div>
+			@await Component.InvokeAsync("PopularProducts")
 		</div>
 	</section>
 	<!-- Products Section Start-->
@@ -514,71 +168,7 @@
 			</div>
 			<div class="swiper swiper-blog-post">
 				<div class="swiper-wrapper">
-					@foreach(var blog in Model.blogEntities.Take(6))
-					{
-						<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.2s">
-							<div class="dz-media">
-								<img src="https://picsum.photos/600/675" alt="">
-								<div class="post-date">@blog.CreatedAt.ToString("dd MMM yyyy")</div>
-							</div>
-							<div class="dz-info">
-								<h3 class="dz-title mb-0">
-									<a href="@Url.Action("BlogPost","Blog",new{id = blog.Id})">@blog.Title</a>
-								</h3>
-								<ul class="blog-social">
-									<li>
-										<a class="share-btn" href="javascript:void(0);">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-												<path d="M7 17L17 7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												<path d="M7 7H17V17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-											</svg>
-										</a>								
-										<ul class="sub-team-social">
-											<li><a href="https://www.instagram.com/s4rgin" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="https://www.instagram.com/s4rgin" target="_blank"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="https://www.instagram.com/s4rgin" target="_blank"><i class="fab fa-instagram"></i></a></li>
-											<li><a href="https://www.instagram.com/s4rgin" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					}
-					@foreach(var blog in Model.blogEntities.Take(6))
-					{
-						<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.4s">
-							<div class="dz-media">
-								<img src="https://picsum.photos/480/480" alt="">
-								<div class="post-date">@blog.CreatedAt.ToString("dd MMM yyyy")</div>
-							</div>
-							<div class="dz-info">
-								<h3 class="dz-title mb-0">
-									<a href="@Url.Action("BlogPost","Blog",new{id = blog.Id})">@blog.Title</a>
-								</h3>
-								<ul class="blog-social">
-									<li>
-										<a class="share-btn" href="javascript:void(0);">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-												<path d="M7 17L17 7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												<path d="M7 7H17V17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-											</svg>
-										</a>								
-										<ul class="sub-team-social">
-											<li><a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a></li>
-											<li><a href="https://www.linkedin.com/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					}
-					
+					@await Component.InvokeAsync("BlogSection")
 				</div>
 			</div>
 		</section>

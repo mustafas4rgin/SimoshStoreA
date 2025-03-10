@@ -15,20 +15,21 @@
 			</div>	
 		</div>
 		<!--Banner End-->
-
-		
+ @{decimal cartPrice = 0;decimal productPrices = 0;decimal savedPrice = 0;}
+ 
 		<!-- contact area -->
 		<section class="content-inner shop-account">
 			<!-- Product -->
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-8">
+					@if(Model.Count > 0)
+					{
+						<div class="col-lg-8">
 						<div class="table-responsive">
+
 							<table class="table check-tbl">
 								<thead>
 									<tr>
-										<th></th>
-										<th></th>
 										<th>Product</th>
 										<th>Price</th>
 										<th>Quantity</th>
@@ -36,13 +37,13 @@
 									</tr>
 								</thead>
 								<tbody>
-                                    @if(ViewData["Error"] != null)
+                                    @if(ViewBag.ErrorMessage != null)
 									{
 										<tr>
 											<td colspan="6" class="text-center">@ViewData["Error"]</td>
 										</tr>
 									}
-                                    @{decimal cartPrice = 0;decimal productPrices = 0;decimal savedPrice = 0;}
+                                   
                                     @foreach(var item in Model)
                                     {
                                         decimal price = item.Product.Price;
@@ -66,7 +67,7 @@
                                     cartPrice += price;
                                     
                                     }
-                                    @{savedPrice = productPrices - cartPrice;}
+                                    
 									
 								</tbody>
 							</table>
@@ -78,6 +79,12 @@
 							</div>
 						</div>
 					</div>
+					}
+					else{
+						<p>There is no item in your cart.</p>
+					}
+					
+					@{savedPrice = productPrices - cartPrice;}
 					<div class="col-lg-4">
 						<div class="cart-detail">
 							<a href="javascript:void(0);" class="btn btn-outline-secondary w-100 m-b20 btn-lg">Bank Offer 5% Cashback</a>

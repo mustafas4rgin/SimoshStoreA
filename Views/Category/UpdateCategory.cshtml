@@ -6,7 +6,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="CreateCategory" method="post">
+<form asp-action="UpdateCategory" method="post">
     <div class="form-group">
         <label for="Name">Category Name</label>
         <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Category Name" required />
@@ -22,7 +22,12 @@
         <input type="text" class="form-control" id="IconCssClass" name="IconCssClass" placeholder="Enter Icon CSS Class (e.g., fa-home)" required />
     </div>
 
-    <button type="submit" class="btn btn-primary">Create Category</button>
+    <div class="form-group">
+        <label for="IconCssClass">Image Url</label>
+        <input type="text" class="form-control" id="IconCssClass" name="ImageUrl" placeholder="Url" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Category</button>
 </form>
 
 @if (ViewBag.Error != null)

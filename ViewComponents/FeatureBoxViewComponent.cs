@@ -1,17 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using App.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SimoshStore;
 
-public class FeatureBoxViewComponent : ViewComponent
+public class FeatureBoxViewComponent(IHttpClientFactory httpClientFactory) : ViewComponent
 {
-    private readonly IBlogService _blogService;
-    public FeatureBoxViewComponent(IBlogService blogService)
-    {
-        _blogService = blogService;
-    }
+    private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var blogs = await _blogService.GetAllBlogsAsync();
+        var response = await Client.GetAsync("/api/blogs");
+
+        if(!response.IsSuccessStatusCode)
+        {
+            return View(new List<BlogEntity>());
+        }
+
+        var blogs = await response.Content.ReadFromJsonAsync<List<BlogEntity>>();
+
         return View(blogs);
     }
 }

@@ -7,41 +7,21 @@ using SimoshStore;
 
 namespace MyApp.Namespace
 {
-    public class CartController : Controller
+    public class CartController(IHttpClientFactory httpClientFactory) : BaseController
     {
-        private readonly IUserService _userService;
-        private readonly IProductService _productService;
-        private readonly IOrderService _orderService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IDataRepository _Repository;
-        public CartController(IUserService userService, IProductService productService, IOrderService orderService, IDataRepository Repository, IHttpContextAccessor httpContextAccessor)
-        {
-            _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
-            _Repository = Repository;
-            _orderService = orderService;
-            _productService = productService;
-        }
+        private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
         public async Task<IActionResult> ShopCart()
         {
-            int userId = _userService.GetUserId();
-            var cartItems = await _orderService.GetCartItemEntitiesByUserIdAsync(userId);
-            var products = await _Repository.GetAll<ProductEntity>().ToListAsync();
-            var discounts = await _Repository.GetAll<DiscountEntity>().ToListAsync();
-            if (cartItems is not null)
+            var userId = GetUserId();
+
+            var response = await Client.GetAsync($"/api/{userId}/cart-items");
+
+            if (!response.IsSuccessStatusCode)
             {
-                foreach (var item in cartItems)
-                {
-                    item.Product = products.Where(p => p.Id == item.ProductId).FirstOrDefault();
-                    if (item.Product.DiscountId is not null)
-                    {
-                        item.Product.Discount = discounts.Where(d => d.Id == item.Product.Id).FirstOrDefault();
-                    }
-                }
+                return View(new List<CartItemEntity>());
             }
-            else{
-                ViewData["Error"] = "Cart is empty";
-            }
+
+            var cartItems = await response.Content.ReadFromJsonAsync<List<CartItemEntity>>();
 
             return View(cartItems);
 
@@ -49,56 +29,27 @@ namespace MyApp.Namespace
 
         public async Task<IActionResult> AddToCart(int productId, int quantity)
         {
-            if (quantity == 0)
+            var userId = GetUserId();
+
+            if(userId == null)
             {
-                return BadRequest("Geçersiz quantity değeri.");
+                SetErrorMessage("You must login.");
+                return RedirectToAction("NotFound","Error");
             }
 
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-
-            if (userIdClaim == null)
+            var response = await Client.PostAsJsonAsync($"/api/add-to-cart/{userId}",new CartDTO
             {
-                ViewData["AuthError"] = "You must log in for adding to cart";
-                return RedirectToAction("Login", "Auth");
+                ProductId = productId,
+                Quantity = quantity,
+            });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
 
-            var userId = int.Parse(userIdClaim);
-
-            var product = await _Repository.GetByIdAsync<ProductEntity>(productId);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            // Sepette zaten var mı kontrol et
-            var existingCartItem = await _Repository.GetAll<CartItemEntity>()
-                .FirstOrDefaultAsync(ci => ci.ProductId == productId && ci.UserId == userId);
-
-            if (existingCartItem != null)
-            {
-                // Eğer ürün sepette varsa, miktarını artır
-                existingCartItem.Quantity += quantity;
-                await _Repository.UpdateAsync(existingCartItem);
-            }
-            else
-            {
-                // Eğer ürün sepette yoksa, yeni bir öğe ekle
-                var cartItem = new CartItemEntity
-                {
-                    Quantity = quantity,
-                    ProductId = productId,
-                    UserId = userId
-                };
-                await _Repository.AddAsync(cartItem);
-            }
-
-            var refererUrl = _httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
-            if (!string.IsNullOrEmpty(refererUrl))
-            {
-                return Redirect(refererUrl);
-            }
+            SetSuccessMessage("Cart item added successfully.");
 
             return RedirectToAction("ProductList", "Shop");
         }
@@ -108,134 +59,123 @@ namespace MyApp.Namespace
 
         public async Task<IActionResult> RemoveFromCart(int productId)
         {
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            if (userIdClaim == null)
+            var userId = GetUserId();
+
+            if(userId == null)
             {
-                return Unauthorized();
+                SetErrorMessage("You must login.");
+                return RedirectToAction("NotFound","Error");
             }
-            var userId = int.Parse(userIdClaim);
-            var cartItem = _Repository.GetAll<CartItemEntity>()
-            .FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
-            if (cartItem == null)
+            var response = await Client.PutAsJsonAsync($"/api/remove-from-cart/{userId}",productId);
+
+            if (!response.IsSuccessStatusCode)
             {
-                return NotFound();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            await _Repository.DeleteAsync<CartItemEntity>(cartItem.Id);
+
+            SetSuccessMessage("Cart item removed.");
+
             return RedirectToAction("ProductList", "Shop");
         }
         public async Task<IActionResult> ClearCart()
         {
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            if (userIdClaim == null)
+            var userId = GetUserId();
+
+            if(userId is null)
             {
-                return Unauthorized();
+                SetErrorMessage("You must login.");
+                return RedirectToAction("NotFound","Error");
             }
 
-            var userId = int.Parse(userIdClaim);
+            var response = await Client.DeleteAsync($"/api/clear-cart/{userId}");
 
-            var cartItems = _Repository.GetAll<CartItemEntity>()
-                .Where(c => c.UserId == userId).ToList(); 
-
-            foreach (var cartItem in cartItems)
+            if(!response.IsSuccessStatusCode)
             {
-                await _Repository.DeleteAsync<CartItemEntity>(cartItem.Id);
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            SetSuccessMessage("Cart cleared successfully.");
 
             return RedirectToAction("ShopCart", "Cart");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateCart(int productId, int quantity)
-        {
-            if (quantity <= 0)
-            {
-                return BadRequest("Geçersiz quantity.");
-            }
+        // [HttpPost]
+        // public async Task<IActionResult> UpdateCart(int productId, int quantity)
+        // {
+        //     if (quantity <= 0)
+        //     {
+        //         return BadRequest("Geçersiz quantity.");
+        //     }
 
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+        //     var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
+        //         .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
 
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
+        //     if (userIdClaim == null)
+        //     {
+        //         return Unauthorized();
+        //     }
 
-            var userId = int.Parse(userIdClaim);
+        //     var userId = int.Parse(userIdClaim);
 
-            var cartItem = await _Repository.GetAll<CartItemEntity>()
-                .FirstOrDefaultAsync(ci => ci.ProductId == productId && ci.UserId == userId);
+        //     var cartItem = await _Repository.GetAll<CartItemEntity>()
+        //         .FirstOrDefaultAsync(ci => ci.ProductId == productId && ci.UserId == userId);
 
-            if (cartItem == null)
-            {
-                return NotFound("Ürün sepette bulunamadı.");
-            }
+        //     if (cartItem == null)
+        //     {
+        //         return NotFound("Ürün sepette bulunamadı.");
+        //     }
 
-            cartItem.Quantity = quantity;
-            await _Repository.UpdateAsync(cartItem);
+        //     cartItem.Quantity = quantity;
+        //     await _Repository.UpdateAsync(cartItem);
 
-            return RedirectToAction("Cart", "Cart");
-        }
+        //     return RedirectToAction("Cart", "Cart");
+        // }
 
-        public IActionResult GetCartItemCount()
-        {
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-
-            if (userIdClaim == null)
-            {
-                return Json(0); // Kullanıcı giriş yapmamışsa, 0 döndürüyoruz.
-            }
-
-            int userId = int.Parse(userIdClaim);
-            var cartItems = _Repository.GetAll<CartItemEntity>().Where(x => x.UserId == userId).ToList();
-            int cartCount = cartItems.Count();
-
-            return Json(cartCount); 
-        }
         [HttpGet]
         public async Task<IActionResult> CheckOut()
         {
-            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+            var userId = GetUserId();
 
-            if (userIdClaim == null)
+            if(userId is null)
             {
-                ViewData["AuthError"] = "Bu sayfayı görmek için giriş yapmalısınız";
-                return RedirectToAction("Login", "Auth");
-            }
-            int userId = int.Parse(userIdClaim);
-            var cartItems = await _Repository.GetAll<CartItemEntity>()
-                .Where(x => x.UserId == userId)
-                .Include(ci => ci.Product)
-                .ToListAsync();
-            var user = await _Repository.GetByIdAsync<UserEntity>(userId);
-            var products = await _productService.ListAllProducts();
-            var discounts = await _Repository.GetAll<DiscountEntity>().ToListAsync();
-            return View(new CheckOutViewModel
-            {
-                Discounts = discounts,
-                cartItems = cartItems,
-                User = user,
-                products = products,
-            });
-
-        }
-        [HttpPost]
-        public async Task<IActionResult> CheckOut(CheckOutViewModel model)
-        {
-            int userId = _userService.GetUserId(); 
-            var user = await _userService.GetUserByIdAsync(userId); 
-            if (user == null)
-            {
-                ViewData["AuthError"] = "Bu sayfayı görmek için giriş yapmalısınız";
-                return RedirectToAction("Login", "Auth"); 
+                SetErrorMessage("You must login");
+                return RedirectToAction("NotFound","Error");
             }
 
-     
-            return RedirectToAction("CreateOrder", "Order", new { userId = user.Id });
+            var response = await Client.GetAsync($"/api/order-checkout/{userId}");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var model = await response.Content.ReadFromJsonAsync<CheckOutViewModel>();
+            
+            return View(model);
+
         }
+        // [HttpPost]
+        // public async Task<IActionResult> CheckOut(CheckOutViewModel model)
+        // {
+        //     var UserId = GetUserId(); 
+        //     if (UserId == null)
+        //     {
+        //         SetErrorMessage("You must login.");
+        //         return RedirectToAction("NotFound", "Error"); 
+        //     }
+
+        //     var response = await Client.PostAsJsonAsync("/api/order-checkout",model);
+
+        //     if(!response.IsSuccessStatusCode)
+        //     {
+        //         SetErrorMessage("Data cannot be fetched.");
+        //         return RedirectToAction("NotFound","Error");
+        //     }
+        //     return RedirectToAction("CreateOrder", "Order", new { userId = UserId});
+        // }
 
     }
 

@@ -1,4 +1,4 @@
-﻿@model SimoshStore.LoginViewModel
+﻿@model SimoshStore.LoginModel
 
 @{
     ViewData["Title"] = "Login";
@@ -14,6 +14,12 @@
 {
     <div class="alert alert-danger mt-3">
         @ViewData["AuthError"]
+    </div>
+}
+@if(ViewBag.SuccessMessage is not null)
+{
+    <div class="alert alert-danger mt-3">
+        @ViewBag.SuccessMessage
     </div>
 }
 

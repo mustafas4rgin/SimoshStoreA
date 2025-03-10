@@ -1,34 +1,40 @@
-﻿using App.Data.Entities;
+﻿using System.Security.Claims;
+using App.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyApp.Namespace;
 
 namespace SimoshStore;
 
-public class CartCountViewComponent : ViewComponent
+public class CartCountViewComponent(IHttpClientFactory httpClientFactory) : ViewComponent
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IDataRepository _Repository;
-    private readonly IUserService _userService;
-    public CartCountViewComponent(IUserService userService, IHttpContextAccessor httpContextAccessor, IDataRepository Repository)
-    {
-        _userService = userService;
-        _Repository = Repository;
-        _httpContextAccessor = httpContextAccessor;
-    }
+    private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var userId = _userService.GetUserId();
-        var user = await _userService.GetUserByIdAsync(userId);
+        var userId = GetUserId();
         int count = 0;
-        if (user is null)
+        if (userId is null)
         {
             return View(0);
         }
-        var cartItems = await _Repository.GetAll<CartItemEntity>().Where(c => c.UserId == userId).ToListAsync();
+
+        var response = await Client.GetAsync($"/api/{userId}/cart-items");
+
+        if(!response.IsSuccessStatusCode)
+        {
+            return Content("Data cannot be fetched.");
+        }
+
+        var cartItems = await response.Content.ReadFromJsonAsync<List<CartItemEntity>>();
+        
         foreach(var item in cartItems)
         {
             count += item.Quantity;
         }
         return View(count);
     }
+     private int? GetUserId()
+        {
+            return int.TryParse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId) ? userId : null;
+        }
 }

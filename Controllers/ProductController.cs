@@ -9,44 +9,53 @@ using SimoshStore;
 namespace MyApp.Namespace
 {
     [Authorize(Roles = "admin")]
-    public class ProductController : Controller
+    public class ProductController(IHttpClientFactory httpClientFactory) : BaseController
     {
-        private readonly IProductService _productService;
-        private readonly IDataRepository _Repository;
-        public ProductController(IProductService productService, IDataRepository repository)
-        {
-            _Repository = repository;
-            _productService = productService;
-        }
+        private HttpClient Client => httpClientFactory.CreateClient("Api.Data");
+
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _Repository.GetAll<ProductEntity>().ToListAsync();
-            var result = await _productService.GetAllProductsAsync();
-            if (!result.Success)
+            var response = await Client.GetAsync("/api/products");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            var products = await response.Content.ReadFromJsonAsync<List<ProductEntity>>();
+
             return View("ProductList", products);
         }
         [HttpGet("GetProduct")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var product = await _Repository.GetByIdAsync<ProductEntity>(id);
-            var result = await _productService.GetProductAsync(product);
-            if (!result.Success)
+            var response = await Client.GetAsync($"/api/products/{id}");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            var product = await response.Content.ReadFromJsonAsync<ProductEntity>();
+
             return View(product);
         }
         public async Task<IActionResult> CreateProduct()
         {
-            // Kategorileri ViewBag'e gönderiyoruz
-            var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
-            ViewBag.Categories = categories.ToList();
+            var response = await Client.GetAsync("/api/categories");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var categories = await response.Content.ReadFromJsonAsync<List<CategoryEntity>>();
+
+            ViewBag.Categories = categories;
 
             return View(new ProductDTO());
         }
@@ -54,43 +63,46 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductDTO productDTO)
         {
+            var response = await Client.PostAsJsonAsync("/api/create/product", productDTO);
 
-            var result = await _productService.CreateProductAsync(productDTO);
-            if (result.Success)
+            if(!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("ProductList", "Admin");
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            else
-            {
-                ViewBag.Error = result.Message;
-                var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
-                ViewBag.Categories = categories.ToList();
-            }
-
             return RedirectToAction("ProductList", "Admin");
         }
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            var product = await _Repository.GetByIdAsync<ProductEntity>(id);
-            if (product == null)
+            var response = await Client.GetAsync($"/api/update-admin/product/{id}");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var dto = await response.Content.ReadFromJsonAsync<UpdateProductDTO>();
+
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            var categories = await _Repository.GetAll<CategoryEntity>().ToListAsync();
-            var discounts = await _Repository.GetAll<DiscountEntity>().ToListAsync();
+            var categories = dto.Categories;
+            var discounts = dto.Discounts;
 
             var productDTO = new ProductDTO
             {
-                SellerId = product.SellerId,
-                CategoryId = product.CategoryId,
-                DiscountId = product.DiscountId,
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                StockAmount = product.StockAmount,
-                Enabled = product.Enabled
+                SellerId = dto.Product.SellerId,
+                CategoryId = dto.Product.CategoryId,
+                DiscountId = dto.Product.DiscountId,
+                Name = dto.Product.Name,
+                Price = dto.Product.Price,
+                Description = dto.Product.Description,
+                StockAmount = dto.Product.StockAmount,
+                Enabled = dto.Product.Enabled
             };
 
             ViewBag.Categories = categories;
@@ -102,25 +114,31 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(int id, ProductDTO productDTO)
         {
+            var response = await Client.PutAsJsonAsync($"/api/update/product/{id}",productDTO);
 
-            var result = await _productService.UpdateProductAsync(productDTO, id);
-            if (!result.Success)
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View(productDTO);
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            SetSuccessMessage("Product uptaded successfully.");
 
             return RedirectToAction("AdminDashboard", "Admin");
 
         }
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var result = await _productService.DeleteProductAsync(id);
-            if (!result.Success)
+            var response = await Client.DeleteAsync($"/api/delete/product/{id}");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            SetSuccessMessage("Product deleted successfully.");
+
             return RedirectToAction("AdminDashboard", "Admin");
         }
 

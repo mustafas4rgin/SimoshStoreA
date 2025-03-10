@@ -72,7 +72,7 @@
 							<div class="col-md-12 m-b40">
 								<div class="form-group">
 									<label class="label-title">Order notes (optional)</label>
-									<textarea id="comments" placeholder="Notes about your order, e.g. special notes for delivery." class="form-control" name="orderNote" cols="90" rows="5" required="required"></textarea>
+									<textarea id="comments" placeholder="Notes about your order, e.g. special notes for delivery." class="form-control" name="OrderNote" cols="90" rows="5" required="required"></textarea>
 								</div>
 							</div>
 							<div class="col-md-12 ">
@@ -202,22 +202,20 @@
                             @foreach(var cartItem in Model.cartItems)
                             {
                                 
-                                var product = Model.products.Where(x=> x.Id == cartItem.ProductId).FirstOrDefault();
-                                cartItemPrice = cartItem.Quantity * product.Price;
+                                cartItemPrice = cartItem.Quantity * cartItem.Product.Price;
                                 actualPrice += cartItemPrice;
                                 <div class="cart-item style-1">
 								<div class="dz-media">
 									<img src="" alt="/">
 								</div>
 								<div class="dz-content">
-									<h6 class="title mb-0">@product.Name</h6>
+									<h6 class="title mb-0">@cartItem.Product.Name</h6>
                                     
-                                    @if(product.DiscountId!=null)
+                                    @if(cartItem.Product.Discount != null)
                                     {
                                         
-                                        var discount = Model.Discounts.Where(x=> x.Id == product.DiscountId).FirstOrDefault();
-                                        newPrice = (product.Price - product.Price*discount.DiscountRate/100)*cartItem.Quantity;
-                                        minusPrice += product.Price/discount.DiscountRate;
+                                        newPrice = (cartItem.Product.Price - cartItem.Product.Price*cartItem.Product.Discount.DiscountRate/100)*cartItem.Quantity;
+                                        minusPrice += cartItem.Product.Price/cartItem.Product.Discount.DiscountRate;
                                         discountedPrice = newPrice;
                                         subTotal += newPrice;
                                         <span class="price">@newPrice</span>

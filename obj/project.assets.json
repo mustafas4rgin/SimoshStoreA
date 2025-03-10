@@ -7432,11 +7432,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
+      "projectUniqueName": "/Users/s4rgin/Desktop/SimoshApp/SimoshStoreA/SimoshStore.csproj",
       "projectName": "SimoshStore",
-      "projectPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
+      "projectPath": "/Users/s4rgin/Desktop/SimoshApp/SimoshStoreA/SimoshStore.csproj",
       "packagesPath": "/Users/s4rgin/.nuget/packages/",
-      "outputPath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/obj/",
+      "outputPath": "/Users/s4rgin/Desktop/SimoshApp/SimoshStoreA/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/s4rgin/.nuget/NuGet/NuGet.Config"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zDHp7e7UQJ0=",
+  "dgSpecHash": "kwVJm2SrIrk=",
   "success": true,
-  "projectFilePath": "/Users/s4rgin/Documents/GitHub/SimoshStoreA/SimoshStore.csproj",
+  "projectFilePath": "/Users/s4rgin/Desktop/SimoshApp/SimoshStoreA/SimoshStore.csproj",
   "expectedPackageFiles": [
     "/Users/s4rgin/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/s4rgin/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

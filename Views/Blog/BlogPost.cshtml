@@ -13,11 +13,11 @@
 							<li class="post-date">@Model.blog.CreatedAt.ToString("dd MMM yyyy")</li>
 							<li class="dz-user">
 								<i class="fa-solid fa-user"></i>
-								 <a href="javascript:void(0);">By @Model.user.FirstName</a>
+								 <a href="javascript:void(0);">By @Model.blog.User.FirstName</a>
 							</li>
 							<li class="dz-comment">
 								<i class="fa-solid fa-message"></i>
-								<a href="#comment-4">@Model.blogComments.Count()</a>
+								<a href="#comment-4">@Model.blog.Comments.Count()</a>
 							</li>
 						</ul>
 					</div>
@@ -72,10 +72,10 @@
 						<div class="dz-share-post meta-bottom">
 							<div class="post-tags">
 								<strong>Tags:</strong>
-                                @foreach(var tag in Model.tags)
+                                @* @foreach(var tag in Model.tags)
                                 {
                                     <a href="javascript:void(0);">@tag.Name</a>
-                                }
+                                } *@
 							</div>
 							<div class="dz-social-icon primary-light">
 								<ul>
@@ -106,11 +106,11 @@
 				</div>
 				<div class="clear" id="comment-list">
 					<div class="post-comments comments-area style-1 clearfix">
-						<h4 class="comments-title mb-2">Comments @Model.blogComments.Count()</h4>
+						<h4 class="comments-title mb-2">Comments @Model.blog.Comments.Count()</h4>
 						<p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
 						<div id="comment">
 							<ol class="comment-list">
-                                @foreach(var comment in Model.blogComments)
+                                @foreach(var comment in Model.blog.Comments)
                                 {
                                     <li class="comment even thread-even depth-1 comment" id="comment-2">
 									<div class="comment-body">
@@ -131,20 +131,19 @@
 {
     <div class="clearfix">
         <form method="post" id="comment_form" class="comment-form" action="@Url.Action("AddBlogComment", "Comment")" novalidate>
-            <!-- blogId'yi gizli alanda gönderiyoruz -->
+            
             <input type="hidden" name="BlogId" value="@Model.blog.Id" />
 
-            <!-- Kullanıcının adı otomatik olarak yazılıyor -->
+            
             <p class="comment-form-author">
                 <input id="name" placeholder="Author" name="author" type="text" value="@User.Identity.Name" readonly>
             </p>
             
-            <!-- Kullanıcının e-posta adresi otomatik olarak yazılıyor -->
+            
             <p class="comment-form-email">
                 <input id="email" required="required" placeholder="Email" name="email" type="email" value="@User.Identity.Name" readonly>
             </p>
             
-            <!-- Yorum kısmı -->
             <p class="comment-form-comment">
                 <textarea id="comment" placeholder="Type your comment here" class="form-control" name="Comment" cols="45" rows="3" required="required"></textarea>
             </p>

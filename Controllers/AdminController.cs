@@ -3,67 +3,67 @@ using App.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyApp.Namespace;
 
 namespace SimoshStore.Controllers
 {
     [Authorize(Roles = "admin")] 
-    public class AdminController : Controller
+    public class AdminController(IHttpClientFactory clientFactory) : BaseController
     {
-        private readonly IDataRepository _repository;
-        private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
-        private readonly IUserService _userService;
-        private readonly IOrderService _orderService;
-        private readonly IBlogService _blogService;
-        private readonly IEmailService _emailService;
-        private readonly IBlogCategoryService _blogCategoryService;
-        private readonly ICommentService _commentService;
-        private readonly IProfileService _profileService;
-
-
-        public AdminController(IOrderService orderService, IUserService userService, IProfileService profileService, ICommentService commentService, IBlogCategoryService blogCategoryService, IEmailService emailService, IBlogService blogService, IDataRepository repository, IProductService productService, ICategoryService categoryService)
-        {
-            _profileService = profileService;
-            _commentService = commentService;
-            _blogCategoryService = blogCategoryService;
-            _emailService = emailService;
-            _blogService = blogService;
-            _orderService = orderService;
-            _userService = userService;
-            _repository = repository;
-            _productService = productService;
-            _categoryService = categoryService;
-        }
+        private HttpClient Client => clientFactory.CreateClient("Api.Data");
+        
         public async Task<IActionResult> AdminDashboard()
         {
-            var LatestOrders = await _orderService.GetLatestOrders();
-            var LatestComments = await _commentService.GetLatestComments();
-            var viewModel = new AdminDashboardViewModel
-            {
-                TotalCategories = await _categoryService.CategoryCount(),
-                TotalProducts = await _productService.ProductCount(),
-                TotalOrders = await _orderService.OrderCount(),
-                TotalUsers = await _userService.UserCount(),
-                LatestOrders = LatestOrders.ToList(),
-                LatestComments = LatestComments,
-                LatestBlogs = await _blogService.GetLatestBlogs()
-            };
+            var response = await Client.GetAsync("/api/admin-dashboard");
 
-            return View(viewModel);
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var model =await response.Content.ReadFromJsonAsync<AdminDashboardViewModel>();
+            return View(model);
         }
         public async Task<IActionResult> OrderList()
         {
-            var orders = await _orderService.GetAllOrdersAsync();
-            return View(orders.ToList());
+            var response = await Client.GetAsync("/api/orders");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var orders = await response.Content.ReadFromJsonAsync<List<OrderEntity>>();
+
+            return View(orders);
         }
         public async Task<IActionResult> BlogCommentList()
         {
-            var comments = await _repository.GetAll<BlogCommentEntity>().ToListAsync();
+            var response = await Client.GetAsync("/api/blogcomments");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var comments = await response.Content.ReadFromJsonAsync<List<ProductCommentEntity>>();
+
             return View(comments);
         }
-        public IActionResult ManageUsers(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> ManageUsersAsync(int page = 1, int pageSize = 10)
         {
-            var users = _repository.GetAll<UserEntity>();
+            var response = await Client.GetAsync("/api/users");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var users = await response.Content.ReadFromJsonAsync<List<UserEntity>>();
 
             var totalUsers = users.Count();
 
@@ -88,13 +88,16 @@ namespace SimoshStore.Controllers
         }
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
-            var order = await _orderService.GetOrderByIdAsync(orderId);
-            if (order == null)
+            var response = await Client.DeleteAsync($"/api/delete/order/{orderId}");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = "Order not found";
-                return View();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            await _orderService.DeleteOrderAsync(orderId);
+
+            SetSuccessMessage("Order deleted successfully.");
+
             return RedirectToAction("OrderList", "Admin");
         }
 
@@ -104,91 +107,89 @@ namespace SimoshStore.Controllers
         }
         public async Task<IActionResult> ProductCommentList()
         {
-            var comments = await _repository.GetAll<ProductCommentEntity>().ToListAsync();
-            foreach (var comment in comments)
+            var response = await Client.GetAsync("/api/productcomments");
+            
+            if(!response.IsSuccessStatusCode)
             {
-                comment.User = await _repository.GetByIdAsync<UserEntity>(comment.UserId);
-                comment.Product = await _repository.GetByIdAsync<ProductEntity>(comment.ProductId);
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            var comments = await response.Content.ReadFromJsonAsync<List<ProductCommentEntity>>();
+
             return View(comments);
         }
         public async Task<IActionResult> ProductList()
         {
-            var products = _repository.GetAll<ProductEntity>().ToList();
-            var categories = await _categoryService.ListAllCategories();
-            var result = await _productService.GetAllProductsAsync();
-            if (!result.Success)
+            var response = await Client.GetAsync("/api/products");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            foreach (var product in products)
-            {
-                product.Discount = await _repository.GetAll<DiscountEntity>().FirstOrDefaultAsync(x => x.Id == product.DiscountId);
-                product.Category = categories.ToList().FirstOrDefault(x => x.Id == product.CategoryId);
-            }
+
+            var products = await response.Content.ReadFromJsonAsync<List<ProductEntity>>();
+
             return View("ProductList", products);
         }
         public async Task<IActionResult> CategoryList()
         {
-            var categories = _repository.GetAll<CategoryEntity>().ToList();
-            var result = await _categoryService.GetAllCategoriesAsync();
-            if (!result.Success)
+            var response = await Client.GetAsync("/api/categories");
+
+            if(!response.IsSuccessStatusCode)
             {
-                ViewBag.Error = result.Message;
-                return View("CategoryList", categories);
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+            
+            var categories = await response.Content.ReadFromJsonAsync<List<CategoryEntity>>();
+
             return View(categories);
         }
         public async Task<IActionResult> ListBlogCategories()
         {
-            var blogCategories = await _repository.GetAll<BlogCategoryEntity>().ToListAsync();
+            var response = await Client.GetAsync("/api/blogcategories");
+
+            if(!response.IsSuccessStatusCode)
+            {
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
+            }
+
+            var blogCategories = await response.Content.ReadFromJsonAsync<List<BlogCategoryEntity>>();
+
             return View(blogCategories);
         }
         public async Task<IActionResult> ListBlogs()
         {
-            var blogs = await _repository.GetAll<BlogEntity>().ToListAsync();
-            foreach(var blog in blogs)
+            var response = await Client.GetAsync("/api/blogs");
+
+            if(!response.IsSuccessStatusCode)
             {
-                blog.User = await _repository.GetByIdAsync<UserEntity>(blog.UserId);
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
+
+            var blogs = await response.Content.ReadFromJsonAsync<List<BlogEntity>>();
+
             return View(blogs);
         }
 
         public async Task<IActionResult> OrderDetails(int id)
         {
-            var orders = await _orderService.GetAllOrdersAsync();
-            var order = orders
-                .Where(o => o.Id == id)
-                .FirstOrDefault();
+            var response = await Client.GetAsync($"/api/orders/{id}");
 
-
-
-            if (order == null)
+            if(!response.IsSuccessStatusCode)
             {
-                return NotFound();
+                SetErrorMessage("Data cannot be fetched.");
+                return RedirectToAction("NotFound","Error");
             }
-            var orderItems = _repository.GetAll<OrderItemEntity>().ToList().Where(o => o.OrderId == order.Id);
-            if (orderItems is null)
-            {
-                return NotFound();
-            }
-            order.OrderItems = orderItems.ToList();
-            foreach (var item in orderItems)
-            {
-                var orderItemOrder = _repository.GetAll<OrderEntity>().Where(o => o.Id == item.OrderId).FirstOrDefault();
-                if (orderItemOrder is not null)
-                {
-                    item.Order = orderItemOrder;
-                }
-                var product = _repository.GetAll<ProductEntity>().Where(p => p.Id == item.ProductId).FirstOrDefault();
-                if (product is not null)
-                {
-                    item.Product = product;
-                }
 
-            }
+            var order = await response.Content.ReadFromJsonAsync<OrderEntity>();
+
             return View(order);
+
         }
     }
 }

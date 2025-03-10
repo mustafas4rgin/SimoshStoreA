@@ -5,8 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddHttpClient("Api.Data", client =>
+{
+    client.BaseAddress = new Uri("https://www.simosh.shop/");
+});
+
 builder.Services.AddBusinessService();
-builder.Services.Configure<SmtpConfiguration>(builder.Configuration.GetSection("Smtp"));
 
 
 var app = builder.Build();

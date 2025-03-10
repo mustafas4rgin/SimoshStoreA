@@ -21,20 +21,6 @@ public static class BusinessServiceRegistration
         services.AddHttpContextAccessor();
 
         
-        services.AddTransient<IProductService, ProductService>();
-        services.AddTransient<IAuthService, AuthService>();
-        services.AddTransient<IAuthRepository, AuthRepository>(); 
-        services.AddTransient<IEmailService, SmtpEmailService>();
-        services.AddTransient<IDataRepository, DataRepository>();
-        services.AddTransient<ICategoryService, CategoryService>();
-        services.AddTransient<IBlogService, BlogService>();
-        services.AddTransient<IBlogCategoryService, BlogCategoryService>();
-        services.AddTransient<ITagService, TagService>();
-        services.AddTransient<IProfileService, ProfileService>();
-        services.AddTransient<IOrderService, OrderService>();
-        services.AddTransient<IUserService, UserService>();
-        services.AddTransient<ITokenService, TokenService>();
-        services.AddTransient<ICommentService, CommentService>();
         return services;
     }
 }
