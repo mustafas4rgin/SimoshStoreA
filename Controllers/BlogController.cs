@@ -60,19 +60,21 @@ namespace MyApp.Namespace
         //     var blogEntities = await _blogService.GetRecentBlogs();
         //     return View(blogEntities);
         // }
-        // public async Task<IActionResult> CreateBlog()
-        // {
-        //     int userId = _userService.GetUserId();
-        //     var user = await _userService.GetUserByIdAsync(userId);
-        //     if (user is null)
-        //     {
-        //         return RedirectToAction("Login", "Account");
-        //     }
-        //     return View(new BlogDTO{
-        //         userId = userId
-        //     });
-        // }
-        // [HttpPost]
+        public IActionResult CreateBlog()
+        {
+            var userId = GetUserId();
+
+            if(userId == null)
+            {
+                SetErrorMessage("You must login");
+                return RedirectToAction("NotFound","Error");
+            }
+            
+            return View(new BlogDTO{
+                userId = userId.Value
+            });
+        }
+        [HttpPost]
         public async Task<IActionResult> CreateBlog(BlogDTO blogDTO)
         {
             var response = await _apiHelper.SendApiRequestAsync("/api/create/blog", HttpMethod.Post, blogDTO);

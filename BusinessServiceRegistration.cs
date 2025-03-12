@@ -21,6 +21,7 @@ public static class BusinessServiceRegistration
         services.AddHttpContextAccessor();
 
         services.AddSingleton<ApiHelper>();
+        
         services.AddDistributedMemoryCache(); 
         services.AddSession(options =>
         {
