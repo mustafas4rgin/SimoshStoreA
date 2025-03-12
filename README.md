@@ -35,6 +35,7 @@ Bu proje, kullanıcılara sorunsuz bir alışveriş deneyimi sunmayı amaçlamak
 4. Geçmiş siparişlerinizi görüntüleyebilirsiniz
 5. Sipariş durumunu takip edebilirsiniz
 6. Hızlı ödeme için bilgilerinizi kaydedebilirsiniz
+7. Şifremi unuttum ile şifrenizi güncelleyebilirsiniz. /auth/forgotpassword
 
 ### Yöneticiler İçin
 
